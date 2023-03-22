@@ -1,0 +1,32 @@
+.person {
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 400ms;
+}
+
+#Albedo {
+    height: 60vh;
+    bottom: 0;
+}
+
+.albedo-container {
+    left: 0;
+    bottom: 0;
+}
+
+.albedo-dialog {
+    position: fixed;
+    height: 40%;
+    left: 20%;
+    bottom: 45%;
+}
+
+.code-dialog {
+    color: black;
+    position: fixed;
+    left: 23.5%;
+    bottom: 61%;
+    font-size: 3.5vh;
+    text-align: center;
+}

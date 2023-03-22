@@ -1,0 +1,172 @@
+a {
+  text-decoration: none;
+}
+
+#back {
+  position: absolute;
+  background-color: #282c34;
+  height: 100vh;
+  width: 100vw;
+  animation: back-visible 5s linear;
+  animation-fill-mode: forwards;
+  z-index: 1;
+}
+
+#bracket-left {
+  color: white;
+  position: absolute;
+  top: 30%;
+  left: 49%;
+  animation: move-left 5s linear;
+  transform: rotate(90deg);
+  font-size: 100px;
+  animation-fill-mode: forwards;
+  z-index: 2;
+}
+
+#bracket-right {
+  color: white;
+  position: absolute;
+  top: 37%;
+  left: 49%;
+  transform: rotate(90deg);
+  animation: move-right 5s linear;
+  font-size: 100px;
+  animation-fill-mode: forwards;
+  z-index: 2;
+}
+
+#logo {
+  color: white;
+  position: absolute;
+  text-align: center;
+  top: 11.5%;
+  left: 31.5%;
+  font-size: 100px;
+  animation: logo-visible 5s linear;
+  animation-fill-mode: forwards;
+  opacity: 0;
+  z-index: 2;
+  outline: 5px solid white;
+  padding-bottom: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.menu {
+  background-image: url("../background.jpg");
+  background-color: #282c34;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.menu-start {
+  margin-top: 10vh;
+}
+
+.menu-end {
+  margin-bottom: 10vh;
+}
+
+.menu-elem {
+  min-width: 15vw;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  text-align: center;
+  border-radius: 3em;
+  border-color: #1abc9c;
+  color: white;
+  background-image: linear-gradient(to right, rgba(26, 188, 156, 0.6), rgba(26, 188, 156, 0.6) 5%, #1abc9c 5%, #1abc9c 10%, rgba(26, 188, 156, 0.6) 10%, rgba(26, 188, 156, 0.6) 15%, #1abc9c 15%, #1abc9c 20%, rgba(26, 188, 156, 0.6) 20%, rgba(26, 188, 156, 0.6) 25%, #1abc9c 25%, #1abc9c 30%, rgba(26, 188, 156, 0.6) 30%, rgba(26, 188, 156, 0.6) 35%, #1abc9c 35%, #1abc9c 40%, rgba(26, 188, 156, 0.6) 40%, rgba(26, 188, 156, 0.6) 45%, #1abc9c 45%, #1abc9c 50%, rgba(26, 188, 156, 0.6) 50%, rgba(26, 188, 156, 0.6) 55%, #1abc9c 55%, #1abc9c 60%, rgba(26, 188, 156, 0.6) 60%, rgba(26, 188, 156, 0.6) 65%, #1abc9c 65%, #1abc9c 70%, rgba(26, 188, 156, 0.6) 70%, rgba(26, 188, 156, 0.6) 75%, #1abc9c 75%, #1abc9c 80%, rgba(26, 188, 156, 0.6) 80%, rgba(26, 188, 156, 0.6) 85%, #1abc9c 85%, #1abc9c 90%, rgba(26, 188, 156, 0.6) 90%, rgba(26, 188, 156, 0.6) 95%, #1abc9c 95%, #1abc9c 100%);
+  background-position: 0 0;
+  background-size: 100%;
+  transition: 300ms ease-in-out;
+}
+
+.menu-elem:hover {
+  background-position: 100px;
+  border-width: 10px;
+  box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
+}
+
+@keyframes move-left {
+  0% {
+    animation-timing-function: ease-in;
+    opacity: 1;
+    transform: translateY(70vh);
+  }
+  50% {
+    transform: rotate(-90deg);
+    top: 37%;
+  }
+  80% {
+    transform: translateX(-350%);
+    top: 35%;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-350%);
+    top: 35%;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes move-right {
+  0% {
+    animation-timing-function: ease-in;
+    opacity: 1;
+    transform: translateY(-70vh);
+  }
+  50% {
+    transform: rotate(-90deg);
+    top: 30%;
+  }
+  80% {
+    transform: translateX(350%);
+    top: 35%;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(350%);
+    top: 35%;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes logo-visible {
+  80% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes back-visible {
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+#a-star:hover .albedo-container {
+  opacity: 1;
+  visibility: visible;
+}
