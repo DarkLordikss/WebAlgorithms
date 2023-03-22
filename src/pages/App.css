@@ -167,6 +167,7 @@ a {
 }
 
 #a-star:hover .albedo-container {
-  opacity: 1;
   visibility: visible;
+  opacity: 1;
+  transition: 0.5s;
 }

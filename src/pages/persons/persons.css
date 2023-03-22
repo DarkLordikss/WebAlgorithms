@@ -1,8 +1,8 @@
 .person {
     position: fixed;
-    visibility: hidden;
     opacity: 0;
-    transition: opacity 400ms;
+    transition: 0.5s;
+    visibility: hidden;
 }
 
 #Albedo {
