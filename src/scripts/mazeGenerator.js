@@ -1,81 +1,103 @@
+// Лабиринт представляет из себя матрицу размера n * 2 + 1, где n - размер,
+// который хочет пользователь. 0 - прохода нет, 1 - проход есть. Сами клетки
+// расположены на нечетных i и j, а на всех остальных местах стены или проходы,
+// поэтому необходимо отмечать стены, клетки и проходы разными цветами.
 function generateMaze(n) {
-    const maze = [];
-    for (let i = 0; i < n; i++) {
-        maze.push([]);
-        for (let j = 0; j < n; j++) {
-            maze[i].push(1);
+    const size = 2 * n + 1;
+    let visitedCount = 0;
+
+
+    let maze = new Array(size).fill(0).map(() => new Array(size).fill(0));
+    let points = [];
+    let visited = new Array(size).fill(0).map(() => new Array(size).fill(0));
+
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size; j++) {
+            if (i % 2 !== 0 && j % 2 !== 0) maze[i][j] = 1;
         }
     }
 
-    const startRow = Math.floor(Math.random() * n);
-    const startCol = Math.floor(Math.random() * n);
-    maze[startRow][startCol] = 0;
+    let current = {
+        x: 1,
+        y: 1
+    };
 
-    const borders = [];
-    const visited = [];
+    while (visitedCount < n*n) {
+        let neibs = getNear(current, visited, size);
 
-    for (let i = 0; i < n; i++) {
-        borders.push([i, 0]);
-        borders.push([i, n-1]);
-        borders.push([0, i]);
-        borders.push([n-1, i]);
-        visited.push([]);
-        for (let j = 0; j < n; j++) {
-            visited[i].push(false);
+        if (neibs.length !== 0) {
+            points.push(current);
+
+            let newPoint = neibs[Math.floor(Math.random() * neibs.length)];
+
+            if (newPoint.x < current.x) maze[newPoint.x + 1][newPoint.y] = 1;
+            else if (newPoint.x > current.x) maze[newPoint.x - 1][newPoint.y] = 1;
+            else if (newPoint.y < current.y) maze[newPoint.x][newPoint.y + 1] = 1;
+            else if (newPoint.y > current.y) maze[newPoint.x][newPoint.y - 1] = 1;
+
+            visited[newPoint.x][newPoint.y] = 1;
+            visitedCount += 1;
+            current = newPoint;
         }
-    }
-
-    visited[startRow][startCol] = true;
-
-    while (borders.length > 0) {
-        const borderIndex = Math.floor(Math.random() * borders.length);
-        const [row, col] = borders[borderIndex];
-        borders.splice(borderIndex, 1);
-
-        const neighbors = [];
-
-        if (row > 0 && !visited[row-1][col]) {
-            neighbors.push([row-1, col]);
+        else if (points.length !== 0) {
+            current = points.pop();
         }
-
-        if (row < n-1 && !visited[row+1][col]) {
-            neighbors.push([row+1, col]);
-        }
-
-        if (col > 0 && !visited[row][col-1]) {
-            neighbors.push([row, col-1]);
-        }
-
-        if (col < n-1 && !visited[row][col+1]) {
-            neighbors.push([row, col+1]);
-        }
-
-        if (neighbors.length > 0) {
-            const neighborIndex = Math.floor(Math.random() * neighbors.length);
-            const [nRow, nCol] = neighbors[neighborIndex];
-
-            visited[nRow][nCol] = true;
-
-            if (nRow === row) {
-                maze[row][Math.min(col, nCol)+1] = 0;
-            } else {
-                maze[Math.min(row, nRow)+1][col] = 0;
-            }
-
-            if (nRow > 0 && !visited[nRow-1][nCol]) {
-                borders.push([nRow-1, nCol]);
-            }
-            if (nRow < n-1 && !visited[nRow+1][nCol]) {
-                borders.push([nRow+1, nCol]);
-            }
-            if (nCol > 0 && !visited[nRow][nCol-1]) {
-                borders.push([nRow, nCol-1]);
-            }
-            if (nCol < n-1 && !visited[nRow][nCol+1]) {
-                borders.push([nRow, nCol+1]);
+        else {
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    if (i % 2 !== 0 && j % 2 !== 0 && visited[i][j] === 0) {
+                        current.x = j;
+                        current.y = i;
+                    }
+                }
             }
         }
     }
 
     return maze;
 }
+
+
+function getNear(point, visited, size) {
+    let neibs = []
+
+    if (point.y - 2 >= 0) {
+        if (!visited[point.x][point.y - 2]) {
+            neibs.push({
+                x: point.x,
+                y: point.y - 2
+            });
+        }
+    }
+
+    if (point.x + 2 < size) {
+        if (!visited[point.x + 2][point.y]) {
+            neibs.push({
+                x: point.x + 2,
+                y: point.y
+            });
+        }
+    }
+
+    if (point.y + 2 < size) {
+        if (!visited[point.x][point.y + 2]) {
+            neibs.push({
+                x: point.x,
+                y: point.y + 2
+            });
+        }
+    }
+
+    if (point.x - 2 >= 0) {
+        if (!visited[point.x - 2][point.y]) {
+            neibs.push({
+                x: point.x - 2,
+                y: point.y
+            });
+        }
+    }
+
+    return neibs;
+}
+
+export default generateMaze();
