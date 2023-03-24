@@ -2,6 +2,10 @@
 // который хочет пользователь. 0 - прохода нет, 1 - проход есть. Сами клетки
 // расположены на нечетных i и j, а на всех остальных местах стены или проходы,
 // поэтому необходимо отмечать стены, клетки и проходы разными цветами.
+// Сама же функция возвращает объект типа { maze: [лабиринт],
+//                                          wandering: [клетки, по которым прошел алгоритм, пробивая стены,
+//                                                      в местах где они есть] }
+// Формат клетки в wandering: [i, j]
 function generateMaze(n) {
     const size = 2 * n + 1;
     let visitedCount = 0;
@@ -22,8 +26,11 @@ function generateMaze(n) {
         y: 1
     };
 
+    let wandering = [];
+
     while (visitedCount < n*n) {
         let neibs = getNear(current, visited, size);
+        wandering.push([current.x, current.y]);
 
         if (neibs.length !== 0) {
             points.push(current);
@@ -54,7 +61,9 @@ function generateMaze(n) {
         }
     }
 
-    return maze;
+    wandering.push([current.x, current.y]);
+    return { maze: maze,
+        wandering: wandering };
 }
 
 
