@@ -1,4 +1,4 @@
-![React|(https://media.tproger.ru/uploads/2016/10/reactmini.png)]
+![React](https://media.tproger.ru/uploads/2016/10/reactmini.png)
 # Web-проект c очень "интересными алогитмами" 
 
 Front-end проект на ReactJS для визуализации "интересных" алгоритмов.
