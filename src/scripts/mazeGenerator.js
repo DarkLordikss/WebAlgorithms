@@ -7,9 +7,12 @@
 //                                                      в местах где они есть] }
 // Формат клетки в wandering: [i, j]
 function generateMaze(n) {
+    if (n == undefined){
+        return;
+    }
+
     const size = 2 * n + 1;
     let visitedCount = 0;
-
 
     let maze = new Array(size).fill(0).map(() => new Array(size).fill(0));
     let points = [];
@@ -109,4 +112,4 @@ function getNear(point, visited, size) {
     return neibs;
 }
 
-export default generateMaze();
+export {generateMaze};
