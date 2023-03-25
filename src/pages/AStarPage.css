@@ -127,7 +127,7 @@
     height: 91vh;
     align-items: center;
     align-content: center;
-    background-color: rgb(244, 244, 244);
+    background: rgb(244, 244, 244) url("images/a-star-bg.png");
 }
 
 #matrix_box{

@@ -7,7 +7,7 @@
 //                                                      в местах где они есть] }
 // Формат клетки в wandering: [i, j]
 function generateMaze(n) {
-    if (n == undefined){
+    if (n === undefined){
         return;
     }
 

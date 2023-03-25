@@ -9,7 +9,7 @@ import "../scripts/AStarFrontScript.js";
 
 const AStarPage = () => {
     return (
-            <div>
+            <div className="a-bg">
                 <div id="header">
                     <img src={star_image} className="logo" id="logo_star" />
                     <div id="naming">A-Star algorithm</div>
