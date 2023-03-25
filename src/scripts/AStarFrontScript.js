@@ -1,3 +1,7 @@
+import {generateMaze} from "./mazeGenerator.js";
+import {aStarPathfinding} from "./aStarAlgo.js";
+import * as $ from "./jQueryAStarFront.js";
+
 var prev_n = 0;
 
 let global_matrix;
@@ -10,7 +14,7 @@ function toId(x, y) {
 $(document).ready(function () {
     console.log("hello!");
     $("#maze_subm").mousedown(function () {
-        n = $("#n_number").val()*2 + 1;
+        let n = ($("#n_number").val()-1)*2 + 1;
         if (n > 10001){
             n = 10001;
             $("#n_number").val(n);
@@ -23,10 +27,10 @@ $(document).ready(function () {
         var proc_b = proc_f/5;
         var margin_new = proc_f*0.025;
         proc_f = proc_f*0.95;
-        proc_f_s = proc_f.toString()+"vh";
-        proc_b_s = proc_b.toString()+"vh";
-        marg_s = margin_new.toString()+"vh";
-        maze = generateMaze((n-1)/2 + 1).maze;
+        let proc_f_s = proc_f.toString()+"vh";
+        let proc_b_s = proc_b.toString()+"vh";
+        let marg_s = margin_new.toString()+"vh";
+        let maze = generateMaze((n-1)/2 + 1).maze;
         let matrix = new Array(n);
         if (prev_n <= n){
             for (let y = 0; y < n; y++) {
@@ -35,9 +39,9 @@ $(document).ready(function () {
                     console.log(x+1, y+1);
                     matrix[y][x] = maze[y+1][x+1];
                     setTimeout(() => {
-                        idE = "cell_" + x.toString() + "_" + y.toString();
+                        let idE = "cell_" + x.toString() + "_" + y.toString();
                         if ($("#"+idE).length == 0){
-                            his_cl = "matrix_el_" + matrix[y][x].toString();
+                            let his_cl = "matrix_el_" + matrix[y][x].toString();
                             if ((x+y)%2 != 1){
                                 if (y%2 != 1){
                                     his_cl = "matrix_el_" + matrix[y][x].toString() + "_box";
@@ -47,14 +51,14 @@ $(document).ready(function () {
                             }
                             
                             if (his_cl != "matrix_el_0_none"){
-                                new_el = "<div class='" + his_cl + "' id='" + idE + "' style='position:inherit;'></div>";
+                                let new_el = "<div class='" + his_cl + "' id='" + idE + "' style='position:inherit;'></div>";
                                 $(new_el).appendTo("#matrix_box");
                             }
                         }
                         else{
-                            myClass = $("#"+idE).attr("class");
+                            let myClass = $("#"+idE).attr("class");
                             const cl_el = myClass.split("_");
-                            his_cl = "matrix_el_" + matrix[y][x].toString();
+                            let his_cl = "matrix_el_" + matrix[y][x].toString();
                             if ((x+y)%2 != 1){
                                 if (y%2 != 1){
                                     his_cl = "matrix_el_" + matrix[y][x].toString() + "_box";
@@ -83,7 +87,7 @@ $(document).ready(function () {
                 for (let x = prev_n-1; x >= 0; x--) {
                     if (x >= n || y >= n){
                         setTimeout(() => {
-                            el = "#cell_" + x.toString() + "_" + y.toString();
+                            let el = "#cell_" + x.toString() + "_" + y.toString();
                             $(el).css("width", 0);
                             $(el).css("height", 0);
                             $(el).remove();
@@ -96,9 +100,9 @@ $(document).ready(function () {
                 for (let x = n-1; x >= 0; x--) {
                     matrix[y][x] = maze[y+1][x+1]
                     setTimeout(() => {
-                        idE = "cell_" + x.toString() + "_" + y.toString();
+                        let idE = "cell_" + x.toString() + "_" + y.toString();
                         if ($("#"+idE).length == 0){
-                            his_cl = "matrix_el_" + matrix[y][x].toString();
+                            let his_cl = "matrix_el_" + matrix[y][x].toString();
                             if ((x+y)%2 != 1){
                                 if (y%2 != 1){
                                     his_cl = "matrix_el_" + matrix[y][x].toString() + "_box";
@@ -108,14 +112,14 @@ $(document).ready(function () {
                             }
                             
                             if (his_cl != "matrix_el_0_none"){
-                                new_el = "<div class='" + his_cl + "' id='" + idE + "' style='position:inherit;'></div>";
+                                let new_el = "<div class='" + his_cl + "' id='" + idE + "' style='position:inherit;'></div>";
                                 $(new_el).appendTo("#matrix_box");
                             }
                         }
                         else{
-                            myClass = $("#"+idE).attr("class");
+                            let myClass = $("#"+idE).attr("class");
                             const cl_el = myClass.split("_");
-                            his_cl = "matrix_el_" + matrix[y][x].toString();
+                            let his_cl = "matrix_el_" + matrix[y][x].toString();
                             if ((x+y)%2 != 1){
                                 if (y%2 != 1){
                                     his_cl = "matrix_el_" + matrix[y][x].toString() + "_box";
@@ -142,7 +146,7 @@ $(document).ready(function () {
         global_matrix = matrix;
     });
     $("#create_subm").mousedown(function () {
-        n = $("#n_number").val()*2 + 1;
+        let n = ($("#n_number").val()-1)*2 + 1;
         if (n > 10001){
             n = 10001;
             $("#n_number").val(n);
@@ -156,9 +160,9 @@ $(document).ready(function () {
         var proc_b = proc_f/5;
         var margin_new = proc_f*0.025;
         proc_f = proc_f*0.95;
-        proc_f_s = proc_f.toString()+"vh";
-        proc_b_s = proc_b.toString()+"vh";
-        marg_s = margin_new.toString()+"vh";
+        let proc_f_s = proc_f.toString()+"vh";
+        let proc_b_s = proc_b.toString()+"vh";
+        let marg_s = margin_new.toString()+"vh";
         let matrix = new Array(n);
         if (prev_n <= n){
             console.log(n, prev_n);
@@ -166,9 +170,9 @@ $(document).ready(function () {
                 matrix[y] = new Array(n);
                 for (let x = 0; x < n; x++) {
                     setTimeout(() => {
-                        idE = "cell_" + x.toString() + "_" + y.toString();
+                        let idE = "cell_" + x.toString() + "_" + y.toString();
                         if ($("#"+idE).length == 0){
-                            his_cl = "matrix_el_1"
+                            let his_cl = "matrix_el_1"
                             if ((x+y)%2 != 1){
                                 if (y%2 != 1){
                                     his_cl = "matrix_el_1_box"
@@ -182,12 +186,12 @@ $(document).ready(function () {
                             }
                             
                             if (his_cl != "matrix_el_0_none"){
-                                new_el = "<div class='" + his_cl + "' id='" + idE + "' style='position:inherit;'></div>";
+                                let new_el = "<div class='" + his_cl + "' id='" + idE + "' style='position:inherit;'></div>";
                                 $(new_el).appendTo("#matrix_box");
                             }
                         }
                         else{
-                            myClass = $("#"+idE).attr("class");
+                            let myClass = $("#"+idE).attr("class");
                             const cl_el = myClass.split("_");
                             matrix[y][x] = parseInt(cl_el[2]);
                         }
@@ -210,7 +214,7 @@ $(document).ready(function () {
                 for (let x = prev_n-1; x >= 0; x--) {
                     if (x >= n || y >= n){
                         setTimeout(() => {
-                            el = "#cell_" + x.toString() + "_" + y.toString();
+                            let el = "#cell_" + x.toString() + "_" + y.toString();
                             $(el).css("width", 0);
                             $(el).css("height", 0);
                             $(el).remove();
@@ -218,9 +222,9 @@ $(document).ready(function () {
                     }
                     else{
                         setTimeout(() => {
-                            el = "#cell_" + x.toString() + "_" + y.toString();
+                            let el = "#cell_" + x.toString() + "_" + y.toString();
                             if ($(el).length){
-                                myClass = $(el).attr("class");
+                                let myClass = $(el).attr("class");
                                 const cl_el = myClass.split("_");
                                 matrix[y][x] = parseInt(cl_el[2]);
                             }
@@ -244,9 +248,9 @@ $(document).ready(function () {
         for (let y = 0; y < prev_n; y++) {
             for (let x = 0; x < prev_n; x++) {
                 setTimeout(() => {
-                    idE = "cell_" + x.toString() + "_" + y.toString();
-                    myclass = $("#"+idE).attr("class");
-                    his_cl = "matrix_el_1"
+                    let idE = "cell_" + x.toString() + "_" + y.toString();
+                    let myclass = $("#"+idE).attr("class");
+                    let his_cl = "matrix_el_1"
                     if ((x+y)%2 != 1){
                         if (y%2 != 1){
                             his_cl = "matrix_el_1_box"
@@ -285,23 +289,22 @@ $(document).ready(function () {
                     }
                 }
             }
-            res = aStarPathfinding(maze);
-            console.log(res)
-            wandering = res.wandering;
-            path = res.goodPath;
-            prev_y = wandering[0][0];
-            prev_x = wandering[0][1];
-            el = toId(prev_x, prev_y);
+            let res = aStarPathfinding(maze);
+            let wandering = res.wandering;
+            let path = res.goodPath;
+            let prev_y = wandering[0][0];
+            let prev_x = wandering[0][1];
+            let el = toId(prev_x, prev_y);
             for (let i=0; i<wandering.length; i++){
                 setTimeout(() => {
-                    new_y = wandering[i][0] - 1;
-                    new_x = wandering[i][1] - 1;
-                    el = toId(new_x, new_y);
+                    let new_y = wandering[i][0] - 1;
+                    let new_x = wandering[i][1] - 1;
+                    let el = toId(new_x, new_y);
                     $(el).addClass("vsited");
                 }, parseInt(2000/wandering.length)*i);
                 setTimeout(() => {
-                    new_y = wandering[i][0] - 1;
-                    new_x = wandering[i][1] - 1;
+                    let new_y = wandering[i][0] - 1;
+                    let new_x = wandering[i][1] - 1;
                     el = toId(new_x, new_y);
                     $(el).removeClass("vsited");
                 }, parseInt(2000/wandering.length)*i+100);
@@ -314,22 +317,22 @@ $(document).ready(function () {
             }
             for (let i=0; i<path.length; i++){
                 setTimeout(() => {
-                    new_y = path[i][0] - 1;
-                    new_x = path[i][1] - 1;
-                    el = toId(new_x, new_y);
+                    let new_y = path[i][0] - 1;
+                    let new_x = path[i][1] - 1;
+                    let el = toId(new_x, new_y);
                     $(el).addClass("goodF");
                 }, parseInt(1000/wandering.length)*i+2100);
                 setTimeout(() => {
-                    new_y = path[i][0] - 1;
-                    new_x = path[i][1] - 1;
-                    el = toId(new_x, new_y);
+                    let new_y = path[i][0] - 1;
+                    let new_x = path[i][1] - 1;
+                    let el = toId(new_x, new_y);
                     $(el).removeClass("goodF");
                     $(el).addClass("good");
 
                     if(enumerate){
                         $(el).text(i+1);
-                        hght = parseFloat($(el).css("height"));
-                        k = 1;
+                        let hght = parseFloat($(el).css("height"));
+                        let k = 1;
                         while (10**k < i) {
                             k += 1
                         }
@@ -338,9 +341,9 @@ $(document).ready(function () {
                     }
                 }, parseInt(1000/wandering.length)*i+2200);
                 setTimeout(() => {
-                    new_y = path[i][0] - 1;
-                    new_x = path[i][1] - 1;
-                    el = toId(new_x, new_y);
+                    let new_y = path[i][0] - 1;
+                    let new_x = path[i][1] - 1;
+                    let el = toId(new_x, new_y);
                     $(el).removeClass("good");
                     if (enumerate){
                         $(el).text("");
@@ -374,8 +377,8 @@ $(document).ready(function () {
 
 $(document).on("click", ".matrix_el_1", function () { 
     const ids = $(this).attr("id").split("_");
-    x = parseInt(ids[1]);
-    y = parseInt(ids[2]);
+    let x = parseInt(ids[1]);
+    let y = parseInt(ids[2]);
     global_matrix[y][x] = 0;
     console.log(global_matrix);
     console.log(global_matrix[y][x])
@@ -384,8 +387,8 @@ $(document).on("click", ".matrix_el_1", function () {
 });
 $(document).on("click", ".matrix_el_0", function () { 
     const ids = $(this).attr("id").split("_");
-    x = parseInt(ids[1]);
-    y = parseInt(ids[2]);
+    let x = parseInt(ids[1]);
+    let y = parseInt(ids[2]);
     global_matrix[y][x] = 1;
     console.log(global_matrix);
     console.log(global_matrix[y][x])

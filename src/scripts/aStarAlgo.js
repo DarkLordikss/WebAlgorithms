@@ -5,6 +5,9 @@
 //
 // Точка возвращается в формате [i, j]
 function aStarPathfinding(matrix) {
+    if (matrix == undefined){
+        return;
+    }
     const start = [1, 1];
     console.log(matrix);
     const end = [matrix.length - 2, matrix[0].length - 2];
@@ -115,4 +118,4 @@ function aStarPathfinding(matrix) {
              wandering: visited };
 }
 
-export default aStarPathfinding();
+export {aStarPathfinding};

@@ -10,6 +10,9 @@ function generateMaze(n) {
     const size = 2 * n + 1;
     let visitedCount = 0;
 
+    if (n == undefined){
+        return;
+    }
 
     let maze = new Array(size).fill(0).map(() => new Array(size).fill(0));
     let points = [];
@@ -109,4 +112,4 @@ function getNear(point, visited, size) {
     return neibs;
 }
 
-export default generateMaze();
+export {generateMaze};
