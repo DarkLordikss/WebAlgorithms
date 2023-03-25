@@ -115,4 +115,4 @@ function aStarPathfinding(matrix) {
              wandering: visited };
 }
 
-export default aStarPathfinding();
+export {aStarPathfinding};
