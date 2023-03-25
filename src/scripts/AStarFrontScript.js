@@ -1,6 +1,8 @@
+//Импорт отдельных функций из нужных модулей
 import {generateMaze} from "./mazeGenerator.js";
 import {aStarPathfinding} from "./aStarAlgo.js";
-import * as $ from "./jQueryAStarFront.js";
+//правильный импорт jQuery
+import * as $ from "./jQueryMain.js";
 
 var prev_n = 0;
 

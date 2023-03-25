@@ -1,10 +1,11 @@
 import React from "react";
 import "./AStarPage.css";
 import star_image from './images/a_star_logo5.png';
-import {generateMaze} from "../scripts/mazeGenerator.js";
-import {aStarPathfinding} from "../scripts/aStarAlgo.js";
+//импорт нужного модуля для страницы AStarPage.js (self)
 import "../scripts/AStarFrontScript.js";
-import "../scripts/jQueryAStarFront.js";
+//Очень важно: js модуль для страницы должен быть единственный, так что
+//доп. модули инмпортить внурь основного (так ничего не сломается и выглядит лучше)
+
 
 const AStarPage = () => {
     return (
