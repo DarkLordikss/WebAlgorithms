@@ -5,7 +5,7 @@
 //
 // Точка возвращается в формате [i, j]
 function aStarPathfinding(matrix) {
-    if (matrix == undefined){
+    if (matrix === undefined){
         return;
     }
     const start = [1, 1];
