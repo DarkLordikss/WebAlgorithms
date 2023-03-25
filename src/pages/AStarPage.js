@@ -16,6 +16,7 @@ const AStarPage = () => {
                     </a>
                     <div id="naming">A-Star algorithm</div>
                     <input type="number" id="n_number" />
+                    <div id="load_difficulty_info">zero</div>
                     <button id="create_subm" className="subm_button">create matrix!</button>
                     <button id="maze_subm" className="subm_button">generate maze!</button>
                     <button id="solution_subm" className="subm_button">solution!</button>
