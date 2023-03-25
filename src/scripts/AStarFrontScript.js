@@ -9,6 +9,10 @@ var prev_n = 0;
 let global_matrix;
 let enumerate = false;
 
+let load_names = ["zero", "very low", "low", "medium", "high", "very high", "ultra high"];
+let load_diff = [0, 1, 10, 25, 40, 55, 90]
+let load_colors = ["rgb(0, 0, 0)", "rgb(0, 232, 182)", "rgb(0, 232, 31)", "rgb(182, 232, 0)", "rgb(232, 209, 0)", "rgb(232, 66, 0)", "rgb(232, 0, 0)"]
+
 function toId(x, y) {
     return "#cell_" + x.toString() + "_" + y.toString();
 }
@@ -375,7 +379,34 @@ $(document).ready(function () {
             enumerate = true;
         }
     });
+    $("#n_number").change(function () {
+        let n = ($("#n_number").val()-1)*2 + 1;
+        if (n > 10001){
+            n = 10001;
+            $("#n_number").val(n);
+        }
+        if (n < 3){
+            n = 3;
+            $("#n_number").val(n);
+        }
+        console.log(n);
+        let d_i = 0;
+        while (d_i < load_diff.length && load_diff[d_i] < n){
+            d_i += 1
+            if (d_i >= load_diff.length){
+                d_i -= 1;
+                break;
+            }else if (load_diff[d_i] > n){
+                d_i -= 1;
+                break;
+            }
+        }
+        $("#load_difficulty_info").text(load_names[d_i]);
+        $("#load_difficulty_info").css("color", load_colors[d_i]);
+    });
 });
+
+
 
 $(document).on("click", ".matrix_el_1", function () { 
     const ids = $(this).attr("id").split("_");

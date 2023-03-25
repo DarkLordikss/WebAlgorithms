@@ -38,13 +38,29 @@
 #n_number{
     position: inherit;
     height: 3vh;
-    width: auto;
+    width: 22.8vh;
     top: 2.5vh;
     left: 30vh;
     font-size: 2vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 400;
     background-color: rgb(255, 255, 255);
+    border: 0;
+    border-radius: 1vh;
+}
+
+#load_difficulty_info{
+    position: inherit;
+    height: 2.8vh;
+    width: 23.2vh;
+    text-align: center;
+    top: 6vh;
+    left: 30vh;
+    font-size: 1.7vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 350;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     border: 0;
     border-radius: 1vh;
 }
