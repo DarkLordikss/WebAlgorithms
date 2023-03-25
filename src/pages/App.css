@@ -90,7 +90,7 @@ a {
 .menu-elem:hover {
   background-position: 100px;
   border-width: 10px;
-  box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
+  box-shadow: 0 0 10px 0 #9a9a9a, 0 0 10px 4px #9a9a9a;
 }
 
 @keyframes move-left {
