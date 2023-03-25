@@ -16,27 +16,27 @@ function aStarPathfinding(matrix) {
     }
 
     function isValidPosition(row, col) {
-        return row >= 0 && row < matrix.length && col >= 0 && col < matrix[0].length;
+        return row >= 0 && row < matrix.length && col >= 0 && col < matrix[0].length && matrix[row][col] === 1;
     }
 
     function getNeighbors(node) {
         const [row, col] = node;
         let neighbors = [];
 
-        if (isValidPosition(row - 2, col)) {
-            if (matrix[row - 1][col]) neighbors.push([row - 2, col]);
+        if (isValidPosition(row - 1, col)) {
+            neighbors.push([row - 1, col]);
         }
 
-        if (isValidPosition(row, col - 2)) {
-            if (matrix[row][col - 1]) neighbors.push([row, col - 2]);
+        if (isValidPosition(row, col - 1)) {
+            neighbors.push([row, col - 1]);
         }
 
-        if (isValidPosition(row + 2, col)) {
-            if (matrix[row + 1][col]) neighbors.push([row + 2, col]);
+        if (isValidPosition(row + 1, col)) {
+            neighbors.push([row + 1, col]);
         }
 
-        if (isValidPosition(row, col + 2)) {
-            if (matrix[row][col + 1]) neighbors.push([row, col + 2]);
+        if (isValidPosition(row, col + 1)) {
+            neighbors.push([row, col + 1]);
         }
 
         return neighbors;
