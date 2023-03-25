@@ -11,7 +11,9 @@ const AStarPage = () => {
     return (
             <div>
                 <div id="header">
-                    <img src={star_image} className="logo" id="logo_star" />
+                    <a href="/">
+                        <img src={star_image} className="logo" id="logo_star" />
+                    </a>
                     <div id="naming">A-Star algorithm</div>
                     <input type="number" id="n_number" />
                     <button id="create_subm" className="subm_button">create matrix!</button>
