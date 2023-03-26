@@ -204,6 +204,15 @@
     transition: background 0.25s;
     background-color: rgb(0, 237, 162);
 }
+
+.matrix_el_1_box.vsited.unfinded{
+    transition: background 0.05s;
+    background-color: rgb(237, 0, 39);
+}
+.matrix_el_1.vsited.unfinded{
+    transition: background 0.05s;
+    background-color: rgb(237, 0, 39);
+}
 .matrix_el_1_box.vsited{
     transition: background 0.05s;
     background-color: rgb(237, 237, 0);

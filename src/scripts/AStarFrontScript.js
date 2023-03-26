@@ -21,7 +21,6 @@ function toId(x, y) {
 }
 
 $(document).ready(function () {
-    console.log("hello!");
     $("#maze_subm").mousedown(function () {
         let n = ($("#n_number").val()-1)*2 + 1;
         if (n > 10001){
@@ -49,20 +48,76 @@ $(document).ready(function () {
         end_pos[0] = parseInt(end_pos[0]);
         end_pos[1] = parseInt(end_pos[1]);
 
+        $("#path_start").removeClass(start_pos[0].toString() + "_" + start_pos[1].toString());
+        $("#path_end").removeClass(end_pos[0].toString() + "_" + end_pos[1].toString());
+
         if (start_pos[0] == -1){
             start_pos[0] = 0;
             start_pos[1] = 0;
         }
+        if (end_pos[0] == -1){
+            end_pos[0] = n-1;
+            end_pos[1] = n-1;
+        }
+
+        if (prev_n <= n){
+            setTimeout(() => {
+                $("#path_start").css({
+                    width: (proc_f*0.9).toString() + "vh",
+                    height: (proc_f*0.9).toString() + "vh",
+                    margin: marg_s,
+                    left: (0.5+start_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    top: (0.5+start_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+                    "border-radius": proc_b_s,
+                });
+            }, start_pos[0]*start_pos[1]);
+            console.log(end_pos, start_pos)
+            setTimeout(() => {
+                $("#path_end").css({
+                    width: (proc_f*0.9).toString() + "vh",
+                    height: (proc_f*0.9).toString() + "vh",
+                    margin: marg_s,
+                    left: (0.5+end_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    top: (0.5+end_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+                    "border-radius": proc_b_s,
+                });
+            }, end_pos[0]*end_pos[1]);
+        }
+        else{
+            setTimeout(() => {
+                $("#path_start").css({
+                    width: (proc_f*0.9).toString() + "vh",
+                    height: (proc_f*0.9).toString() + "vh",
+                    margin: marg_s,
+                    left: (0.5+start_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    top: (0.5+start_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+                    "border-radius": proc_b_s,
+                });
+            }, (prev_n-start_pos[0])*(prev_n-start_pos[1]));
+            console.log(end_pos, start_pos)
+            setTimeout(() => {
+                $("#path_end").css({
+                    width: (proc_f*0.9).toString() + "vh",
+                    height: (proc_f*0.9).toString() + "vh",
+                    margin: marg_s,
+                    left: (0.5+end_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    top: (0.5+end_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+                    "border-radius": proc_b_s,
+                });
+            }, (prev_n - end_pos[0])*(prev_n - end_pos[1]));
+        }
+
         if (start_pos[0] >= n){
             start_pos[0] = n-1;
         }
         if (start_pos[1] >= n){
             start_pos[1] = n-1;
         }
-        if (end_pos[0] == -1){
-            end_pos[0] = n-1;
-            end_pos[1] = n-1;
-        }
+        
         if (end_pos[0] >= n){
             end_pos[0] = n-1;
         }
@@ -70,34 +125,14 @@ $(document).ready(function () {
             end_pos[1] = n-1;
         }
 
-        setTimeout(() => {
-            $("#path_start").css({
-                width: (proc_f*0.9).toString() + "vh",
-                height: (proc_f*0.9).toString() + "vh",
-                margin: marg_s,
-                left: (0.5+start_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+start_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
-                "border-radius": proc_b_s,
-            });
-        }, start_pos[0]*start_pos[1]);
-        setTimeout(() => {
-            $("#path_end").css({
-                width: (proc_f*0.9).toString() + "vh",
-                height: (proc_f*0.9).toString() + "vh",
-                margin: marg_s,
-                left: (0.5+end_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+end_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
-                "border-radius": proc_b_s,
-            });
-        }, end_pos[0]*end_pos[1]);
+        $("#path_start").addClass(start_pos[0].toString() + "_" + start_pos[1].toString());
+        $("#path_end").addClass(end_pos[0].toString() + "_" + end_pos[1].toString());
+
 
         if (prev_n <= n){
             for (let y = 0; y < n; y++) {
                 matrix[y] = new Array(n);
                 for (let x = 0; x < n; x++) {
-                    console.log(x+1, y+1);
                     matrix[y][x] = maze[y+1][x+1];
                     setTimeout(() => {
                         let idE = "cell_" + x.toString() + "_" + y.toString();
@@ -217,7 +252,6 @@ $(document).ready(function () {
             n = 3;
             $("#n_number").val(n);
         }
-        console.log(n, prev_n);
         var proc_f = 87/n;
         var proc_b = proc_f/5;
         var margin_new = proc_f*0.025;
@@ -234,6 +268,9 @@ $(document).ready(function () {
         end_pos[0] = parseInt(end_pos[0]);
         end_pos[1] = parseInt(end_pos[1]);
 
+        $("#path_start").removeClass(start_pos[0].toString() + "_" + start_pos[1].toString());
+        $("#path_end").removeClass(end_pos[0].toString() + "_" + end_pos[1].toString());
+
         if (start_pos[0] == -1){
             start_pos[0] = 0;
             start_pos[1] = 0;
@@ -243,31 +280,75 @@ $(document).ready(function () {
             end_pos[1] = n-1;
         }
 
-        setTimeout(() => {
-            $("#path_start").css({
-                width: (proc_f*0.9).toString() + "vh",
-                height: (proc_f*0.9).toString() + "vh",
-                margin: marg_s,
-                left: (0.5+start_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+start_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
-                "border-radius": proc_b_s,
-            });
-        }, start_pos[0]*start_pos[1]);
-        setTimeout(() => {
-            $("#path_end").css({
-                width: (proc_f*0.9).toString() + "vh",
-                height: (proc_f*0.9).toString() + "vh",
-                margin: marg_s,
-                left: (0.5+end_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+end_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
-                "border-radius": proc_b_s,
-            });
-        }, end_pos[0]*end_pos[1]);
+        if (prev_n <= n){
+            setTimeout(() => {
+                $("#path_start").css({
+                    width: (proc_f*0.9).toString() + "vh",
+                    height: (proc_f*0.9).toString() + "vh",
+                    margin: marg_s,
+                    left: (0.5+start_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    top: (0.5+start_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+                    "border-radius": proc_b_s,
+                });
+            }, start_pos[0]*start_pos[1]);
+            console.log(end_pos, start_pos)
+            setTimeout(() => {
+                $("#path_end").css({
+                    width: (proc_f*0.9).toString() + "vh",
+                    height: (proc_f*0.9).toString() + "vh",
+                    margin: marg_s,
+                    left: (0.5+end_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    top: (0.5+end_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+                    "border-radius": proc_b_s,
+                });
+            }, end_pos[0]*end_pos[1]);
+        }
+        else{
+            setTimeout(() => {
+                $("#path_start").css({
+                    width: (proc_f*0.9).toString() + "vh",
+                    height: (proc_f*0.9).toString() + "vh",
+                    margin: marg_s,
+                    left: (0.5+start_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    top: (0.5+start_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+                    "border-radius": proc_b_s,
+                });
+            }, (prev_n-start_pos[0])*(prev_n-start_pos[1]));
+            console.log(end_pos, start_pos)
+            setTimeout(() => {
+                $("#path_end").css({
+                    width: (proc_f*0.9).toString() + "vh",
+                    height: (proc_f*0.9).toString() + "vh",
+                    margin: marg_s,
+                    left: (0.5+end_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    top: (0.5+end_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                    transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+                    "border-radius": proc_b_s,
+                });
+            }, (prev_n - end_pos[0])*(prev_n - end_pos[1]));
+        }
+
+        if (start_pos[0] >= n){
+            start_pos[0] = n-1;
+        }
+        if (start_pos[1] >= n){
+            start_pos[1] = n-1;
+        }
+        
+        if (end_pos[0] >= n){
+            end_pos[0] = n-1;
+        }
+        if (end_pos[1] >= n){
+            end_pos[1] = n-1;
+        }
+
+        $("#path_start").addClass(start_pos[0].toString() + "_" + start_pos[1].toString());
+        $("#path_end").addClass(end_pos[0].toString() + "_" + end_pos[1].toString());
 
         if (prev_n <= n){
-            console.log(n, prev_n);
             for (let y = 0; y < n; y++) {
                 matrix[y] = new Array(n);
                 for (let x = 0; x < n; x++) {
@@ -391,76 +472,132 @@ $(document).ready(function () {
                     }
                 }
             }
-            let res = aStarPathfinding(maze);
+
+            let start_pos = $("#path_start").attr("class").split(" ")[1].split("_");
+            let end_pos = $("#path_end").attr("class").split(" ")[1].split("_");
+            start_pos[0] = parseInt(start_pos[0]);
+            start_pos[1] = parseInt(start_pos[1]);
+            end_pos[0] = parseInt(end_pos[0]);
+            end_pos[1] = parseInt(end_pos[1]);
+
+            if (start_pos[0] == -1){
+                start_pos[0] = 0;
+                start_pos[1] = 0;
+            }
+            if (start_pos[0] >= prev_n){
+                start_pos[0] = prev_n-1;
+            }
+            if (start_pos[1] >= prev_n){
+                start_pos[1] = prev_n-1;
+            }
+            if (end_pos[0] == -1){
+                end_pos[0] = prev_n-1;
+                end_pos[1] = prev_n-1;
+            }
+            if (end_pos[0] >= prev_n){
+                end_pos[0] = prev_n-1;
+            }
+            if (end_pos[1] >= prev_n){
+                end_pos[1] = prev_n-1;
+            }
+
+            let start_point = [start_pos[1]+1, start_pos[0]+1];
+            let end_point = [end_pos[1]+1, end_pos[0]+1];
+
+            let res = aStarPathfinding(maze, start_point, end_point);
             let wandering = res.wandering;
             let path = res.goodPath;
             let prev_y = wandering[0][0];
             let prev_x = wandering[0][1];
             let el = toId(prev_x, prev_y);
+
+            let total_time_for_yellow = 2000 * parseInt(1 + wandering.length/1000);
+            let total_time_wor_red = parseInt(total_time_for_yellow/2);
+            let total_time_for_green = 1000 * parseInt(1 + path.length/1000);
+
             for (let i=0; i<wandering.length; i++){
                 setTimeout(() => {
                     let new_y = wandering[i][0] - 1;
                     let new_x = wandering[i][1] - 1;
                     let el = toId(new_x, new_y);
                     $(el).addClass("vsited");
-                }, parseInt(2000/wandering.length)*i);
+                }, parseInt(total_time_for_yellow/wandering.length)*i);
                 setTimeout(() => {
                     let new_y = wandering[i][0] - 1;
                     let new_x = wandering[i][1] - 1;
                     el = toId(new_x, new_y);
                     $(el).removeClass("vsited");
-                }, parseInt(2000/wandering.length)*i+100);
+                }, parseInt(total_time_for_yellow/wandering.length)*i+100);
                 prev_y = wandering[i][0] - 1;
                 prev_x = wandering[i][1] - 1;
             }
-            let wait = 7100;
-            if (path.length < 1){
-                wait = 2100;
-            }
-            for (let i=0; i<path.length; i++){
-                setTimeout(() => {
-                    let new_y = path[i][0] - 1;
-                    let new_x = path[i][1] - 1;
-                    let el = toId(new_x, new_y);
-                    $(el).addClass("goodF");
-                }, parseInt(1000/wandering.length)*i+2100);
-                setTimeout(() => {
-                    let new_y = path[i][0] - 1;
-                    let new_x = path[i][1] - 1;
-                    let el = toId(new_x, new_y);
-                    $(el).removeClass("goodF");
-                    $(el).addClass("good");
-
-                    if(enumerate){
-                        $(el).text(i+1);
-                        let hght = parseFloat($(el).css("height"));
-                        let k = 1;
-                        while (10**k < i) {
-                            k += 1
+            if (path.length > 0){
+                for (let i=0; i<path.length; i++){
+                    setTimeout(() => {
+                        let new_y = path[i][0] - 1;
+                        let new_x = path[i][1] - 1;
+                        let el = toId(new_x, new_y);
+                        $(el).addClass("goodF");
+                    }, parseInt(total_time_for_green/wandering.length)*i+(total_time_for_yellow+100));
+                    setTimeout(() => {
+                        let new_y = path[i][0] - 1;
+                        let new_x = path[i][1] - 1;
+                        let el = toId(new_x, new_y);
+                        $(el).removeClass("goodF");
+                        $(el).addClass("good");
+    
+                        if(enumerate){
+                            $(el).text(i+1);
+                            let hght = parseFloat($(el).css("height"));
+                            let k = 1;
+                            while (10**k < i) {
+                                k += 1
+                            }
+                            hght = hght/(1.15**k);
+                            $(el).css("font-size", hght);
                         }
-                        hght = hght/(1.15**k);
-                        $(el).css("font-size", hght);
-                    }
-                }, parseInt(1000/wandering.length)*i+2200);
-                setTimeout(() => {
-                    let new_y = path[i][0] - 1;
-                    let new_x = path[i][1] - 1;
-                    let el = toId(new_x, new_y);
-                    $(el).removeClass("good");
-                    if (enumerate){
-                        $(el).text("");
-                    }
-                }, parseInt(1000/wandering.length)*i+6250);
-                prev_y = wandering[i][0] - 1;
-                prev_x = wandering[i][1] - 1;
+                    }, parseInt(total_time_for_green/wandering.length)*i+(total_time_for_yellow+300));
+                    setTimeout(() => {
+                        let new_y = path[i][0] - 1;
+                        let new_x = path[i][1] - 1;
+                        let el = toId(new_x, new_y);
+                        $(el).removeClass("good");
+                        if (enumerate){
+                            $(el).text("");
+                        }
+                    }, parseInt(total_time_for_green/wandering.length)*i+(total_time_for_yellow+total_time_for_green+3000+300));
+                    prev_y = wandering[i][0] - 1;
+                    prev_x = wandering[i][1] - 1;
+                }
             }
+            else{
+                for (let i=0; i<wandering.length; i++){
+                    setTimeout(() => {
+                        let new_y = wandering[i][0] - 1;
+                        let new_x = wandering[i][1] - 1;
+                        let el = toId(new_x, new_y);
+                        $(el).addClass("vsited");
+                        $(el).addClass("unfinded");
+                    }, parseInt(total_time_wor_red/wandering.length)*i+(total_time_for_yellow+100));
+                    setTimeout(() => {
+                        let new_y = wandering[i][0] - 1;
+                        let new_x = wandering[i][1] - 1;
+                        el = toId(new_x, new_y);
+                        $(el).removeClass("vsited");
+                        $(el).removeClass("unfinded");
+                    }, parseInt(total_time_wor_red/wandering.length)*i+(total_time_for_yellow+total_time_wor_red+3000+200));
+                    prev_y = wandering[i][0] - 1;
+                    prev_x = wandering[i][1] - 1;
+                }
+            }
+            
             setTimeout(() => {
                 $(this).css("display", "block");
                 $("#create_subm").css("display", "block");
                 $("#maze_subm").css("display", "block");
                 $("#enum_switch").css("display", "block");
                 $("#clear_subm").css("display", "block");
-            }, wait);
+            }, total_time_for_yellow+total_time_wor_red+total_time_for_green+3000);
         }
     });
     $("#enum_switch").mousedown(function () { 
@@ -491,7 +628,6 @@ $(document).ready(function () {
             n = 3;
             $("#n_number").val(n);
         }
-        console.log(n);
         let d_i = 0;
         while (d_i < load_diff.length && load_diff[d_i] < n){
             d_i += 1
@@ -513,8 +649,6 @@ $(document).on("click", ".matrix_el_1", function () {
     let x = parseInt(ids[1]);
     let y = parseInt(ids[2]);
     global_matrix[y][x] = 0;
-    console.log(global_matrix);
-    console.log(global_matrix[y][x])
     $(this).removeClass("matrix_el_1");
     $(this).addClass("matrix_el_0");
 });
@@ -523,8 +657,6 @@ $(document).on("click", ".matrix_el_0", function () {
     let x = parseInt(ids[1]);
     let y = parseInt(ids[2]);
     global_matrix[y][x] = 1;
-    console.log(global_matrix);
-    console.log(global_matrix[y][x])
     $(this).removeClass("matrix_el_0");
     $(this).addClass("matrix_el_1");
 });
@@ -534,7 +666,6 @@ $(document).mousedown(function () {
 });
 $(document).mouseup(function (e) {
     mouseClicked = false;
-    console.log("me");
     
     if (pathStartClicked){
         pathStartClicked = false;
@@ -551,7 +682,6 @@ $(document).mouseup(function (e) {
 
         let mouseBlockX = parseInt((mPosX-matrix_el_x+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
         let mouseBlockY = parseInt((mPosY-matrix_el_y+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
-        console.log(mouseBlockX, mouseBlockY);
 
         if (mouseBlockX < 0){
             mouseBlockX = 0
@@ -609,7 +739,6 @@ $(document).mouseup(function (e) {
 
         let mouseBlockX = parseInt((mPosX-matrix_el_x+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
         let mouseBlockY = parseInt((mPosY-matrix_el_y+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
-        console.log(mouseBlockX, mouseBlockY);
 
         if (mouseBlockX < 0){
             mouseBlockX = 0
@@ -667,8 +796,6 @@ $(document).mousemove(function (e) {
 
         let mouseBlockX = parseInt((mPosX-matrix_el_x+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
         let mouseBlockY = parseInt((mPosY-matrix_el_y+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
-
-        console.log(mouseBlockX, mouseBlockY);
 
         let proc_f = 87/prev_n;
         var margin_new = proc_f*0.025;
