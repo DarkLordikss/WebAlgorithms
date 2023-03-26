@@ -657,19 +657,24 @@ $(document).mousemove(function (e) {
         let mouseBlockY = parseInt((mPosY-matrix_el_y+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))));
 
         console.log(mouseBlockX, mouseBlockY);
+
+        let proc_f = 87/prev_n;
+        var margin_new = proc_f*0.025;
+        let marg_s = margin_new.toString()+"vh";
+        proc_f = proc_f*0.95;
         
         if (pathStartClicked){
             $("#path_start").css({
-                left: mPosX-matrix_el_x - oneH*0.90*(87/(prev_n))/2,
-                top: mPosY-matrix_el_y - oneH*0.90*(87/(prev_n))/2,
-                transition: "top 0s, left 0s",
+                left:((0.125+mouseBlockX * (proc_f/0.95) + proc_f*0.05)*2).toString() + "vh",
+                top: ((0.125+mouseBlockY * (proc_f/0.95) + proc_f*0.05)*2).toString() + "vh",
+                transition: "background 0.5s, border-radius 0s, top 0.2s, left 0.2s, height 1s, width 1s",
             });
         }
         else if (pathEndClicked){
             $("#path_end").css({
-                left: mPosX-matrix_el_x - oneH*0.90*(87/(prev_n))/2,
-                top: mPosY-matrix_el_y - oneH*0.90*(87/(prev_n))/2,
-                transition: "top 0s, left 0s",
+                left:((0.125+mouseBlockX * (proc_f/0.95) + proc_f*0.05)*2).toString() + "vh",
+                top: ((0.125+mouseBlockY * (proc_f/0.95) + proc_f*0.05)*2).toString() + "vh",
+                transition: "background 0.5s, border-radius 0s, top 0.2s, left 0.2s, height 1s, width 1s",
             });
         }
     }
