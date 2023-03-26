@@ -25,6 +25,8 @@ const AStarPage = () => {
                 </div>
                 <div id="container">
                     <div id="matrix_box">
+                        <div id="path_start" className="movable_block -1_-1"></div>
+                        <div id="path_end" className="movable_block -1_-1"></div>
                     </div>
                 </div>
             </div>

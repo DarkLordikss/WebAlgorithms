@@ -65,6 +65,29 @@
     border-radius: 1vh;
 }
 
+#path_start{
+    position: inherit;
+    background-color: rgb(20, 201, 0);
+}
+#path_start:hover{
+    position: inherit;
+    background-color: rgb(26, 255, 0);
+}
+
+#path_end{
+    position: inherit;
+    background-color: rgb(201, 44, 0);
+}
+#path_end:hover{
+    position: inherit;
+    background-color: rgb(255, 55, 0);
+}
+
+.movable_block{
+    transition: background 0.5s, border-radius 0s, left 1s, top 1s, height 1s, width 1s;
+    z-index: 5;
+}
+
 .switch_button.false{
     background-color: rgb(255, 150, 150);
     transition: background 0.5s;
