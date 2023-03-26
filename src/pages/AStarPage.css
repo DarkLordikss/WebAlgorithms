@@ -65,6 +65,29 @@
     border-radius: 1vh;
 }
 
+#path_start{
+    position: inherit;
+    background-color: rgb(0, 201, 64);
+}
+#path_start:hover{
+    position: inherit;
+    background-color: rgb(26, 255, 0);
+}
+
+#path_end{
+    position: inherit;
+    background-color: rgb(201, 0, 0);
+}
+#path_end:hover{
+    position: inherit;
+    background-color: rgb(255, 55, 0);
+}
+
+.movable_block{
+    transition: background 0.5s, border-radius 0s, left 1s, top 1s, height 1s, width 1s;
+    z-index: 5;
+}
+
 .switch_button.false{
     background-color: rgb(255, 150, 150);
     transition: background 0.5s;
@@ -231,4 +254,12 @@
 .matrix_el_0:active{
     transition: background 0.02s;
     background-color: rgb(72, 72, 27);
+}
+
+.unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
 }
