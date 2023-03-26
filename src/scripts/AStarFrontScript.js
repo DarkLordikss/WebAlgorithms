@@ -653,8 +653,8 @@ $(document).mousemove(function (e) {
         matrix_el_x += oneH;
         matrix_el_y += oneH;
 
-        let mouseBlockX = parseInt((mPosX-matrix_el_x+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))));
-        let mouseBlockY = parseInt((mPosY-matrix_el_y+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))));
+        let mouseBlockX = parseInt((mPosX-matrix_el_x+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
+        let mouseBlockY = parseInt((mPosY-matrix_el_y+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
 
         console.log(mouseBlockX, mouseBlockY);
 
@@ -665,15 +665,15 @@ $(document).mousemove(function (e) {
         
         if (pathStartClicked){
             $("#path_start").css({
-                left:((0.125+mouseBlockX * (proc_f/0.95) + proc_f*0.05)*2).toString() + "vh",
-                top: ((0.125+mouseBlockY * (proc_f/0.95) + proc_f*0.05)*2).toString() + "vh",
+                left:(0.5+mouseBlockX * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                top: (0.5+mouseBlockY * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
                 transition: "background 0.5s, border-radius 0s, top 0.2s, left 0.2s, height 1s, width 1s",
             });
         }
         else if (pathEndClicked){
             $("#path_end").css({
-                left:((0.125+mouseBlockX * (proc_f/0.95) + proc_f*0.05)*2).toString() + "vh",
-                top: ((0.125+mouseBlockY * (proc_f/0.95) + proc_f*0.05)*2).toString() + "vh",
+                left:(0.5+mouseBlockX * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                top: (0.5+mouseBlockY * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
                 transition: "background 0.5s, border-radius 0s, top 0.2s, left 0.2s, height 1s, width 1s",
             });
         }
