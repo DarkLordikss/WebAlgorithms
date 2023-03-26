@@ -53,8 +53,20 @@ $(document).ready(function () {
             start_pos[0] = 0;
             start_pos[1] = 0;
         }
+        if (start_pos[0] >= n){
+            start_pos[0] = n-1;
+        }
+        if (start_pos[1] >= n){
+            start_pos[1] = n-1;
+        }
         if (end_pos[0] == -1){
             end_pos[0] = n-1;
+            end_pos[1] = n-1;
+        }
+        if (end_pos[0] >= n){
+            end_pos[0] = n-1;
+        }
+        if (end_pos[1] >= n){
             end_pos[1] = n-1;
         }
 
