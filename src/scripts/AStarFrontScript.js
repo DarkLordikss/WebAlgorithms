@@ -642,6 +642,12 @@ $(document).ready(function () {
         $("#load_difficulty_info").text(load_names[d_i]);
         $("#load_difficulty_info").css("color", load_colors[d_i]);
     });
+    $(".back_moving_box").mousedown(function () {
+        let size = $(this).height();
+        let zer_pos_x = parseFloat($(this).css("left").split("px")[0])+size/2;
+        let zer_pos_y = parseFloat($(this).css("top").split("px")[0])+size/2;
+    });
+    background_animation();
 });
 
 $(document).on("click", ".matrix_el_1", function () { 
@@ -818,3 +824,42 @@ $(document).mousemove(function (e) {
         }
     }
 });
+
+function background_animation() {
+    for (let i=0; i<30; i++){
+        let win_h = $(document).height();
+        let win_w = $(document).width();
+
+        let block = "#mov_box_" + i.toString();
+
+        if (Math.random() > 0.97){
+            let new_size = Math.random()*(win_h/8);
+            if (new_size <= 50){
+                new_size = 50;
+            }
+            let border_rad = new_size/5;
+
+            let x_block_start = parseInt($("#matrix_box").css("left").split("px")[0])-new_size;
+            let mat_w = parseInt($("#matrix_box").css("width").split("px")[0]);
+
+            let new_xp = Math.random()*(win_w - mat_w - new_size);
+            
+            if (new_xp >= x_block_start+new_size){
+                new_xp += mat_w;
+            }
+            
+            let new_yp = Math.random()*(win_h - new_size);
+
+            $(block).css({
+                "width": new_size.toString() + "px",
+                "height": new_size.toString() + "px",
+                "left": new_xp.toString() + "px",
+                "top": new_yp.toString() + "px",
+                "border-radius": border_rad.toString() + "px"
+            });
+        }
+    }
+    setTimeout(() => {
+        background_animation();
+    }, 800);
+}
