@@ -830,17 +830,18 @@ function background_animation() {
         let win_h = $(document).height();
         let win_w = $(document).width();
 
+        let matrixBox = $("#matrix_box");
         let block = "#mov_box_" + i.toString();
 
-        if (Math.random() > 0.97){
+        if (Math.random() > 0.97 && matrixBox.length){
             let new_size = Math.random()*(win_h/8);
             if (new_size <= 50){
                 new_size = 50;
             }
             let border_rad = new_size/5;
 
-            let x_block_start = parseInt($("#matrix_box").css("left").split("px")[0])-new_size;
-            let mat_w = parseInt($("#matrix_box").css("width").split("px")[0]);
+            let x_block_start = parseInt(matrixBox.css("left").split("px")[0])-new_size;
+            let mat_w = parseInt(matrixBox.css("width").split("px")[0]);
 
             let new_xp = Math.random()*(win_w - mat_w - new_size);
             
