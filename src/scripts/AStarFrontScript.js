@@ -783,6 +783,9 @@ $(document).mouseup(function (e) {
     }
 });
 $(document).mousemove(function (e) {
+    if ($("#matrix_box").length !== 1){
+        return;
+    }
     if (mouseClicked){
         let mPosX = e.clientX;
         let mPosY = e.clientY;

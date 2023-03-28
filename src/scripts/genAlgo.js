@@ -156,4 +156,4 @@ function findShortestRouteGen(cityList, populationSize, generations, mutationRat
     };
 }
 
-export default findShortestRouteGen();
+export {findShortestRouteGen};

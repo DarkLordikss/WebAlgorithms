@@ -15,8 +15,8 @@ const IndexPage = () => {
                         <a href="/a-star"><div className="menu-elem"><code>A-star</code></div></a>
                         <Albedo />
                     </div>
-                    <a href="/a-star">
-                        <div className="menu-elem"><code>One</code></div>
+                    <a href="/genetic">
+                        <div className="menu-elem"><code>Genetic</code></div>
                     </a>
                     <a href="/a-star">
                         <div className="menu-elem"><code>Two</code></div>
