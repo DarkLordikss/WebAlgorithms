@@ -12,9 +12,13 @@ let mouseClicked = false;
 let pathStartClicked = false;
 let pathEndClicked = false;
 
-let load_names = ["zero", "very low", "low", "medium", "high", "very high", "ultra high", "crazy", "computer death"];
+let load_names = ["zero", "very low", "low", "medium",
+                  "high", "very high", "ultra high",
+                  "crazy", "computer death"];
 let load_diff = [0, 1, 10, 25, 40, 55, 90, 150, 400]
-let load_colors = ["rgb(0, 0, 0)", "rgb(0, 232, 182)", "rgb(0, 232, 31)", "rgb(182, 232, 0)", "rgb(232, 209, 0)", "rgb(232, 66, 0)", "rgb(232, 0, 0)", "rgb(200, 0, 0)", "rgb(150, 0, 0)"]
+let load_colors = ["rgb(0, 0, 0)", "rgb(0, 232, 182)", "rgb(0, 232, 31)",
+                   "rgb(182, 232, 0)", "rgb(232, 209, 0)", "rgb(232, 66, 0)",
+                   "rgb(232, 0, 0)", "rgb(200, 0, 0)", "rgb(150, 0, 0)"]
 
 /*возвращает id блока на позиции [x, y]*/
 function toId(x, y) {
@@ -23,21 +27,24 @@ function toId(x, y) {
 
 /*перезагружает позиции и размеры блоков начала и конца пути*/
 function end_start_reload(n){
-    let proc_f = 87/n;
-    let proc_b = proc_f/5;
-    let margin_new = proc_f*0.025;
-    proc_f = proc_f*0.95;
-    let proc_b_s = proc_b.toString()+"vh";
-    let marg_s = margin_new.toString()+"vh";
+    let proc_f = 87 / n;
+    let proc_b = proc_f / 5;
+    let margin_new = proc_f * 0.025;
+    proc_f = proc_f * 0.95;
+    let proc_b_s = proc_b.toString() + "vh";
+    let marg_s = margin_new.toString() + "vh";
 
-    let start_pos = $("#path_start").attr("class").split(" ")[1].split("_");
-    let end_pos = $("#path_end").attr("class").split(" ")[1].split("_");
+    let pathStart = $("#path_start");
+    let pathEnd = $("#path_end");
+
+    let start_pos = pathStart.attr("class").split(" ")[1].split("_");
+    let end_pos = pathEnd.attr("class").split(" ")[1].split("_");
     start_pos[0] = parseInt(start_pos[0]);
     start_pos[1] = parseInt(start_pos[1]);
     end_pos[0] = parseInt(end_pos[0]);
     end_pos[1] = parseInt(end_pos[1]);
-    $("#path_start").removeClass(start_pos[0].toString() + "_" + start_pos[1].toString());
-    $("#path_end").removeClass(end_pos[0].toString() + "_" + end_pos[1].toString());
+    pathStart.removeClass(start_pos[0].toString() + "_" + start_pos[1].toString());
+    pathEnd.removeClass(end_pos[0].toString() + "_" + end_pos[1].toString());
 
     if (start_pos[0] === -1){
         start_pos[0] = 0;
@@ -51,48 +58,48 @@ function end_start_reload(n){
     if (prev_n <= n){
         setTimeout(() => {
             $("#path_start").css({
-                width: (proc_f*0.9).toString() + "vh",
-                height: (proc_f*0.9).toString() + "vh",
+                width: (proc_f * 0.9).toString() + "vh",
+                height: (proc_f * 0.9).toString() + "vh",
                 margin: marg_s,
-                left: (0.5+start_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+start_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                left: (0.5 + start_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+                top: (0.5 + start_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
                 transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
                 "border-radius": proc_b_s,
             });
-        }, start_pos[0]*start_pos[1]);
+        }, start_pos[0] * start_pos[1]);
         console.log(end_pos, start_pos)
         setTimeout(() => {
             $("#path_end").css({
-                width: (proc_f*0.9).toString() + "vh",
-                height: (proc_f*0.9).toString() + "vh",
+                width: (proc_f * 0.9).toString() + "vh",
+                height: (proc_f * 0.9).toString() + "vh",
                 margin: marg_s,
-                left: (0.5+end_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+end_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                left: (0.5 + end_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+                top: (0.5 + end_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
                 transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
                 "border-radius": proc_b_s,
             });
-        }, end_pos[0]*end_pos[1]);
+        }, end_pos[0] * end_pos[1]);
     }
     else{
         setTimeout(() => {
             $("#path_start").css({
-                width: (proc_f*0.9).toString() + "vh",
-                height: (proc_f*0.9).toString() + "vh",
+                width: (proc_f * 0.9).toString() + "vh",
+                height: (proc_f * 0.9).toString() + "vh",
                 margin: marg_s,
-                left: (0.5+start_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+start_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                left: (0.5 + start_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+                top: (0.5 + start_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
                 transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
                 "border-radius": proc_b_s,
             });
-        }, (prev_n-start_pos[0])*(prev_n-start_pos[1]));
+        }, (prev_n-start_pos[0]) * (prev_n-start_pos[1]));
         console.log(end_pos, start_pos)
         setTimeout(() => {
             $("#path_end").css({
-                width: (proc_f*0.9).toString() + "vh",
-                height: (proc_f*0.9).toString() + "vh",
+                width: (proc_f * 0.9).toString() + "vh",
+                height: (proc_f * 0.9).toString() + "vh",
                 margin: marg_s,
-                left: (0.5+end_pos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+end_pos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                left: (0.5 + end_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+                top: (0.5 + end_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
                 transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
                 "border-radius": proc_b_s,
             });
@@ -100,33 +107,34 @@ function end_start_reload(n){
     }
 
     if (start_pos[0] >= n){
-        start_pos[0] = n-1;
+        start_pos[0] = n - 1;
     }
     if (start_pos[1] >= n){
-        start_pos[1] = n-1;
+        start_pos[1] = n - 1;
     }
     
     if (end_pos[0] >= n){
-        end_pos[0] = n-1;
+        end_pos[0] = n - 1;
     }
     if (end_pos[1] >= n){
-        end_pos[1] = n-1;
+        end_pos[1] = n - 1;
     }
 
-    $("#path_start").addClass(start_pos[0].toString() + "_" + start_pos[1].toString());
-    $("#path_end").addClass(end_pos[0].toString() + "_" + end_pos[1].toString());
+    pathStart.addClass(start_pos[0].toString() + "_" + start_pos[1].toString());
+    pathEnd.addClass(end_pos[0].toString() + "_" + end_pos[1].toString());
 }
 
 /*возвращает выбранный юзером n*/
 function get_num() {
-    let n = ($("#n_number").val()-1)*2 + 1;
+    let nNum = $("#n_number");
+    let n = (nNum.val() - 1) * 2 + 1;
     if (n > 10001){
         n = 10001;
-        $("#n_number").val(n);
+        nNum.val(n);
     }
     if (n < 3){
         n = 3;
-        $("#n_number").val(n);
+        nNum.val(n);
     }
     return n;
 }
@@ -186,10 +194,10 @@ function check_block_pos(pos){
         pos[1] = 0;
     }
     if (pos[0] >= prev_n){
-        pos[0] = prev_n-1;
+        pos[0] = prev_n - 1;
     }
     if (pos[1] >= prev_n){
-        pos[1] = prev_n-1;
+        pos[1] = prev_n - 1;
     }
     return pos;
 }
@@ -199,38 +207,42 @@ function get_mouse_block(e){
     let mPosX = e.originalEvent.clientX;
     let mPosY = e.originalEvent.clientY;
 
-    let matrix_el_x = parseInt($("#matrix_box").css("left").split("px")[0]);
-    let matrix_el_y = parseInt($("#matrix_box").css("top").split("px")[0]) + parseInt($("#container").css("top").split("px")[0]);
+    let matrixBox = $("#matrix_box");
+
+    let matrix_el_x = parseInt(matrixBox.css("left").split("px")[0]);
+    let matrix_el_y = parseInt(matrixBox.css("top").split("px")[0]) + parseInt($("#container").css("top").split("px")[0]);
 
     let oneH = $(document).height()/100;
     matrix_el_x += oneH;
     matrix_el_y += oneH;
 
-    let mouseBlockX = parseInt((mPosX-matrix_el_x+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
-    let mouseBlockY = parseInt((mPosY-matrix_el_y+oneH*0.25*(87/(prev_n/2)))/(oneH*(87/(prev_n/2))))*2;
+    let mouseBlockX = parseInt((mPosX - matrix_el_x + oneH * 0.25 * (87 / (prev_n / 2))) /
+                                (oneH * (87 / (prev_n / 2)))) * 2;
+    let mouseBlockY = parseInt((mPosY - matrix_el_y + oneH * 0.25 * (87 / (prev_n / 2))) /
+                                (oneH * (87 / (prev_n / 2)))) * 2;
 
     if (mouseBlockX < 0){
-        mouseBlockX = 0
+        mouseBlockX = 0;
     }
-    if (mouseBlockX > prev_n-1){
-        mouseBlockX = prev_n-1
+    if (mouseBlockX > prev_n - 1){
+        mouseBlockX = prev_n - 1;
     }
     
     if (mouseBlockY < 0){
-        mouseBlockY = 0
+        mouseBlockY = 0;
     }
-    if (mouseBlockY > prev_n-1){
-        mouseBlockY = prev_n-1
+    if (mouseBlockY > prev_n - 1){
+        mouseBlockY = prev_n - 1;
     }
     return [mouseBlockX, mouseBlockY];
 }
 
 /*генерирует массив в формате лабиринта по данной матрице*/
 function create_maze_by_mat(my_matrix){
-    let maze = new Array(prev_n+2);
-    for (let y = 0; y < prev_n+2; y++){
-        maze[y] = new Array(prev_n+2);
-        for (let x = 0; x < prev_n+2; x++){
+    let maze = new Array(prev_n + 2);
+    for (let y = 0; y < prev_n + 2; y++){
+        maze[y] = new Array(prev_n + 2);
+        for (let x = 0; x < prev_n + 2; x++){
             if (x === 0 || x === prev_n+1 || y === 0 || y === prev_n+1){
                 maze[y][x] = 0;
             }
@@ -251,17 +263,17 @@ function reset_front_pos_lock(element, mousePos) {
     myClasses[1] = new_class_added;
     $(el).attr("class", myClasses[0] + " " + myClasses[1]);
 
-    let proc_f = 87/prev_n;
-    proc_f = proc_f*0.95;
+    let proc_f = 87 / prev_n;
+    proc_f = proc_f * 0.95;
 
     $(el).css({
         transition: "background 0.5s, border-radius 0s, top 0.2s, left 0.2s, height 1s, width 1s",
     });
     $(el).css({
-        width: (proc_f*0.9).toString() + "vh",
-        height: (proc_f*0.9).toString() + "vh",
-        left: (0.5+mousePos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-        top: (0.5+mousePos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+        width: (proc_f * 0.9).toString() + "vh",
+        height: (proc_f * 0.9).toString() + "vh",
+        left: (0.5 + mousePos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+        top: (0.5 + mousePos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
     });
     setTimeout(() => {
         $(el).css({
@@ -277,7 +289,7 @@ function yellow_coloring(el, timing){
     }, timing);
     setTimeout(() => {
         $(el).removeClass("vsited");
-    }, timing+100);
+    }, timing + 100);
 }
 
 /*краска найденного пути*/
@@ -293,13 +305,13 @@ function path_coloring(el, timing, num) {
             $(el).text(num+1);
             let hght = parseFloat($(el).css("height"));
             let k = 1;
-            while (10**k < num) {
+            while (10 ** k < num) {
                 k += 1
             }
-            hght = hght/(1.15**k);
+            hght = hght / (1.15 ** k);
             $(el).css("font-size", hght);
         }
-    }, timing+200);
+    }, timing + 200);
     setTimeout(() => {
         $(el).removeClass("good");
         if (enumerate){
@@ -324,24 +336,24 @@ function red_coloring(el, timing) {
 function calculate_display_animation(x, y){
     
     let default_time = x*y;
-    let prev_time_type_1 = (x-1)*y;
-    let prev_time_type_2 = (y-1)*x;
+    let prev_time_type_1 = (x - 1) * y;
+    let prev_time_type_2 = (y - 1) * x;
     let prev_time_max = prev_time_type_1;
     if (prev_time_type_2 < prev_time_type_1){
         prev_time_max = prev_time_type_2;
     }
     if (default_time - prev_time_max >= 10){
-        default_time = prev_time_max+10;
+        default_time = prev_time_max + 10;
     }
     return default_time;
 }
 
 /*анимирует перемещение блоков*/
 function block_position_front_reload(x, y, n){
-    let proc_f = 87/n;
-    let proc_b = proc_f/5;
-    let margin_new = proc_f*0.025;
-    proc_f = proc_f*0.95;
+    let proc_f = 87 / n;
+    let proc_b = proc_f / 5;
+    let margin_new = proc_f * 0.025;
+    proc_f = proc_f * 0.95;
     let proc_f_s = proc_f.toString()+"vh";
     let proc_b_s = proc_b.toString()+"vh";
     let marg_s = margin_new.toString()+"vh";
@@ -352,8 +364,8 @@ function block_position_front_reload(x, y, n){
         width: proc_f_s,
         height: proc_f_s,
         margin: marg_s,
-        left: (0.5+x * (proc_f/0.95)).toString() + "vh",
-        top: (0.5+y * (proc_f/0.95)).toString() + "vh",
+        left: (0.5 + x * (proc_f / 0.95)).toString() + "vh",
+        top: (0.5 + y * (proc_f / 0.95)).toString() + "vh",
         "border-radius": proc_b_s,
     });
 }
@@ -363,7 +375,7 @@ $(document).ready(function () {
     /*создать матрицу-лабиринт*/
     $("#maze_subm").mousedown(function () {
         let n = get_num();
-        let maze = generateMaze((n-1)/2 + 1).maze;
+        let maze = generateMaze((n - 1) / 2 + 1).maze;
         let matrix = new Array(n);
 
         end_start_reload(n);
@@ -372,7 +384,7 @@ $(document).ready(function () {
             for (let y = 0; y < n; y++) {
                 matrix[y] = new Array(n);
                 for (let x = 0; x < n; x++) {
-                    matrix[y][x] = maze[y+1][x+1];
+                    matrix[y][x] = maze[y + 1][x + 1];
                     setTimeout(() => {
                         let el = toId(x, y);
                         element_load_matrix(el, matrix, x, y, n, "as_matrix");
@@ -382,26 +394,26 @@ $(document).ready(function () {
             prev_n = n;
         }
         else if (prev_n > n){
-            for (let y = prev_n-1; y >= 0; y--) {
-                for (let x = prev_n-1; x >= 0; x--) {
+            for (let y = prev_n - 1; y >= 0; y--) {
+                for (let x = prev_n - 1; x >= 0; x--) {
                     if (x >= n || y >= n){
                         setTimeout(() => {
                             let el = toId(x, y);
                             $(el).css("width", 0);
                             $(el).css("height", 0);
                             $(el).remove();
-                        }, calculate_display_animation(prev_n-x, prev_n-y));
+                        }, calculate_display_animation(prev_n - x, prev_n - y));
                     }
                 }
             }
-            for (let y = n-1; y >= 0; y--) {
+            for (let y = n - 1; y >= 0; y--) {
                 matrix[y] = new Array(n);
-                for (let x = n-1; x >= 0; x--) {
-                    matrix[y][x] = maze[y+1][x+1]
+                for (let x = n - 1; x >= 0; x--) {
+                    matrix[y][x] = maze[y + 1][x + 1]
                     setTimeout(() => {
                         let el = toId(x, y);
                         element_load_matrix(el, matrix, x, y, n, "as_matrix");
-                    }, calculate_display_animation(prev_n-x, prev_n-y));
+                    }, calculate_display_animation(prev_n - x, prev_n - y));
                 }
             }
             prev_n = n;
@@ -430,14 +442,14 @@ $(document).ready(function () {
             prev_n = n;
         }
         else if (prev_n > n){
-            for (let y = prev_n-1; y >= 0; y--) {
+            for (let y = prev_n - 1; y >= 0; y--) {
                 matrix[y] = new Array(n);
-                for (let x = prev_n-1; x >= 0; x--) {
+                for (let x = prev_n - 1; x >= 0; x--) {
                     if (x >= n || y >= n){
                         setTimeout(() => {
                             let el = toId(x, y);
                             $(el).remove();
-                        }, calculate_display_animation(prev_n-x, prev_n-y));
+                        }, calculate_display_animation(prev_n - x, prev_n - y));
                     }
                     else{
                         setTimeout(() => {
@@ -448,7 +460,7 @@ $(document).ready(function () {
                                 matrix[y][x] = parseInt(cl_el[2]);
                             }
                             block_position_front_reload(x, y, n);
-                        }, calculate_display_animation(prev_n-x, prev_n-y));
+                        }, calculate_display_animation(prev_n - x, prev_n - y));
                     }
                 }
             }
@@ -487,22 +499,23 @@ $(document).ready(function () {
             let wandering = res.wandering;
             let path = res.goodPath;
 
-            let total_time_for_yellow = 2000 * parseInt(1 + wandering.length/1000);
-            let total_time_wor_red = parseInt(total_time_for_yellow/2);
-            let total_time_for_green = 1000 * parseInt(1 + path.length/1000);
+            let total_time_for_yellow = 2000 * parseInt(1 + wandering.length / 1000);
+            let total_time_wor_red = parseInt(total_time_for_yellow / 2);
+            let total_time_for_green = 1000 * parseInt(1 + path.length / 1000);
 
-            for (let i=0; i<wandering.length; i++){
+            for (let i = 0; i < wandering.length; i++){
                 let new_y = wandering[i][0] - 1;
                 let new_x = wandering[i][1] - 1;
                 let el = toId(new_x, new_y);
-                yellow_coloring(el, parseInt(total_time_for_yellow/wandering.length)*i);
+                yellow_coloring(el, parseInt(total_time_for_yellow / wandering.length) * i);
             }
             if (path.length > 0){
                 for (let i=0; i<path.length; i++){
                     let new_y = path[i][0] - 1;
                     let new_x = path[i][1] - 1;
                     let el = toId(new_x, new_y);
-                    path_coloring(el, parseInt(total_time_for_green/wandering.length)*i+(total_time_for_yellow+100), i);
+                    path_coloring(el, parseInt(total_time_for_green / wandering.length) *
+                                                        i + (total_time_for_yellow+100), i);
                 }
             }
             else{
@@ -510,7 +523,8 @@ $(document).ready(function () {
                     let new_y = wandering[i][0] - 1;
                     let new_x = wandering[i][1] - 1;
                     let el = toId(new_x, new_y);
-                    red_coloring(el, parseInt(total_time_wor_red/wandering.length)*i+(total_time_for_yellow+100));
+                    red_coloring(el, parseInt(total_time_wor_red / wandering.length) *
+                                                        i + (total_time_for_yellow + 100));
                 }
             }
             
@@ -520,7 +534,7 @@ $(document).ready(function () {
                 $("#maze_subm").css("display", "block");
                 $("#enum_switch").css("display", "block");
                 $("#clear_subm").css("display", "block");
-            }, total_time_for_yellow+total_time_wor_red+total_time_for_green+3000);
+            }, total_time_for_yellow + total_time_wor_red + total_time_for_green + 3000);
         }
     });
     /*изменить режим нумерации пути*/
@@ -558,8 +572,10 @@ $(document).ready(function () {
                 break;
             }
         }
-        $("#load_difficulty_info").text(load_names[d_i]);
-        $("#load_difficulty_info").css("color", load_colors[d_i]);
+        let loadInfo = $("#load_difficulty_info");
+
+        loadInfo.text(load_names[d_i]);
+        loadInfo.css("color", load_colors[d_i]);
     });
     /*включение анимации заднего фона*/
     background_animation();
@@ -608,20 +624,20 @@ $(document).mousemove(function (e) {
     if (mouseClicked){
         let mousePos = get_mouse_block(e);
 
-        let proc_f = 87/prev_n;
-        proc_f = proc_f*0.95;
+        let proc_f = 87 / prev_n;
+        proc_f = proc_f * 0.95;
         
         if (pathStartClicked){
             $("#path_start").css({
-                left:(0.5+mousePos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+mousePos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                left:(0.5 + mousePos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+                top: (0.5 + mousePos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
                 transition: "background 0.5s, border-radius 0s, top 0.2s, left 0.2s, height 1s, width 1s",
             });
         }
         else if (pathEndClicked){
             $("#path_end").css({
-                left:(0.5+mousePos[0] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
-                top: (0.5+mousePos[1] * (proc_f/0.95) + proc_f*0.05).toString() + "vh",
+                left:(0.5 + mousePos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+                top: (0.5 + mousePos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
                 transition: "background 0.5s, border-radius 0s, top 0.2s, left 0.2s, height 1s, width 1s",
             });
         }
@@ -630,7 +646,7 @@ $(document).mousemove(function (e) {
 
 /*анимация заднего фона*/
 function background_animation() {
-    for (let i=0; i<30; i++){
+    for (let i = 0; i < 30; i++){
         let win_h = $(document).height();
         let win_w = $(document).width();
 
@@ -638,18 +654,18 @@ function background_animation() {
         let block = "#mov_box_" + i.toString();
 
         if (Math.random() > 0.97 && matrixBox.length){
-            let new_size = Math.random()*(win_h/8);
+            let new_size = Math.random() * (win_h / 8);
             if (new_size <= 50){
                 new_size = 50;
             }
-            let border_rad = new_size/5;
+            let border_rad = new_size / 5;
 
             let x_block_start = parseInt(matrixBox.css("left").split("px")[0])-new_size;
             let mat_w = parseInt(matrixBox.css("width").split("px")[0]);
 
-            let new_xp = Math.random()*(win_w - mat_w - new_size);
+            let new_xp = Math.random() * (win_w - mat_w - new_size);
             
-            if (new_xp >= x_block_start+new_size){
+            if (new_xp >= x_block_start + new_size){
                 new_xp += mat_w;
             }
             
