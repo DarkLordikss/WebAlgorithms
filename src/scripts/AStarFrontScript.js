@@ -54,58 +54,36 @@ function end_start_reload(n){
         end_pos[0] = n-1;
         end_pos[1] = n-1;
     }
-
-    if (prev_n <= n){
-        setTimeout(() => {
-            $("#path_start").css({
-                width: (proc_f * 0.9).toString() + "vh",
-                height: (proc_f * 0.9).toString() + "vh",
-                margin: marg_s,
-                left: (0.5 + start_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
-                top: (0.5 + start_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
-                transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
-                "border-radius": proc_b_s,
-            });
-        }, start_pos[0] * start_pos[1]);
-        console.log(end_pos, start_pos)
-        setTimeout(() => {
-            $("#path_end").css({
-                width: (proc_f * 0.9).toString() + "vh",
-                height: (proc_f * 0.9).toString() + "vh",
-                margin: marg_s,
-                left: (0.5 + end_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
-                top: (0.5 + end_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
-                transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
-                "border-radius": proc_b_s,
-            });
-        }, end_pos[0] * end_pos[1]);
-    }
-    else{
-        setTimeout(() => {
-            $("#path_start").css({
-                width: (proc_f * 0.9).toString() + "vh",
-                height: (proc_f * 0.9).toString() + "vh",
-                margin: marg_s,
-                left: (0.5 + start_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
-                top: (0.5 + start_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
-                transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
-                "border-radius": proc_b_s,
-            });
-        }, (prev_n-start_pos[0]) * (prev_n-start_pos[1]));
-        console.log(end_pos, start_pos)
-        setTimeout(() => {
-            $("#path_end").css({
-                width: (proc_f * 0.9).toString() + "vh",
-                height: (proc_f * 0.9).toString() + "vh",
-                margin: marg_s,
-                left: (0.5 + end_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
-                top: (0.5 + end_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
-                transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
-                "border-radius": proc_b_s,
-            });
-        }, (prev_n - end_pos[0])*(prev_n - end_pos[1]));
+    let timeWaitStart = start_pos[0] * start_pos[1];
+    let timeWaitEnd = end_pos[0] * end_pos[1];
+    if (prev_n > n){
+        timeWaitStart = (prev_n-start_pos[0]) * (prev_n-start_pos[1]);
+        timeWaitEnd = (prev_n-end_pos[0]) * (prev_n-end_pos[1]);
     }
 
+    setTimeout(() => {
+        $("#path_start").css({
+            width: (proc_f * 0.9).toString() + "vh",
+            height: (proc_f * 0.9).toString() + "vh",
+            margin: marg_s,
+            left: (0.5 + start_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+            top: (0.5 + start_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+            transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+            "border-radius": proc_b_s,
+        });
+    }, timeWaitStart);
+    setTimeout(() => {
+        $("#path_end").css({
+            width: (proc_f * 0.9).toString() + "vh",
+            height: (proc_f * 0.9).toString() + "vh",
+            margin: marg_s,
+            left: (0.5 + end_pos[0] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+            top: (0.5 + end_pos[1] * (proc_f / 0.95) + proc_f * 0.05).toString() + "vh",
+            transition: "background 0.5s, border-radius 0s, top 1s, left 1s, height 1s, width 1s",
+            "border-radius": proc_b_s,
+        });
+    }, timeWaitEnd);
+    
     if (start_pos[0] >= n){
         start_pos[0] = n - 1;
     }
@@ -143,7 +121,6 @@ function get_num() {
 дополняет и заполняет матрицу пустотой при параметре type: to_matrix*/
 function element_load_matrix(el, my_matrix, x, y, n, type) {
     let idE = el.split("#")[1];
-
     if (my_matrix[y][x] === undefined){
         my_matrix[y][x] = 1;
     }
@@ -377,7 +354,6 @@ $(document).ready(function () {
         let n = get_num();
         let maze = generateMaze((n - 1) / 2 + 1).maze;
         let matrix = new Array(n);
-
         end_start_reload(n);
 
         if (prev_n <= n){
@@ -399,8 +375,6 @@ $(document).ready(function () {
                     if (x >= n || y >= n){
                         setTimeout(() => {
                             let el = toId(x, y);
-                            $(el).css("width", 0);
-                            $(el).css("height", 0);
                             $(el).remove();
                         }, calculate_display_animation(prev_n - x, prev_n - y));
                     }
