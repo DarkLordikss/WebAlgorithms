@@ -120,16 +120,19 @@ function calculateTotalDistance(route) {
 
 //Функция внаходит лучший путь в процессе эволюции
 //На вход нужно: список городов в формате [x, y], размер популяции, количество поколений, шанс мутации.
-//Выход: { bestRoute : лучший путь как список городов [x, y],
+//Выход: { bestRoute: наикратчайший путь как список городов [x, y],
+//         bestRouteLen: длина наикратчайшего пути
 //         allRoutes: список списков списков городов [x, y] (я больной, лечите), найденных за поколение.
-//         bestOne: лучший путь на каждой итерации,
-//         bestWayLen: длина лучшего пути (необязательно целое число)
+//         bestOnIteration: лучший путь на каждой итерации,
+//         bestWaysOnIterationsLens: длина лучшего пути на текущей итерации
 //       }
 function findShortestRouteGen(cityList, populationSize, generations, mutationRate) {
     const allRoutes = [];
     let currentPopulation = createInitialPopulation(cityList, populationSize);
     let shortestRoute = currentPopulation[0];
     let bestRoutes = [];
+    let bestWayLens = [];
+
     for (let i = 0; i < generations; i++) {
         currentPopulation = evolve(currentPopulation, mutationRate);
         const bestRoute = currentPopulation.reduce((best, current) => {
@@ -142,12 +145,14 @@ function findShortestRouteGen(cityList, populationSize, generations, mutationRat
         }
         allRoutes.push(currentPopulation);
         bestRoutes.push(bestRoute);
+        bestWayLens.push(calculateTotalDistance(bestRoute));
     }
     return {
         bestRoute: shortestRoute,
+        bestRouteLen: calculateTotalDistance(shortestRoute),
         allRoutes: allRoutes,
-        bestOne: bestRoutes,
-        bestWayLen: calculateTotalDistance(shortestRoute),
+        bestOnIteration: bestRoutes,
+        bestWaysOnIterationsLens: bestWayLens
     };
 }
 
