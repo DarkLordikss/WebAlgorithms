@@ -1,5 +1,5 @@
 import React from "react";
-import "./AStarPage.css";
+import "./styles/AStarPage.css";
 import star_image from './images/a_star_logo5.png';
 //импорт нужного модуля для страницы AStarPage.js (self)
 import "../scripts/AStarFrontScript.js";
