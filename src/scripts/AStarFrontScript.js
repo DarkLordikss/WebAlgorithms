@@ -54,7 +54,6 @@ function end_start_reload(n){
         end_pos[0] = n-1;
         end_pos[1] = n-1;
     }
-
     let timeWaitStart = start_pos[0] * start_pos[1];
     let timeWaitEnd = end_pos[0] * end_pos[1];
     if (prev_n > n){
@@ -122,7 +121,6 @@ function get_num() {
 дополняет и заполняет матрицу пустотой при параметре type: to_matrix*/
 function element_load_matrix(el, my_matrix, x, y, n, type) {
     let idE = el.split("#")[1];
-
     if (my_matrix[y][x] === undefined){
         my_matrix[y][x] = 1;
     }
@@ -356,7 +354,6 @@ $(document).ready(function () {
         let n = get_num();
         let maze = generateMaze((n - 1) / 2 + 1).maze;
         let matrix = new Array(n);
-
         end_start_reload(n);
 
         if (prev_n <= n){

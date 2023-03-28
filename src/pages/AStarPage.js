@@ -12,15 +12,14 @@ const AStarPage = () => {
             <div className="a-bg">
                 <div id="header">
                     <a href="/">
-                        <img src={star_image} className="logo unselectable" id="logo_star" />
+                        <img src={star_image} className="logo unselectable" id="logo_star" alt="logo A Star" />
                     </a>
                     <div id="naming" className="unselectable">A-Star algorithm</div>
                     <input type="number" id="n_number" />
-                    <div id="load_difficulty_info">zero</div>
+                    <div id="load_difficulty_info" className="unselectable">zero</div>
                     <button id="create_subm" className="subm_button unselectable">create matrix!</button>
                     <button id="maze_subm" className="subm_button unselectable">generate maze!</button>
                     <button id="solution_subm" className="subm_button unselectable">solution!</button>
-                    <button id="clear_subm" className="subm_button unselectable">clear matrix!</button>
                     <button id="enum_switch" className="switch_button false unselectable" value="enum">numerate</button>
                 </div>
                 <div id="container">
