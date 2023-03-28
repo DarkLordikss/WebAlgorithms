@@ -50,6 +50,8 @@ import {functionName1, functionName2, ... , functionNameN} from "../path_to_modu
 
 ### `/src/pages/` - файлы страниц сайта
 
+### `/src/pages/styles` - файлы стилей страниц сайта
+
 ### `/src/pages/persons` - декоративные персонажи сайта
 
 ### `/src/pages/persons/sprites` - спрайты персонажей
