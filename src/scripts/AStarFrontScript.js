@@ -595,6 +595,9 @@ $(document).mouseup(function (e) {
 });
 /*перемещение мыши*/
 $(document).mousemove(function (e) {
+    if ($("#matrix_box").length !== 1){
+        return;
+    }
     if (mouseClicked){
         let mousePos = get_mouse_block(e);
 
