@@ -68,7 +68,7 @@ function resize_pointsBox() {
 
         let pointRadius = width*0.0125;
 
-        if (pointsPosArray.length !== NaN) {
+        if (pointsPosArray.length > 1) {
             for (let index = 0; index < pointsPosArray.length; index++) {
                 let myPos = pointsPosArray[index];
                 $("#" + index).css({
@@ -470,8 +470,9 @@ $(document).ready(function () {
         }
     });
     $(start_b).mousedown(function (e) {
-        if (pointsPosArray !== undefined && pointsPosArray.length > 0){
-            visualize_solution(findShortestRouteGen(pointsPosArray, pointsPosArray.length, get_gens_count(), get_chance()/100));
+        let gensCount = get_gens_count();
+        if (pointsPosArray !== undefined && pointsPosArray.length > 1 && gensCount > 0){
+            visualize_solution(findShortestRouteGen(pointsPosArray, pointsPosArray.length, gensCount, get_chance()/100));
         }
     });
     $(speed_block).mousedown(function (e) {
