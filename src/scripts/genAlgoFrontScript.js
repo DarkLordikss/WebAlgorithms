@@ -21,7 +21,7 @@ let text_colors = ["black", "black", "black", "black", "black", "black", "black"
 
 let routes_classes = ["yellow", "red", "pink", "purple", "blue", "cyan", "green", "lime"];
 
-let line_time = 100;
+let line_time = 500;
 
 /*берёт количество поколений*/
 function get_gens_count() {
