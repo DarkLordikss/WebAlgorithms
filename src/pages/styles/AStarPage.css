@@ -5,6 +5,7 @@
     width: 100vw;
     height: 9vh;
     background-color: rgb(220, 220, 250);
+    z-index: 5;
 }
 
 #logo_star{
@@ -150,11 +151,6 @@
 
 #enum_switch{
     top: 2.5vh;
-    left: 111.2vh;
-}
-
-#clear_subm{
-    top: 2.5vh;
     left: 97.4vh;
 }
 
@@ -166,7 +162,6 @@
     height: 91vh;
     align-items: center;
     align-content: center;
-    background: rgb(244, 244, 244) url("../images/a-star-bg.png");
 }
 
 #matrix_box{
@@ -182,6 +177,7 @@
     border: 0.3vh solid rgb(90, 90, 90);
     overflow: hidden;
     overflow-wrap: normal;
+    z-index: 2;
 }
 
 .matrix_el_1_box.goodF{
@@ -271,4 +267,62 @@
     -khtml-user-select: none;    /* Konqueror */
     -moz-user-select: none;      /* Firefox */
     -ms-user-select: none;       /* Internet Explorer/Edge */
+}
+
+.back_moving_box_t1{
+    border: 3px solid rgb(180, 139, 204);
+    background-color: rgb(244, 225, 255);
+    position: fixed;
+    z-index: 1;
+    transition: 3s;
+    box-shadow: 0 0 0 0 rgb(180, 139, 204);
+}
+.back_moving_box_t1:hover{
+    border: 3px solid rgb(180, 139, 204);
+    margin-top: -0.5vh;
+    margin-left: -0.5vh;
+    background-color: rgb(244, 225, 255);
+    position: fixed;
+    z-index: 1;
+    transition: 0.5s;
+    box-shadow: 0.5vh 0.5vh 0 0 rgb(180, 139, 204);
+}
+.back_moving_box_t1:active{
+    border: 3px solid rgb(180, 139, 204);
+    margin-top: 0vh;
+    margin-left: 0vh;
+    background-color: rgb(244, 225, 255);
+    position: fixed;
+    z-index: 1;
+    transition: 0.05s;
+    box-shadow: 0vh 0vh 0 0 rgb(180, 139, 204);
+}
+
+.back_moving_box_t2{
+    border: 3px solid rgb(180, 139, 204);
+    background-color: rgb(244, 225, 255);
+    position: fixed;
+    z-index: 1;
+    transition: 3s;
+    box-shadow: 0 0 0 0 rgb(180, 139, 204);
+}
+.back_moving_box_t2:hover{
+    border: 3px solid rgb(180, 139, 204);
+    margin-top: -0.5vh;
+    margin-left: 0.5vh;
+    background-color: rgb(244, 225, 255);
+    position: fixed;
+    z-index: 1;
+    transition: 0.5s;
+    box-shadow: -0.5vh 0.5vh 0 0 rgb(180, 139, 204);
+}
+.back_moving_box_t2:active{
+    border: 3px solid rgb(180, 139, 204);
+    margin-top: 0vh;
+    margin-left: 0vh;
+    background-color: rgb(244, 225, 255);
+    position: fixed;
+    z-index: 1;
+    transition: 0.05s;
+    box-shadow: 0 0 0 0 rgb(180, 139, 204);
 }
