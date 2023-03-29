@@ -49,40 +49,42 @@ function get_chance() {
 
 /*изменяет размер коробки с точками*/
 function resize_pointsBox() {
-    setTimeout(() => {
-        let prev_w = parseInt($(pointsBox).css("width").split("px"));
-        let prev_h = parseInt($(pointsBox).css("height").split("px"));
+    if ($(pointsBox).length) {
+        setTimeout(() => {
+            let prev_w = parseInt($(pointsBox).css("width").split("px"));
+            let prev_h = parseInt($(pointsBox).css("height").split("px"));
 
-        let width = window.innerWidth/1.5;
-        let height = window.innerHeight/1.5;
+            let width = window.innerWidth / 1.5;
+            let height = window.innerHeight / 1.5;
 
-        let koef_horizontal = width/prev_w;
-        let koef_vertical = height/prev_h;
+            let koef_horizontal = width / prev_w;
+            let koef_vertical = height / prev_h;
 
-        $(pointsBox).css({
-            "width": width,
-            "height": height,
-            "left": width*0.25,
-            "top": height*0.25
-        });
 
-        let pointRadius = width*0.0125;
+            $(pointsBox).css({
+                "width": width,
+                "height": height,
+                "left": width * 0.25,
+                "top": height * 0.25
+            });
 
-        if (pointsPosArray.length > 1) {
-            for (let index = 0; index < pointsPosArray.length; index++) {
-                let myPos = pointsPosArray[index];
-                $("#" + index).css({
-                    "left": myPos[0]*koef_horizontal-pointRadius,
-                    "top": myPos[1]*koef_vertical-pointRadius,
-                    "height": pointRadius*2-4,
-                    "width": pointRadius*2-4,
-                });
-                pointsPosArray[index][0] = myPos[0]*koef_horizontal;
-                pointsPosArray[index][1] = myPos[1]*koef_vertical;
+            let pointRadius = width * 0.0125;
+
+            if (pointsPosArray.length > 1) {
+                for (let index = 0; index < pointsPosArray.length; index++) {
+                    let myPos = pointsPosArray[index];
+                    $("#" + index).css({
+                        "left": myPos[0] * koef_horizontal - pointRadius,
+                        "top": myPos[1] * koef_vertical - pointRadius,
+                        "height": pointRadius * 2 - 4,
+                        "width": pointRadius * 2 - 4,
+                    });
+                    pointsPosArray[index][0] = myPos[0] * koef_horizontal;
+                    pointsPosArray[index][1] = myPos[1] * koef_vertical;
+                }
             }
-        }
-    }, 25);
-    
+        }, 25);
+    }
 }
 
 /*возвращает позицию мыши с точкой отсчёта от позиции нужного элемента*/
