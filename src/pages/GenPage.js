@@ -1,5 +1,5 @@
 import React from "react";
-import "./GenPage.css";
+import "./styles/GenPage.css";
 //импорт нужного модуля для страницы GenPage.js (self)
 import "../scripts/genAlgoFrontScript.js";
 
