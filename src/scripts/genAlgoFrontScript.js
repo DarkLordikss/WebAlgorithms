@@ -7,8 +7,11 @@ let pointsBox = "#pointing_box";
 let pointsCounter = "#points_counter";
 let gen_block = "#gens_counter";
 let evo_block = "#evolution_changer";
+let populat_block = "#popSize_changer";
 let start_b = "#start_button";
 let speed_block = "#speed_mode";
+let skip_button = "#skip_button";
+let loader = "#evol_loader";
 let pointsPosArray = [];
 
 let colors = ["#9BFFD4", "#9BFFAF", "#9EFF9B", "#AFFF9B",
@@ -22,16 +25,21 @@ let text_colors = ["black", "black", "black", "black", "black", "black", "black"
 let routes_classes = ["yellow", "red", "pink", "purple", "blue", "cyan", "green", "lime"];
 
 let line_time = 500;
+let skip_animation = false;
+let drawing = false;
 
 /*берёт количество поколений*/
 function get_gens_count() {
     let n = $(gen_block).val();
-    if (n === undefined || n <= 0){
-        return 0;
+    if (n === undefined || n <= 1){
+        $(gen_block).val(1);
+        return 1;
     }
-    else if (n >= 100){
-        return 100;
+    else if (n >= 1000000){
+        $(gen_block).val(1000000);
+        return 1000000;
     }
+    $(gen_block).val(n);
     return n;
 }
 
@@ -39,11 +47,29 @@ function get_gens_count() {
 function get_chance() {
     let n = $(evo_block).val();
     if (n === undefined || n <= 1){
+        $(evo_block).val(1);
         return 1;
     }
-    else if (n >= 100){
-        return 100;
+    else if (n >= 1000){
+        $(evo_block).val(1000);
+        return 1000;
     }
+    $(evo_block).val(n);
+    return n;
+}
+
+/*берёт размер популяции*/
+function get_population() {
+    let n = $(populat_block).val();
+    if (n === undefined || n <= 1){
+        $(populat_block).val(1);
+        return 1;
+    }
+    else if (n >= 5000){
+        $(populat_block).val(5000);
+        return 5000;
+    }
+    $(populat_block).val(n);
     return n;
 }
 
@@ -172,7 +198,7 @@ function add_new_point(pos){
     if (pos[0]-pointRadius < 0 || pos[1]-pointRadius < 0){
         return;
     }
-    if (pointsPosArray.length >= 15){
+    if (pointsPosArray.length >= 45){
         max_points_count();
         return;
     }
@@ -218,19 +244,23 @@ function add_new_point(pos){
 
 /*удаляет выбранную точку из коробки с точками*/
 function delete_point(element){
+    let rePos1 = undefined;
+    let rePos2 = undefined;
+
     let index = parseInt(element.id);
 
-    let rePos1 = undefined;
-    if (index > 0){
-        rePos1 = index-1;
-    }
-    let reIndDeleted = index;
-    let rePos2 = undefined;
-    if (index < pointsPosArray.length - 1){
-        rePos2 = index+1;
+    let lines_arr = $(".line");
+    for (let line_i = 0; line_i < lines_arr.length; line_i++) {
+        let myLine_id = $(lines_arr[line_i]).attr("id").split("_");
+        if (parseInt(myLine_id[1]) === index) {
+            rePos2 = parseInt(myLine_id[2]);
+        }
+        if (parseInt(myLine_id[2]) === index) {
+            rePos1 = parseInt(myLine_id[1]);
+        }
     }
 
-    //reorganize_line(rePos1, reIndDeleted, rePos2, pointsPosArray);
+    reorganize_line(rePos1, index, rePos2, pointsPosArray);
 
     let pos = [parseInt($(element).css("left"))+parseInt($(element).css("width"))/2, parseInt($(element).css("top"))+parseInt($(element).css("width"))/2]
     $(element).addClass("appeared");
@@ -280,21 +310,61 @@ function calculate_angle(pos1, pos2){
     return angle;
 }
 
+/*преобразует значение индекса в валидное*/
+function valid_index(ind, array_ln){
+    if (ind < 0){
+        ind = array_ln - 1;
+    }else if (ind >= array_ln){
+        ind = 0;
+    }
+    return ind;
+}
+
 /*перерисовывает линии при удалении точки (вызывается в соответсвующей функции)*/
 function reorganize_line(pos1 = undefined, deleted, pos2 = undefined, myArray) {
     if (pos1 !== undefined){
-        delete_line_between(myArray[pos1], myArray[deleted], pos1, deleted, "start");
+        console.log("pos1", pos1);
+        let myIndex = "line_" + pos1 + "_" + deleted;
+        let minusIndex = "line_" + deleted + "_" + pos1;
+        if ($("#"+myIndex).length > 0){
+            console.log("type 1", myIndex);
+            delete_line_between(myArray[pos1], myArray[deleted], pos1, deleted, "end");
+        }
+        else if ($("#"+minusIndex).length > 0){
+            console.log("type 2", minusIndex);
+            delete_line_between(myArray[deleted], myArray[pos1], deleted, pos1, "start");
+        }
+        // delete_line_between(myArray[pos1], myArray[deleted], pos1, deleted, "start");
     }
     if (pos2 !== undefined){
-        delete_line_between(myArray[deleted], myArray[pos2], deleted, pos2, "end");
+        console.log("pos2", pos2);
+        let myIndex = "line_" + deleted + "_" + pos2;
+        let minusIndex = "line_" + pos2 + "_" + deleted;
+        if ($("#"+myIndex).length > 0){
+            console.log("type 1", myIndex);
+            delete_line_between(myArray[deleted], myArray[pos2], deleted, pos2, "start");
+        }
+        else if ($("#"+minusIndex).length > 0){
+            console.log("type 2", minusIndex);
+            delete_line_between(myArray[pos2], myArray[deleted], pos2, deleted, "end");
+        }
+        // delete_line_between(myArray[deleted], myArray[pos2], deleted, pos2, "end");
     }
+    console.log(pos1, deleted, pos2);
     let lines = $(".line");
     for (let k = 0; k < lines.length; k++) {
         let his_id = $(lines[k]).attr("id").split("_");
-        let start = parseInt(his_id[1]);
-        if (start >= deleted) {
-            start -= 1;
-            let end = parseInt(his_id[2])-1;
+        if (his_id[0] === "line"){
+            let start = parseInt(his_id[1]);
+            let end = parseInt(his_id[2]);
+            if (start >= deleted) {
+                start -= 1;
+            }
+            if (end >= deleted){
+                end -= 1;
+            }
+            start = valid_index(start, pointsPosArray.length - 1);
+            end = valid_index(end, pointsPosArray.length - 1);
             $(lines[k]).attr("id", "line_" + start + "_" + end);
         }
     }
@@ -302,24 +372,23 @@ function reorganize_line(pos1 = undefined, deleted, pos2 = undefined, myArray) {
 
 /*рисует линию от 1 точки до 2*/
 function create_line_from_1_to_2(pos1, pos2, time, color = "black"){
-    let total_lines = $(".line").length;
+    if (time < 5){
+        time = 5;
+    }
     let myIndex = "line_" + pointsPosArray.indexOf(pos1).toString() + "_" + pointsPosArray.indexOf(pos2).toString();
     let minusIndex = "line_" + pointsPosArray.indexOf(pos2).toString() + "_" + pointsPosArray.indexOf(pos1).toString();
     if ($("#"+myIndex).length > 0){
         delete_line_between(pos1, pos2, undefined, undefined, "end");
-        if (time < 5){
-            time = 5;
-        }
     }
     else if ($("#"+minusIndex).length > 0){
         delete_line_between(pos2, pos1, undefined, undefined, "start");
-        if (time < 5){
-            time = 5;
-        }
     }
     let new_line = "<div id='" + myIndex + "'></div>";
     myIndex = "#" + myIndex;
     $(pointsBox).append(new_line);
+    $(myIndex).css({
+        "transition": (line_time/1000).toString() + "s",
+    });
 
     let length = ((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)**0.5;
     let adjacent = Math.abs(pos1[0]-pos2[0]);
@@ -404,45 +473,66 @@ function clear_all_lines() {
 /*анимирует решение*/
 function visualize_solution(solution) {
     clear_all_lines();
+    $(loader).css({
+        "opacity": "0",
+    });
+    setTimeout(() => {
+        $(loader).css({
+            "display": "none",
+        });
+    }, 1000);
     let routes = solution.allRoutes;
     let bestRoutes = solution.bestOnIteration;
     let everBestRoute = solution.bestRoute;
 
     let qTime = line_time+1;
-    let allDrawingTime = routes.length*(routes[0].length+1)*(routes[0][0].length-1)*qTime
-    for (let iteration = 0; iteration < routes.length; iteration++) {
-        console.log("NEW SOLUTION");
-        //цикл всех решений
-        clear_all_lines();
-        let bigCycleTime = (routes[iteration].length+1)*(routes[iteration][0].length-1)*qTime
-        let afterBigCT = routes[iteration].length*(routes[iteration][0].length-1)*qTime
-        setTimeout(() => {
-            for (let route_i = 0; route_i < routes[iteration].length; route_i++) {
-                console.log("-----NEW ROUTE");
-                //цикл всех путей решения
-                let cycleTime = (routes[iteration][route_i].length-1)*qTime;
+    let allDrawingTime = routes.length*(routes[0].length+1)*(routes[0][0].length)*qTime
+    if (!skip_animation) {
+        for (let iteration = 0; iteration < routes.length; iteration++) {
+            console.log("NEW SOLUTION");
+            //цикл всех решений
+            clear_all_lines();
+            let bigCycleTime = (routes[iteration].length+1)*(routes[iteration][0].length)*qTime
+            let afterBigCT = routes[iteration].length*(routes[iteration][0].length)*qTime
+            setTimeout(() => {
+                for (let route_i = 0; route_i < routes[iteration].length; route_i++) {
+                    console.log("-----NEW ROUTE");
+                    //цикл всех путей решения
+                    let cycleTime = (routes[iteration][route_i].length)*qTime;
+                    setTimeout(() => {
+                        clear_all_lines();
+                        for (let point_i = 0; point_i < routes[iteration][route_i].length-1; point_i++) {
+                            console.log("----------NEW WAY");
+                            //цикл всех точек пути решения
+                            setTimeout(() => {
+                                create_line_from_1_to_2(routes[iteration][route_i][point_i], routes[iteration][route_i][point_i+1], 1, routes_classes[route_i%(routes_classes.length)]);
+                            }, qTime*point_i);
+                        }
+                        let last_p = routes[iteration][route_i].length-1;
+                        setTimeout(() => {
+                            create_line_from_1_to_2(routes[iteration][route_i][last_p], routes[iteration][route_i][0], 1, routes_classes[route_i%(routes_classes.length)]);
+                        }, (routes[iteration][route_i].length-1)*qTime);
+                    }, cycleTime*route_i);
+                }
                 setTimeout(() => {
                     clear_all_lines();
-                    for (let point_i = 0; point_i < routes[iteration][route_i].length-1; point_i++) {
-                        console.log("----------NEW WAY");
-                        //цикл всех точек пути решения
+                    for (let point_best = 0; point_best < bestRoutes[iteration].length-1; point_best++) {
+                        console.log("---BEST WAY");
+                        //цикл лучшего решения на итерации
                         setTimeout(() => {
-                            create_line_from_1_to_2(routes[iteration][route_i][point_i], routes[iteration][route_i][point_i+1], 1, routes_classes[route_i%(routes_classes.length)]);
-                        }, qTime*point_i);
+                            create_line_from_1_to_2(bestRoutes[iteration][point_best], bestRoutes[iteration][point_best+1], 1, "great");
+                        }, qTime*point_best);
                     }
-                }, cycleTime*route_i);
-            }
-            setTimeout(() => {
-                clear_all_lines();
-                for (let point_best = 0; point_best < bestRoutes[iteration].length-1; point_best++) {
-                    console.log("---BEST WAY");
-                    //цикл лучшего решения на итерации
+                    let last_b = bestRoutes[iteration].length-1;
                     setTimeout(() => {
-                        create_line_from_1_to_2(bestRoutes[iteration][point_best], bestRoutes[iteration][point_best+1], 1, "great");
-                    }, qTime*point_best);
-                }
-            }, afterBigCT);
-        }, bigCycleTime*iteration);
+                        create_line_from_1_to_2(bestRoutes[iteration][last_b], bestRoutes[iteration][0], 1, "great");
+                    }, qTime*last_b);
+                }, afterBigCT);
+            }, bigCycleTime*iteration);
+        }
+    }
+    else{
+        allDrawingTime = 0;
     }
     setTimeout(() => {
         clear_all_lines();
@@ -452,6 +542,9 @@ function visualize_solution(solution) {
                 create_line_from_1_to_2(everBestRoute[point_i], everBestRoute[point_i+1], 1, "legendary");
             }, qTime*point_i);
         }
+        setTimeout(() => {
+            create_line_from_1_to_2(everBestRoute[everBestRoute.length-1], everBestRoute[0], 1, "legendary");
+        }, qTime*(everBestRoute.length-1));
     }, allDrawingTime);
 }
 
@@ -461,45 +554,81 @@ $(document).ready(function () {
     }
     resize_pointsBox();
     $(pointsBox).mousedown(function (e) {
-        if (e.target.id.toString() !== "pointing_box"){
-            if ($(e.target).hasClass("point")){
-                delete_point(e.target);
+        if (!drawing) {
+            if (e.target.id.toString() !== "pointing_box"){
+                if ($(e.target).hasClass("point")){
+                    delete_point(e.target);
+                }
             }
-        }
-        else{
-            let mouse_pos = get_mousePos_in_element($(this), e);
-            add_new_point(mouse_pos);
+            else{
+                let mouse_pos = get_mousePos_in_element($(this), e);
+                add_new_point(mouse_pos);
+            }
         }
     });
     $(start_b).mousedown(function (e) {
-        let gensCount = get_gens_count();
-        if (pointsPosArray !== undefined && pointsPosArray.length > 1 && gensCount > 0){
-            visualize_solution(findShortestRouteGen(pointsPosArray, pointsPosArray.length, gensCount, get_chance()/100));
+        if (!drawing){
+            let gensCount = get_gens_count();
+            let population = get_population();
+            if (pointsPosArray !== undefined && population > 1 && gensCount > 0){
+                $(loader).css({
+                    "display": "block",
+                });
+                setTimeout(() => {
+                    $(loader).css({
+                        "opacity": "1",
+                    });
+                }, 1);
+                setTimeout(() => {
+                    visualize_solution(findShortestRouteGen(pointsPosArray, population, gensCount, get_chance()/1000));
+                }, 10);
+            }
         }
     });
     $(speed_block).mousedown(function (e) {
-        if ($(speed_block).hasClass("false")){
-            line_time = 100;
-            $(speed_block).removeClass("false");
-            $(speed_block).addClass("true");
-            $(speed_block).text("fast mode");
-        }
-        else if ($(speed_block).hasClass("true")){
-            line_time = 20;
-            $(speed_block).removeClass("true");
-            $(speed_block).addClass("ultra");
-            $(speed_block).text("ultra mode");
-        }
-        else if ($(speed_block).hasClass("ultra")){
-            line_time = 500;
-            $(speed_block).removeClass("ultra");
-            $(speed_block).addClass("false");
-            $(speed_block).text("slow mode");
+        if (!drawing) {
+            if ($(speed_block).hasClass("false")){
+                line_time = 100;
+                $(speed_block).removeClass("false");
+                $(speed_block).addClass("true");
+                $(speed_block).text("fast mode");
+            }
+            else if ($(speed_block).hasClass("true")){
+                line_time = 20;
+                $(speed_block).removeClass("true");
+                $(speed_block).addClass("ultra");
+                $(speed_block).text("ultra mode");
+            }
+            else if ($(speed_block).hasClass("ultra")){
+                line_time = 500;
+                $(speed_block).removeClass("ultra");
+                $(speed_block).addClass("false");
+                $(speed_block).text("slow mode");
+            }
         }
     });
+    $(skip_button).mousedown(function (e) {
+        if (!drawing) {
+            if ($(skip_button).hasClass("false")){
+                skip_animation = true;
+                $(skip_button).removeClass("false");
+                $(skip_button).addClass("true");
+            }
+            else if ($(skip_button).hasClass("true")){
+                skip_animation = false;
+                $(skip_button).removeClass("true");
+                $(skip_button).addClass("false");
+            }
+        }
+    });
+    $(gen_block).change(function () {
+        get_gens_count();
+    });
     $(evo_block).change(function () {
-        let n = get_chance();
-        $(evo_block).val(n);
+        get_chance();
+    });
+    $(populat_block).change(function () {
+        get_population();
     });
 });
 
