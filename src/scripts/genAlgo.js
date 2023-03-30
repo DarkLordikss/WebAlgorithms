@@ -40,20 +40,34 @@ function createInitialPopulation(cityList, populationSize) {
 //в порядке их расположения в массиве population. Когда сгенерированное случайное число становится меньше или
 //равным вероятности выбора текущей особи, эта особь выбирается в качестве одного из родительских особей.
 //Этот процесс повторяется до тех пор, пока не будут выбраны две родительские особи.
+// function selection(population) {
+//     const fitnessScores = population.map(route => calculateFitness(route));
+//     const totalFitness = fitnessScores.reduce((a, b) => a + b, 0);
+//     const selectionProbabilities = fitnessScores.map(score => score / totalFitness);
+//     const selectedParents = [];
+//     while (selectedParents.length < 2) {
+//         let rouletteValue = Math.random();
+//         for (let i = 0; i < population.length; i++) {
+//             rouletteValue -= selectionProbabilities[i];
+//             if (rouletteValue <= 0) {
+//                 selectedParents.push(population[i]);
+//                 break;
+//             }
+//         }
+//     }
+//     return selectedParents;
+// }
 function selection(population) {
-    const fitnessScores = population.map(route => calculateFitness(route));
-    const totalFitness = fitnessScores.reduce((a, b) => a + b, 0);
-    const selectionProbabilities = fitnessScores.map(score => score / totalFitness);
     const selectedParents = [];
     while (selectedParents.length < 2) {
-        let rouletteValue = Math.random();
-        for (let i = 0; i < population.length; i++) {
-            rouletteValue -= selectionProbabilities[i];
-            if (rouletteValue <= 0) {
-                selectedParents.push(population[i]);
-                break;
-            }
-        }
+        // выбираем двух случайных особей из популяции
+        const candidateA = population[Math.floor(Math.random() * population.length)];
+        const candidateB = population[Math.floor(Math.random() * population.length)];
+        // сравниваем их фитнес-оценки и выбираем лучшего
+        const fitnessA = calculateFitness(candidateA);
+        const fitnessB = calculateFitness(candidateB);
+        const selectedParent = (fitnessA > fitnessB) ? candidateA : candidateB;
+        selectedParents.push(selectedParent);
     }
     return selectedParents;
 }

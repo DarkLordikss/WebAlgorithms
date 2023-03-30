@@ -7,6 +7,23 @@
     background-color: rgb(220, 220, 250);
 }
 
+#logo_gen{
+    position: inherit;
+    top: 0.5vh;
+    left: 0.5vh;
+    height: 8vh;
+    width: auto;
+    border-radius: 4vh;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 2vh 3vh rgb(255, 255, 255);
+    transition: background 0.8s, box-shadow 0.8s;
+}
+#logo_gen:hover{
+    background-color: rgb(52, 47, 64);
+    box-shadow: 0 0 2vh 3vh rgb(52, 47, 64);
+    transition: background 0.8s, box-shadow 0.8s;
+}
+
 #naming{
     position: inherit;
     height: 2vh;
@@ -79,9 +96,9 @@
 #evolution{
     position: inherit;
     height: 2.8vh;
-    width: 17vh;
+    width: 21vh;
     top: 1.7vh;
-    left: 55vh;
+    left: 53vh;
     font-size: 2vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 400;

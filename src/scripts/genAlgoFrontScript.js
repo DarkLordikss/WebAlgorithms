@@ -32,10 +32,12 @@ let drawing = false;
 function get_gens_count() {
     let n = $(gen_block).val();
     if (n === undefined || n <= 1){
+        $(gen_block).val(1);
         return 1;
     }
-    else if (n >= 100000){
-        return 100000;
+    else if (n >= 1000000){
+        $(gen_block).val(1000000);
+        return 1000000;
     }
     $(gen_block).val(n);
     return n;
@@ -45,10 +47,12 @@ function get_gens_count() {
 function get_chance() {
     let n = $(evo_block).val();
     if (n === undefined || n <= 1){
+        $(evo_block).val(1);
         return 1;
     }
-    else if (n >= 100){
-        return 100;
+    else if (n >= 1000){
+        $(evo_block).val(1000);
+        return 1000;
     }
     $(evo_block).val(n);
     return n;
@@ -58,10 +62,12 @@ function get_chance() {
 function get_population() {
     let n = $(populat_block).val();
     if (n === undefined || n <= 1){
+        $(populat_block).val(1);
         return 1;
     }
-    else if (n >= 100){
-        return 100;
+    else if (n >= 5000){
+        $(populat_block).val(5000);
+        return 5000;
     }
     $(populat_block).val(n);
     return n;
@@ -192,7 +198,7 @@ function add_new_point(pos){
     if (pos[0]-pointRadius < 0 || pos[1]-pointRadius < 0){
         return;
     }
-    if (pointsPosArray.length >= 15){
+    if (pointsPosArray.length >= 45){
         max_points_count();
         return;
     }
@@ -574,7 +580,7 @@ $(document).ready(function () {
                     });
                 }, 1);
                 setTimeout(() => {
-                    visualize_solution(findShortestRouteGen(pointsPosArray, population, gensCount, get_chance()/100));
+                    visualize_solution(findShortestRouteGen(pointsPosArray, population, gensCount, get_chance()/1000));
                 }, 10);
             }
         }
