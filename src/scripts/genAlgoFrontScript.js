@@ -2,6 +2,8 @@
 import {findShortestRouteGen} from "./genAlgo";
 //правильный импорт jQuery
 import * as $ from "./jQueryMain.js";
+//импорт смешных звуков
+import ultraSound from './ultramode_song.mp3';
 
 let pointsBox = "#pointing_box";
 let pointsCounter = "#points_counter";
@@ -12,6 +14,7 @@ let start_b = "#start_button";
 let speed_block = "#speed_mode";
 let skip_button = "#skip_button";
 let loader = "#evol_loader";
+let console_block = "#console";
 let pointsPosArray = [];
 
 let colors = ["#9BFFD4", "#9BFFAF", "#9EFF9B", "#AFFF9B",
@@ -27,6 +30,9 @@ let routes_classes = ["yellow", "red", "pink", "purple", "blue", "cyan", "green"
 let line_time = 500;
 let skip_animation = false;
 let drawing = false;
+
+let ultraAudio = new Audio(ultraSound);
+ultraAudio.volume = 1;
 
 /*берёт количество поколений*/
 function get_gens_count() {
@@ -65,9 +71,9 @@ function get_population() {
         $(populat_block).val(1);
         return 1;
     }
-    else if (n >= 5000){
-        $(populat_block).val(5000);
-        return 5000;
+    else if (n >= 50){
+        $(populat_block).val(50);
+        return 50;
     }
     $(populat_block).val(n);
     return n;
@@ -92,6 +98,12 @@ function resize_pointsBox() {
                 "height": height,
                 "left": width * 0.25,
                 "top": height * 0.25
+            });
+            $(console_block).css({
+                "left": width * 0.25,
+                "top": height * 0.25 + height * 1.01 + 20,
+                "max-width": width,
+                "min-width": width*0.25,
             });
 
             let pointRadius = width * 0.0125;
@@ -422,7 +434,6 @@ pos1 и pos2 - [x, y] точек 1 и 2
 index1 и index2 - индексы точек 1 и 2
 type - в какую точку пойдёт анимация*/
 function delete_line_between(pos1, pos2, index1 = undefined, index2 = undefined, type = "start"){
-    console.log(pos1, pos2);
     let myIndex = "";
     if (index1 === undefined){
         myIndex = "#line_" + pointsPosArray.indexOf(pos1).toString() + "_" + pointsPosArray.indexOf(pos2).toString();
@@ -470,8 +481,18 @@ function clear_all_lines() {
     }
 }
 
+/*добавляет запись в консоль*/
+function add_log_in_console(text) {
+    let logs = $(".consol_log");
+    for (let index = logs.length-1; index > 0; index--) {
+        $(logs[index]).text($(logs[index-1]).text());
+    }
+    $(logs[0]).text(text);
+}
+
 /*анимирует решение*/
 function visualize_solution(solution) {
+    drawing = true;
     clear_all_lines();
     $(loader).css({
         "opacity": "0",
@@ -481,28 +502,36 @@ function visualize_solution(solution) {
             "display": "none",
         });
     }, 1000);
-    let routes = solution.allRoutes;
-    let bestRoutes = solution.bestOnIteration;
+    
     let everBestRoute = solution.bestRoute;
-
+    let everBestLength = solution.bestRouteLen;
     let qTime = line_time+1;
-    let allDrawingTime = routes.length*(routes[0].length+1)*(routes[0][0].length)*qTime
+    let allDrawingTime = 0;
+    
     if (!skip_animation) {
+        let routes = solution.allRoutes;
+        let bestRoutes = solution.bestOnIteration;
+        let bestLength_iter = solution.bestWaysOnIterationsLens;
+
+        if (line_time == 2) {
+            // let speeding = 1+275/(1000/routes[0].length*(routes[0][0].length)*qTime);
+            ultraAudio.playbackRate = 1.3;
+            ultraAudio.play();
+        }
+
+        allDrawingTime = routes.length*(routes[0].length+1)*(routes[0][0].length)*qTime;
+        
         for (let iteration = 0; iteration < routes.length; iteration++) {
-            console.log("NEW SOLUTION");
             //цикл всех решений
             clear_all_lines();
             let bigCycleTime = (routes[iteration].length+1)*(routes[iteration][0].length)*qTime
             let afterBigCT = routes[iteration].length*(routes[iteration][0].length)*qTime
             setTimeout(() => {
                 for (let route_i = 0; route_i < routes[iteration].length; route_i++) {
-                    console.log("-----NEW ROUTE");
                     //цикл всех путей решения
                     let cycleTime = (routes[iteration][route_i].length)*qTime;
                     setTimeout(() => {
-                        clear_all_lines();
                         for (let point_i = 0; point_i < routes[iteration][route_i].length-1; point_i++) {
-                            console.log("----------NEW WAY");
                             //цикл всех точек пути решения
                             setTimeout(() => {
                                 create_line_from_1_to_2(routes[iteration][route_i][point_i], routes[iteration][route_i][point_i+1], 1, routes_classes[route_i%(routes_classes.length)]);
@@ -515,9 +544,14 @@ function visualize_solution(solution) {
                     }, cycleTime*route_i);
                 }
                 setTimeout(() => {
+                    if (ultraAudio.paused) {
+                        ultraAudio.currentTime = 0;
+                        ultraAudio.play();
+                    }
+                    add_log_in_console("BEST WAY FROM iteration:  "+iteration+"  LENGTH:  "+bestLength_iter[iteration]);
                     clear_all_lines();
                     for (let point_best = 0; point_best < bestRoutes[iteration].length-1; point_best++) {
-                        console.log("---BEST WAY");
+                        
                         //цикл лучшего решения на итерации
                         setTimeout(() => {
                             create_line_from_1_to_2(bestRoutes[iteration][point_best], bestRoutes[iteration][point_best+1], 1, "great");
@@ -531,10 +565,9 @@ function visualize_solution(solution) {
             }, bigCycleTime*iteration);
         }
     }
-    else{
-        allDrawingTime = 0;
-    }
     setTimeout(() => {
+        ultraAudio.pause();
+        add_log_in_console("BEST WAY EVER LENGTH:  "+everBestLength);
         clear_all_lines();
         //цикл наилучшего пути
         for (let point_i = 0; point_i < everBestRoute.length-1; point_i++) {
@@ -544,6 +577,7 @@ function visualize_solution(solution) {
         }
         setTimeout(() => {
             create_line_from_1_to_2(everBestRoute[everBestRoute.length-1], everBestRoute[0], 1, "legendary");
+            drawing = false;
         }, qTime*(everBestRoute.length-1));
     }, allDrawingTime);
 }
@@ -580,7 +614,7 @@ $(document).ready(function () {
                     });
                 }, 1);
                 setTimeout(() => {
-                    visualize_solution(findShortestRouteGen(pointsPosArray, population, gensCount, get_chance()/1000));
+                    visualize_solution(findShortestRouteGen(pointsPosArray, population, gensCount, get_chance()/1000, skip_animation));
                 }, 10);
             }
         }
@@ -594,7 +628,7 @@ $(document).ready(function () {
                 $(speed_block).text("fast mode");
             }
             else if ($(speed_block).hasClass("true")){
-                line_time = 20;
+                line_time = 2;
                 $(speed_block).removeClass("true");
                 $(speed_block).addClass("ultra");
                 $(speed_block).text("ultra mode");

@@ -248,6 +248,19 @@
     opacity: 0;
     display: none;
     transition: 1s;
+    z-index: 15;
+}
+
+#console{
+    z-index: 0;
+    background-color: #000000d1;
+    position: fixed;
+    color: rgb(250, 250, 250);
+    height: auto;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    width: min-content;
+    border-radius: 1.5vh;
 }
 
 .false{
@@ -308,6 +321,7 @@
     background-color: rgb(52, 47, 64);
     padding: 10px;
     border-radius: 10px;
+    z-index: 1;
 }
 
 .point.appeared{
@@ -380,6 +394,35 @@
 .legendary{
     background-color: rgb(171, 255, 173);
     box-shadow: 0 0 11px 6px rgb(255, 252, 223);
+}
+
+.consol_log{
+    transition: 0.1s;
+    color: rgb(250, 250, 250);
+    height: 2vh;
+    font-size: 1vh;
+    font-weight: 200;
+    width: fit-content;
+    display: inline-block;
+}
+
+.hundred{
+    opacity: 1;
+}
+.ninety{
+    opacity: 0.9;
+}
+.seventy{
+    opacity: 0.7;
+}
+.fifty{
+    opacity: 0.5;
+}
+.twenty-five{
+    opacity: 0.25;
+}
+.zero{
+    opacity: 0;
 }
 
 .unselectable {

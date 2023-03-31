@@ -31,6 +31,15 @@ const GenPage = () => {
                 <div id="container">
                     <div id="pointing_box"></div>
                     <div id="evol_loader" className="unselectable">evolving...</div>
+                    <div id="console" className="unselectable">
+                        <div id="log_0" className="consol_log unselectable hundred"></div>
+                        <div id="log_1" className="consol_log unselectable ninety"></div>
+                        <div id="log_2" className="consol_log unselectable seventy"></div>
+                        <div id="log_3" className="consol_log unselectable fifty"></div>
+                        <div id="log_4" className="consol_log unselectable twenty-five"></div>
+                        <div id="log_5" className="consol_log unselectable zero"></div>
+                    </div>
+                    {/* <audio src="./ultramode_song.mp3" id="ultraSound"></audio> */}
                 </div>
             </div>
     );
