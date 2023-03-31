@@ -4,13 +4,11 @@
 //   wandering: [все пройденные точки] }
 //
 // Точка возвращается в формате [i, j]
-function aStarPathfinding(matrix) {
-    if (matrix === undefined){
+// start и end в формате [i, j]
+function aStarPathfinding(matrix, start, end) {
+    if (matrix === undefined) {
         return;
     }
-    const start = [1, 1];
-    console.log(matrix);
-    const end = [matrix.length - 2, matrix[0].length - 2];
 
     function heuristic(node) {
         let dx = node[0] - end[0];

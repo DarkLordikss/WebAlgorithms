@@ -6,6 +6,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom"
 
 import IndexPage from "./pages/IndexPage";
 import AStarPage from "./pages/AStarPage";
+import GenPage from "./pages/GenPage";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
             <Routes>
                 <Route exact path='/' element={<IndexPage />}/>
                 <Route path='/a-star' element={<AStarPage />}/>
+                <Route path='/genetic' element={<GenPage />}/>
             </Routes>
         </BrowserRouter>
     );

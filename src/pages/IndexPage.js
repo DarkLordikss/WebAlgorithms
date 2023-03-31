@@ -1,7 +1,8 @@
 import React from 'react';
 
-import './App.css'
+import './styles/App.css'
 import Albedo from "./persons/Albedo";
+import Rat from "./persons/Rat";
 
 const IndexPage = () => {
     return (
@@ -15,9 +16,10 @@ const IndexPage = () => {
                         <a href="/a-star"><div className="menu-elem"><code>A-star</code></div></a>
                         <Albedo />
                     </div>
-                    <a href="/a-star">
-                        <div className="menu-elem"><code>One</code></div>
-                    </a>
+                    <div id="genetic">
+                        <a href="/genetic"><div className="menu-elem"><code>Genetic</code></div></a>
+                        <Rat />
+                    </div>
                     <a href="/a-star">
                         <div className="menu-elem"><code>Two</code></div>
                     </a>
