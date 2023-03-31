@@ -123,7 +123,7 @@ function calculateTotalDistance(route) {
 //         bestOnIteration: лучший путь на каждой итерации,
 //         bestWaysOnIterationsLens: длина лучшего пути на текущей итерации
 //       }
-function findShortestRouteGen(cityList, populationSize, generations, mutationRate) {
+function findShortestRouteGen(cityList, populationSize, generations, mutationRate, skip=false) {
     const allRoutes = [];
     let currentPopulation = createInitialPopulation(cityList, populationSize);
     let shortestRoute = currentPopulation[0];
@@ -144,12 +144,19 @@ function findShortestRouteGen(cityList, populationSize, generations, mutationRat
         bestRoutes.push(bestRoute);
         bestWayLens.push(calculateTotalDistance(bestRoute));
     }
+    if (!skip) {
+        return {
+            bestRoute: shortestRoute,
+            bestRouteLen: calculateTotalDistance(shortestRoute),
+            allRoutes: allRoutes,
+            bestOnIteration: bestRoutes,
+            bestWaysOnIterationsLens: bestWayLens
+        };
+    }
+    //Если пропущена анимация
     return {
         bestRoute: shortestRoute,
         bestRouteLen: calculateTotalDistance(shortestRoute),
-        allRoutes: allRoutes,
-        bestOnIteration: bestRoutes,
-        bestWaysOnIterationsLens: bestWayLens
     };
 }
 
