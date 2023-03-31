@@ -513,7 +513,7 @@ function visualize_solution(solution) {
         let bestRoutes = solution.bestOnIteration;
         let bestLength_iter = solution.bestWaysOnIterationsLens;
 
-        if (line_time == 2) {
+        if (line_time === 2) {
             // let speeding = 1+275/(1000/routes[0].length*(routes[0][0].length)*qTime);
             ultraAudio.playbackRate = 1.3;
             ultraAudio.play();
