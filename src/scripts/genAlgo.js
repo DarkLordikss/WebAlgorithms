@@ -34,26 +34,23 @@ function createInitialPopulation(cityList, populationSize) {
     return population;
 }
 
-//Отбирает наиболее приспособленные особи из популяции с использованием метода рулетки.
-//функция выбирает двух родительских особей, используя метод рулетки.
+//Отбирает наиболее приспособленные особи из популяции с использованием метода турнира.
+//функция выбирает двух родительских особей, используя метод турнира.
 //Она генерирует случайное число в диапазоне от 0 до 1 и сравнивает его с вероятностью выбора каждой особи
 //в порядке их расположения в массиве population. Когда сгенерированное случайное число становится меньше или
 //равным вероятности выбора текущей особи, эта особь выбирается в качестве одного из родительских особей.
 //Этот процесс повторяется до тех пор, пока не будут выбраны две родительские особи.
 function selection(population) {
-    const fitnessScores = population.map(route => calculateFitness(route));
-    const totalFitness = fitnessScores.reduce((a, b) => a + b, 0);
-    const selectionProbabilities = fitnessScores.map(score => score / totalFitness);
     const selectedParents = [];
     while (selectedParents.length < 2) {
-        let rouletteValue = Math.random();
-        for (let i = 0; i < population.length; i++) {
-            rouletteValue -= selectionProbabilities[i];
-            if (rouletteValue <= 0) {
-                selectedParents.push(population[i]);
-                break;
-            }
-        }
+        // выбираем двух случайных особей из популяции
+        const candidateA = population[Math.floor(Math.random() * population.length)];
+        const candidateB = population[Math.floor(Math.random() * population.length)];
+        // сравниваем их фитнес-оценки и выбираем лучшего
+        const fitnessA = calculateFitness(candidateA);
+        const fitnessB = calculateFitness(candidateB);
+        const selectedParent = (fitnessA > fitnessB) ? candidateA : candidateB;
+        selectedParents.push(selectedParent);
     }
     return selectedParents;
 }
@@ -120,16 +117,19 @@ function calculateTotalDistance(route) {
 
 //Функция внаходит лучший путь в процессе эволюции
 //На вход нужно: список городов в формате [x, y], размер популяции, количество поколений, шанс мутации.
-//Выход: { bestRoute : лучший путь как список городов [x, y],
+//Выход: { bestRoute: наикратчайший путь как список городов [x, y],
+//         bestRouteLen: длина наикратчайшего пути
 //         allRoutes: список списков списков городов [x, y] (я больной, лечите), найденных за поколение.
-//         bestOne: лучший путь на каждой итерации,
-//         bestWayLen: длина лучшего пути (необязательно целое число)
+//         bestOnIteration: лучший путь на каждой итерации,
+//         bestWaysOnIterationsLens: длина лучшего пути на текущей итерации
 //       }
-function findShortestRouteGen(cityList, populationSize, generations, mutationRate) {
+function findShortestRouteGen(cityList, populationSize, generations, mutationRate, skip=false) {
     const allRoutes = [];
     let currentPopulation = createInitialPopulation(cityList, populationSize);
     let shortestRoute = currentPopulation[0];
     let bestRoutes = [];
+    let bestWayLens = [];
+
     for (let i = 0; i < generations; i++) {
         currentPopulation = evolve(currentPopulation, mutationRate);
         const bestRoute = currentPopulation.reduce((best, current) => {
@@ -142,13 +142,22 @@ function findShortestRouteGen(cityList, populationSize, generations, mutationRat
         }
         allRoutes.push(currentPopulation);
         bestRoutes.push(bestRoute);
+        bestWayLens.push(calculateTotalDistance(bestRoute));
     }
+    if (!skip) {
+        return {
+            bestRoute: shortestRoute,
+            bestRouteLen: calculateTotalDistance(shortestRoute),
+            allRoutes: allRoutes,
+            bestOnIteration: bestRoutes,
+            bestWaysOnIterationsLens: bestWayLens
+        };
+    }
+    //Если пропущена анимация
     return {
         bestRoute: shortestRoute,
-        allRoutes: allRoutes,
-        bestOne: bestRoutes,
-        bestWayLen: calculateTotalDistance(shortestRoute),
+        bestRouteLen: calculateTotalDistance(shortestRoute),
     };
 }
 
-export default findShortestRouteGen();
+export {findShortestRouteGen};

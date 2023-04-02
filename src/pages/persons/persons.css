@@ -15,6 +15,11 @@
     bottom: 0;
 }
 
+.rat-container {
+    right: 0;
+    bottom: -10%;
+}
+
 .albedo-dialog {
     position: fixed;
     height: 40%;
@@ -22,11 +27,28 @@
     bottom: 45%;
 }
 
-.code-dialog {
+.rat-dialog {
+    position: fixed;
+    height: 40%;
+    right: 22%;
+    bottom: 35%;
+}
+
+.code-dialog-alb {
     color: black;
     position: fixed;
     left: 23.5%;
     bottom: 61%;
     font-size: 3.5vh;
     text-align: center;
+}
+
+.code-dialog-rat {
+    color: black;
+    position: fixed;
+    right: 26%;
+    bottom: 52%;
+    font-size: 3.5vh;
+    text-align: center;
+    z-index: 2;
 }

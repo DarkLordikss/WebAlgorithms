@@ -1,7 +1,8 @@
 import React from 'react';
 
-import './App.css'
+import './styles/App.css'
 import Albedo from "./persons/Albedo";
+import Rat from "./persons/Rat";
 
 const IndexPage = () => {
     return (
