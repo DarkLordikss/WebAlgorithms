@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/ClusterPage.css";
+import "./styles/СlusterPage.css";
 // import cluster_image from './images/genAlgo_logo2.png';
 //импорт нужного модуля для страницы GenPage.js (self)
 import "../scripts/genAlgoFrontScript.js";
