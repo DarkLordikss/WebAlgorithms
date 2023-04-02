@@ -15,11 +15,12 @@ const IndexPage = () => {
                         <a href="/a-star"><div className="menu-elem"><code>A-star</code></div></a>
                         <Albedo />
                     </div>
-                    <a href="/a-star">
-                        <div className="menu-elem"><code>One</code></div>
-                    </a>
-                    <a href="/a-star">
-                        <div className="menu-elem"><code>Two</code></div>
+                    <div id="genetic">
+                        <a href="/genetic"><div className="menu-elem"><code>Genetic</code></div></a>
+                        <Rat />
+                    </div>
+                    <a href="/cluster">
+                        <div className="menu-elem"><code>Cluster</code></div>
                     </a>
                     <a href="/a-star">
                         <div className="menu-elem"><code>Three</code></div>
