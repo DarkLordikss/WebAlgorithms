@@ -52,7 +52,71 @@
     transition: background 0.5s;
 }
 
-#pointing_box{
+#clusters{
+    position: inherit;
+    height: 3vh;
+    width: 12vh;
+    top: 1.7vh;
+    left: 40vh;
+    font-size: 2vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    background-color: #f6f6f6;
+    border-radius: 1vh;
+    align-content: center;
+    text-align: center;
+    vertical-align: text-top;
+    transition: background 0.5s;
+}
+
+#cluster_counter{
+    position: inherit;
+    height: 2.8vh;
+    width: 10.5vh;
+    top: 4vh;
+    left: 39.8vh;
+    font-size: 2vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    background-color: #222222;
+    color: #dbdbdb;
+    border-radius: 1vh;
+    align-content: center;
+    text-align: center;
+    vertical-align: text-top;
+    border: 0;
+    transition: background 0.5s;
+    padding-left: 1.5vh;
+}
+
+#clust_start_button{
+    position: inherit;
+    height: 2.8vh;
+    width: 9vh;
+    top: 2.8vh;
+    left: 128vh;
+    font-size: 2vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    background-color: #f6f6f6;
+    border-radius: 1vh;
+    align-content: center;
+    text-align: center;
+    vertical-align: text-top;
+    transition: background 0.5s;
+}
+
+#clust_start_button:hover{
+    background-color: #feffde;
+    transition: background 0.5s;
+}
+
+#clust_start_button:active{
+    background-color: #bfff92;
+    transition: background 0.02s;
+}
+
+#pointing_box_cl{
     position: fixed;
     width: 50vw;
     height: 50vw;

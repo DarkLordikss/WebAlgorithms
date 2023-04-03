@@ -2,7 +2,7 @@ import React from "react";
 import "./styles/СlusterPage.css";
 // import cluster_image from './images/genAlgo_logo2.png';
 //импорт нужного модуля для страницы GenPage.js (self)
-import "../scripts/genAlgoFrontScript.js";
+import "../scripts/clusterFrontScript.js";
 
 
 const ClusterPage = () => {
@@ -14,11 +14,14 @@ const ClusterPage = () => {
                     </a> */}
                     <div id="naming" className="unselectable">Cluter algorithm</div>
                     <div id="points_counter" className="unselectable">0</div>
+
+                    <input id="cluster_counter" className="unselectable" type={"number"}></input>
+                    <div id="clusters" className="unselectable">clusters</div>
                     
-                    {/*<div id="start_button" className="unselectable">start</div> */}
+                    <div id="clust_start_button" className="unselectable">start</div>
                 </div>
                 <div id="container">
-                    <div id="pointing_box"></div>
+                    <div id="pointing_box_cl"></div>
                 </div>
             </div>
     );

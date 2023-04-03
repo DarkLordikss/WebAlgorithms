@@ -1,23 +1,62 @@
 //Импорт отдельных функций из нужных модулей
-import {findShortestRouteGen} from "./genAlgo";
+import {startClusterization, step, initGroups} from "./KMeans";
 //правильный импорт jQuery
 import * as $ from "./jQueryMain.js";
-//импорт смешных звуков
-import ultraSound from './ultramode_song.mp3';
 
-let pointsBox = "#pointing_box";
+let pointsBox = "#pointing_box_cl";
 let pointsCounter = "#points_counter";
+let clusterClounter = "#cluster_counter";
+let startButton = "#clust_start_button";
 let pointsPosArray = [];
+
+let algo_processing = false;
 
 let colors = ["yellow", "red", "pink", "purple", "blue", "cyan", "green", "lime"];
 
 let line_time = 500;
 
-let ultraAudio = new Audio(ultraSound);
-ultraAudio.volume = 1;
+let userDrawing = false;
+
+/*берёт количество кластеров*/
+function getClustersCount() {
+    let n = $(clusterClounter).val();
+    if (n === undefined){
+        n = 1;
+    }
+    if (n <= 0){
+        n = 1;
+    }
+    if (n > pointsPosArray.length){
+        n = pointsPosArray.length;
+    }
+    $(clusterClounter).val(n);
+    return n;
+}
+
+function getField() {
+    let w = $(pointsBox).css("width");
+    let h = $(pointsBox).css("height");
+    let field = {
+        width: parseInt(w),
+        height: parseInt(h)
+    }
+    return field;
+}
+
+function convertPoints(array){
+    let converted = [];
+    for (let i = 0; i < array.length; i++) {
+        let newPoint = {
+            x: array[i][0],
+            y: array[i][1]
+        }
+        converted.push(newPoint);
+    }
+    return converted;
+}
 
 /*изменяет размер коробки с точками*/
-function resize_pointsBox() {
+function resize_CLpointsBox() {
     if ($(pointsBox).length) {
         setTimeout(() => {
             let prev_w = parseInt($(pointsBox).css("width").split("px"));
@@ -35,12 +74,6 @@ function resize_pointsBox() {
                 "height": height,
                 "left": width * 0.25,
                 "top": height * 0.25
-            });
-            $(console_block).css({
-                "left": width * 0.25,
-                "top": height * 0.25 + height * 1.01 + 20,
-                "max-width": width,
-                "min-width": width*0.25,
             });
 
             let pointRadius = width * 0.0125;
@@ -76,7 +109,7 @@ function get_mousePos_in_element(element, event){
 function collide(pos1, point2) {
     let pos2 = pointsPosArray[point2];
 
-    if (((pos1[0]-pos2[0])**2 + (pos1[1]-pos2[1])**2)**0.5 > parseInt($(pointsBox).css("width"))*0.025+5) {
+    if (((pos1[0]-pos2[0])**2 + (pos1[1]-pos2[1])**2)**0.5 > parseInt($(pointsBox).css("width"))*0.05+5) {
         return true;
     }
     return false;
@@ -84,12 +117,8 @@ function collide(pos1, point2) {
 
 /*добавляет точку с заданной позицией в коробку с точками (если это, конечно, возможно)*/
 function add_new_point(pos){
-    let pointRadius = parseInt($(pointsBox).css("width"))*0.0125;
+    let pointRadius = parseInt($(pointsBox).css("width"))*0.025;
     if (pos[0]-pointRadius < 0 || pos[1]-pointRadius < 0){
-        return;
-    }
-    if (pointsPosArray.length >= 45){
-        max_points_count();
         return;
     }
 
@@ -101,16 +130,17 @@ function add_new_point(pos){
     }
 
     let points_count = pointsPosArray.length+1;
-    let newPoint = "<div class='point appeared' id='" + (points_count - 1) + "'></div>";
+    let newID = "#point_" + parseInt(pos[0]).toString() + "_" + parseInt(pos[1]).toString();
+    let newPoint = "<div class='point appeared' id='point_" + parseInt(pos[0]) + "_" + parseInt(pos[1]) + "'></div>";
     pointsPosArray.push(pos);
     $(pointsCounter).text(points_count.toString());
-    $(pointsCounter).css({
-        "background-color": colors[points_count],
-        "color": text_colors[points_count]
-    });
+    // $(pointsCounter).css({
+    //     "background-color": colors[points_count],
+    //     "color": text_colors[points_count]
+    // });
 
     $(newPoint).appendTo(pointsBox);
-    newPoint = $("#" + (points_count-1));
+    newPoint = $(newID);
     newPoint.css({
         "width": 0,
         "height": 0,
@@ -134,7 +164,8 @@ function delete_point(element){
     let rePos1 = undefined;
     let rePos2 = undefined;
 
-    let index = parseInt(element.id);
+    let ind = element.id.split("_");
+    let index = pointsPosArray.indexOf([parseInt(ind[1]), parseInt(ind[2])]);
 
     let lines_arr = $(".line");
     for (let line_i = 0; line_i < lines_arr.length; line_i++) {
@@ -147,10 +178,11 @@ function delete_point(element){
         }
     }
 
-    reorganize_line(rePos1, index, rePos2, pointsPosArray);
+    // reorganize_line(rePos1, index, rePos2, pointsPosArray);
 
     let pos = [parseInt($(element).css("left"))+parseInt($(element).css("width"))/2, parseInt($(element).css("top"))+parseInt($(element).css("width"))/2]
     $(element).addClass("appeared");
+    $(element).attr("id", "deleted_point")
     $(element).css({
         "width": 0,
         "height": 0,
@@ -160,16 +192,16 @@ function delete_point(element){
     setTimeout(() => {
         element.remove();
     }, 200);
-    for (let i = index; i < pointsPosArray.length; i++) {
-        $("#" + i).attr("id", (i-1).toString());
-    }
+    // for (let i = index; i < pointsPosArray.length; i++) {
+    //     $("#" + i).attr("id", (i-1).toString());
+    // }
     pointsPosArray.splice(index, 1);
     let points_count = pointsPosArray.length;
     $(pointsCounter).text(points_count);
-    $(pointsCounter).css({
-        "background-color": colors[points_count],
-        "color": text_colors[points_count]
-    });
+    // $(pointsCounter).css({
+    //     "background-color": colors[points_count],
+    //     "color": text_colors[points_count]
+    // });
 }
 
 /*переводит радианды в градусы*/
@@ -210,34 +242,26 @@ function valid_index(ind, array_ln){
 /*перерисовывает линии при удалении точки (вызывается в соответсвующей функции)*/
 function reorganize_line(pos1 = undefined, deleted, pos2 = undefined, myArray) {
     if (pos1 !== undefined){
-        console.log("pos1", pos1);
         let myIndex = "line_" + pos1 + "_" + deleted;
         let minusIndex = "line_" + deleted + "_" + pos1;
         if ($("#"+myIndex).length > 0){
-            console.log("type 1", myIndex);
             delete_line_between(myArray[pos1], myArray[deleted], pos1, deleted, "end");
         }
         else if ($("#"+minusIndex).length > 0){
-            console.log("type 2", minusIndex);
             delete_line_between(myArray[deleted], myArray[pos1], deleted, pos1, "start");
         }
         // delete_line_between(myArray[pos1], myArray[deleted], pos1, deleted, "start");
     }
     if (pos2 !== undefined){
-        console.log("pos2", pos2);
         let myIndex = "line_" + deleted + "_" + pos2;
         let minusIndex = "line_" + pos2 + "_" + deleted;
         if ($("#"+myIndex).length > 0){
-            console.log("type 1", myIndex);
             delete_line_between(myArray[deleted], myArray[pos2], deleted, pos2, "start");
         }
         else if ($("#"+minusIndex).length > 0){
-            console.log("type 2", minusIndex);
             delete_line_between(myArray[pos2], myArray[deleted], pos2, deleted, "end");
         }
-        // delete_line_between(myArray[deleted], myArray[pos2], deleted, pos2, "end");
     }
-    console.log(pos1, deleted, pos2);
     let lines = $(".line");
     for (let k = 0; k < lines.length; k++) {
         let his_id = $(lines[k]).attr("id").split("_");
@@ -339,6 +363,12 @@ function delete_line_between(pos1, pos2, index1 = undefined, index2 = undefined,
     }, line_time-1);
 }
 
+function send_data() {
+    let myClusters = initGroups(getClustersCount(), getField());
+    let newStep = step(myClusters, convertPoints(pointsPosArray));
+    return(newStep);
+}
+
 /*очищает все существующие линии*/
 function clear_all_lines() {
     let lines = $(".line");
@@ -356,26 +386,71 @@ function clear_all_lines() {
     }
 }
 
+function goCluster(myRes) {
+    console.log(myRes);
+    for (let cl = 0; cl < myRes.clusters.length; cl++) {
+        for (let dt = 0; dt < myRes.clusters[cl].dots.length; dt++){
+            let nowDot = myRes.clusters[cl].dots[dt];
+            let elem = "#point_" + nowDot.x + "_" + nowDot.y;
+            $(elem).css({
+                "background-color": myRes.clusters[cl].color,
+                "box-shadow": "0 0 50px 25px "+myRes.clusters[cl].color
+            });
+        }
+    }
+    if (!myRes.finished){
+        setTimeout(() => {
+            myRes = step(myRes.clusters, myRes.dots);
+            goCluster(myRes);
+        }, 500);
+    }
+}
 
 $(document).ready(function () {
-    if($(pointsBox).length !== 1){
-        return;
-    }
-    resize_pointsBox();
+    // if($(pointsBox).length !== 1){
+    //     return;
+    // }
+    resize_CLpointsBox();
     $(pointsBox).mousedown(function (e) {
-        if (e.target.id.toString() !== "pointing_box"){
-            if ($(e.target).hasClass("point")){
-                delete_point(e.target);
+        userDrawing = true;
+        if (!algo_processing) {
+            if (e.target.id.toString() !== "pointing_box_cl"){
+                if ($(e.target).hasClass("point")){
+                    delete_point(e.target);
+                }
+            }
+            else{
+                let mouse_pos = get_mousePos_in_element($(this), e);
+                add_new_point(mouse_pos);
             }
         }
-        else{
-            let mouse_pos = get_mousePos_in_element($(this), e);
-            add_new_point(mouse_pos);
+    });
+    
+    $(pointsBox).mousemove(function (e) { 
+        if (userDrawing) {
+            if (!algo_processing) {
+                let mouse_pos = get_mousePos_in_element($(this), e);
+                add_new_point(mouse_pos);
+            }
         }
+    });
+
+    $(startButton).mousedown(function (e){
+        let res = send_data();
+        let k = 1
+        console.log(res);
+        goCluster(res);
+        
     });
 });
 
+
+
 /*изменять коробку с точками при изменении размера окна*/
 $(window).resize(function () { 
-    resize_pointsBox();
+    resize_CLpointsBox();
+});
+
+$(window).mouseup(function () { 
+    userDrawing = false;
 });
