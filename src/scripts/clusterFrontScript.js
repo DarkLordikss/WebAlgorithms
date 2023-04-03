@@ -389,12 +389,18 @@ function clear_all_lines() {
 function goCluster(myRes) {
     console.log(myRes);
     for (let cl = 0; cl < myRes.clusters.length; cl++) {
-        for (let dt = 0; dt < myRes.clusters[cl].dots.length; dt++){
-            let nowDot = myRes.clusters[cl].dots[dt];
+        let nowCluster = myRes.clusters[cl];
+        for (let dt = 0; dt < nowCluster.dots.length; dt++){
+            let nowDot = nowCluster.dots[dt];
             let elem = "#point_" + nowDot.x + "_" + nowDot.y;
+            let distance = ((nowDot.x-nowCluster.center.x)**2 + (nowDot.y-nowCluster.center.y)**2)**0.5;
+            let bluriness = 500/distance**0.5;
+            let override = 1400/distance**0.5;
+            console.log(override, bluriness);
             $(elem).css({
-                "background-color": myRes.clusters[cl].color,
-                "box-shadow": "0 0 50px 25px "+myRes.clusters[cl].color
+                "background-color": nowCluster.color,
+                "box-shadow": "0 0 " + override + "px " + bluriness + "px "+nowCluster.color,
+                "border-radius": "100vw"
             });
         }
     }
