@@ -3,12 +3,21 @@
 
 Front-end проект на ReactJS для визуализации "интересных" алгоритмов.
 
-## Скрипты
+## Запуск проекта
 
-Для подрузки модулей:
+Подрузка модулей:
 ### `npm install`
 
-Для старта проекта:
+Подрузка библиотек python 
+### `pip install -r /src/neuro/requirements.txt`
+
+Запуск обучения нейросети 
+### `/src/neuro/learn.py`
+
+Запуск сервера нейросети 
+### `/src/neuro/server.py`
+
+Старта проекта:
 
 ### `npm start`
 
@@ -46,9 +55,13 @@ import {functionName1, functionName2, ... , functionNameN} from "../path_to_modu
 
 ### `/public/` - манифест, фавикон, и прочая публичная информация
 
+### `/src/neuro` - нейросеть
+
 ### `/src/scripts/` - js-скрипты
 
 ### `/src/pages/` - файлы страниц сайта
+
+### `/src/pages/styles` - файлы стилей страниц сайта
 
 ### `/src/pages/persons` - декоративные персонажи сайта
 
