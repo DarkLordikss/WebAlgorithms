@@ -23,3 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 /.idea
+*.xml
+*.iml
+*.pyc
+src/Neuro/.idea/.name
