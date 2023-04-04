@@ -70,11 +70,11 @@ function updateGroups(clusters, dots) {
 }
 
 function moveCenter(clusters, dots) {
-    let finished = true;
+    let finished = false;
 
     clusters.forEach(function (group) {
+        finished = true;
         if (group.dots.length === 0) return;
-
         let x = 0
         let y = 0;
         group.dots.forEach(function (dot) {
@@ -85,8 +85,8 @@ function moveCenter(clusters, dots) {
         let oldPos = {x: group.center.x, y: group.center.y};
 
         group.center = {
-            x: x / dots.length,
-            y: y / dots.length
+            x: x / group.dots.length,
+            y: y / group.dots.length
         };
         let newPos = {x: group.center.x, y: group.center.y};
 
