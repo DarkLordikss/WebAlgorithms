@@ -2,7 +2,7 @@ import numpy as np
 import json
 import gzip
 
-import process_image
+from neuro.process_image import prepare_digit
 
 # Константы нейросети
 INPUT_LAYER = 784
@@ -12,13 +12,13 @@ OUT_LAYER = 10
 
 # Загружаем тренировочные и тестовые данные MNIST
 def load_mnist():
-    with gzip.open('mnist/train-images-idx3-ubyte.gz', 'rb') as f:
+    with gzip.open('neuro/mnist/train-images-idx3-ubyte.gz', 'rb') as f:
         train_images = np.frombuffer(f.read(), np.uint8, offset=16).reshape(-1, 28*28)
-    with gzip.open('mnist/train-labels-idx1-ubyte.gz', 'rb') as f:
+    with gzip.open('neuro/mnist/train-labels-idx1-ubyte.gz', 'rb') as f:
         train_labels = np.frombuffer(f.read(), np.uint8, offset=8)
-    with gzip.open('mnist/t10k-images-idx3-ubyte.gz', 'rb') as f:
+    with gzip.open('neuro/mnist/t10k-images-idx3-ubyte.gz', 'rb') as f:
         test_images = np.frombuffer(f.read(), np.uint8, offset=16).reshape(-1, 28*28)
-    with gzip.open('mnist/t10k-labels-idx1-ubyte.gz', 'rb') as f:
+    with gzip.open('neuro/mnist/t10k-labels-idx1-ubyte.gz', 'rb') as f:
         test_labels = np.frombuffer(f.read(), np.uint8, offset=8)
 
     # Преобразуем данные в формат, пригодный для обучения нейросети
@@ -105,7 +105,7 @@ def make_new_model(train_data_, test_data_, learning_rate, epochs, batch_size):
         print("Epoch {}: accuracy {} %".format(epoch, accuracy))
 
     # Сохраняем результат
-    with open('model/model.json', 'w') as file:
+    with open('neuro/model/model.json', 'w') as file:
         data_ = {
             "layers": [
                 {"weights": w1_.transpose().tolist(), "biases": b1_.tolist()},
@@ -136,14 +136,14 @@ def make_model(learning_rate=0.1, epochs=30, batch_size=32):
 
 # Инициализация и использование нейросети
 def neuro_network(filepath):
-    with open('model/model.json', 'r') as digits:
+    with open('neuro/model/model.json', 'r') as digits:
         data = json.load(digits)
         w1 = np.array(data['layers'][0]['weights']).transpose()
         w2 = np.array(data['layers'][1]['weights']).transpose()
         b1 = np.array(data['layers'][0]['biases'])
         b2 = np.array(data['layers'][1]['biases'])
 
-    img = process_image.prepare_digit(filepath)
+    img = prepare_digit(filepath)
     forward_result = forward(np.array(img).reshape(1, 784), w1, w2, b1, b2)
 
     digit = np.argmax(forward_result)

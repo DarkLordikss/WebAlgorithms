@@ -1,7 +1,7 @@
 from flask import Flask, request
 import os
 
-from network import neuro_network
+from neuro.network import neuro_network
 
 
 app = Flask(__name__)

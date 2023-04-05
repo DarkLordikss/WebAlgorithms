@@ -27,3 +27,4 @@ package-lock.json
 *.iml
 *.pyc
 src/Neuro/.idea/.name
+src/server/.idea/.name
