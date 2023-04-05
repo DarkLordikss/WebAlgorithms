@@ -51,11 +51,15 @@ import {functionName1, functionName2, ... , functionNameN} from "../path_to_modu
 
 ### `/package.json` - файл с зависимостями
 
-### `/src/` - исходным код
-
 ### `/public/` - манифест, фавикон, и прочая публичная информация
 
-### `/src/neuro` - нейросеть
+### `/src/` - исходным код
+
+### `/src/server/` - бэкэнд
+
+### `/src/server/neuro` - нейросеть
+
+### `/src/server/tree` - дерево решений
 
 ### `/src/scripts/` - js-скрипты
 
