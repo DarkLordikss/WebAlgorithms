@@ -1,1 +1,1 @@
-{"col": 1, "value": "hot", "left": {"col": 0, "value": "overcast", "left": "no", "right": "no"}, "right": {"col": 0, "value": "overcast", "left": "yes", "right": {"col": 2, "value": "normal", "left": "yes", "right": "no"}}}
+{"col": 1, "value": "hot", "left": {"col": 0, "value": "overcast", "left": "no", "right": {"col": 3, "value": "true", "left": "no", "right": "yes"}}, "right": {"col": 0, "value": "overcast", "left": "yes", "right": {"col": 2, "value": "high", "left": "no", "right": "yes"}}}
