@@ -394,12 +394,13 @@ function goCluster(myRes) {
             let nowDot = nowCluster.dots[dt];
             let elem = "#point_" + nowDot.x + "_" + nowDot.y;
             let distance = ((nowDot.x-nowCluster.center.x)**2 + (nowDot.y-nowCluster.center.y)**2)**0.5;
-            let bluriness = 500/distance**0.5;
-            let override = 1400/distance**0.5;
+            let pointRadius = parseInt($(pointsBox).css("width"))*0.025;
+            let bluriness = 1000/distance**0.5;
+            let override = 100/distance**0.5;
             console.log(override, bluriness);
             $(elem).css({
                 "background-color": nowCluster.color,
-                "box-shadow": "0 0 " + override + "px " + bluriness + "px "+nowCluster.color,
+                "box-shadow": "0 0 " + bluriness + "px " + override + "px "+nowCluster.color,
                 "border-radius": "100vw"
             });
         }
