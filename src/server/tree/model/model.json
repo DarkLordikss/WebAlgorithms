@@ -1,0 +1,1 @@
+{"col": 1, "value": "hot", "left": {"col": 0, "value": "overcast", "left": "no", "right": "no"}, "right": {"col": 0, "value": "overcast", "left": "yes", "right": {"col": 2, "value": "normal", "left": "yes", "right": "no"}}}
