@@ -51,8 +51,8 @@ def forward(x, w1_, w2_, b1_, b2_):
 
 
 # Обучение нейросети
-def train(train_data_, test_data_, learning_rate, epochs, batch_size):
-    # Получаем веса и сдвиги
+def make_new_model(train_data_, test_data_, learning_rate, epochs, batch_size):
+    # Задаем начальные веса и сдвиги
     w1_ = np.random.normal(0.0, 1.0/np.sqrt(INPUT_LAYER), (INPUT_LAYER, HIDDEN_LAYER))
     b1_ = np.zeros((1, HIDDEN_LAYER))
     w2_ = np.random.normal(0.0, 1.0/np.sqrt(HIDDEN_LAYER), (HIDDEN_LAYER, OUT_LAYER))
@@ -131,7 +131,7 @@ def evaluate(data_, w1_, w2_, b1_, b2_):
 # Создание модели нейросети
 def make_model(learning_rate=0.1, epochs=30, batch_size=32):
     train_data, test_data = load_mnist()
-    train(train_data, test_data, learning_rate, epochs, batch_size)
+    make_new_model(train_data, test_data, learning_rate, epochs, batch_size)
 
 
 # Инициализация и использование нейросети
