@@ -172,6 +172,12 @@ a {
   transition: 0.5s;
 }
 
+#neuron:hover .n-container {
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s;
+}
+
 #genetic:hover .rat-container {
   visibility: visible;
   opacity: 1;

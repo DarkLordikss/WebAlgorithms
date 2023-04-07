@@ -52,3 +52,29 @@
     text-align: center;
     z-index: 2;
 }
+
+#N {
+    height: 100vh;
+    bottom: -30vh;
+}
+
+.n-container {
+    left: 0;
+    bottom: 0;
+}
+
+.n-dialog {
+    position: fixed;
+    height: 40%;
+    left: 17%;
+    bottom: 52%;
+}
+
+.code-dialog-n {
+    color: black;
+    position: fixed;
+    left: 20.5%;
+    bottom: 70%;
+    font-size: 3.5vh;
+    text-align: center;
+}
