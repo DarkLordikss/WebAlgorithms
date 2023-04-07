@@ -14,6 +14,9 @@ CORS(app)
 def neuro():
     filepath = "neuro/input/from_user.png"
 
+    if not request.json or "image_data" not in request.json:
+        return "Ваня, где картинка?", 404
+
     image_data = request.json["image_data"]
 
     with open("neuro/input/from_user.png", "wb") as fh:
@@ -26,7 +29,11 @@ def neuro():
 def make_tree():
     filepath = "tree/input/from_user.csv"
 
+    if not request.files or "file" not in request.files:
+        return "Ваня, где csv?", 404
+
     file = request.files['file']
+
     max_depth = request.args.get("max_depth")
     min_samples_leaf = request.args.get("min_samples_leaf")
     max_leaf_nodes = request.args.get("max_leaf_nodes")
@@ -56,7 +63,7 @@ def make_decision():
     row = request.args.get("row").split(",")
 
     if not os.path.exists("tree/model/model.json"):
-        return "404 model not exist"
+        return "Model not exist (не трогай ты дерево без дерева)", 404
 
     return do_a_decision(row)
 
