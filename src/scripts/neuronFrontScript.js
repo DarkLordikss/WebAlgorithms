@@ -163,25 +163,41 @@ function get_mousePos_in_element(element, event){
     return pointPos;
 }
 
+/*следование за указателем*/
 function animateRobotEyes(e, returning=true) {
     if (!returning) {
-        let mPos = [e.clientX, e.clientY-parseFloat($("#header").css("height"))];
+        let mPos = [e.clientX, e.clientY];
         let eyesCenter = [0, 0];
-        let leftOffset = $(rLeye).offset();
-        let rightOffset = $(rReye).offset();
+        let leftOffset = rLeye.getBoundingClientRect();
+        console.log(rLeye.childNodes);
+        let rightOffset = rReye.getBoundingClientRect();
         let eyeSize = parseInt($(rLeye).css("width"));
         eyesCenter[0] = (leftOffset.left+rightOffset.left+parseInt($(rLeye).css("width")))/2;
         eyesCenter[1] = (leftOffset.top+rightOffset.top+parseInt($(rLeye).css("width")))/2;
-        let dX_l = mPos[0]-leftOffset.left-eyeSize/2;
+
+        let dir_L = 1;
+        let dir_R = 1;
+
+        let dX_l = mPos[0]-leftOffset.left+eyeSize/2;
         let dY_l = leftOffset.top-eyeSize/2-mPos[1];
-        let dX_r = mPos[0]-rightOffset.left-eyeSize/2;
+        let dX_r = mPos[0]-rightOffset.left+eyeSize/2;
         let dY_r = rightOffset.top-eyeSize/2-mPos[1];
+
+        if (dX_r < 0) {
+            dir_R = -1;
+        }
+        if (dX_l < 0) {
+            dir_L = -1;
+        }
+
+        console.log([e.clientX, e.clientY]);
+        console.log([leftOffset.left, leftOffset.top]);
         let kL = dY_l/dX_l;
         let angleL = Math.atan(kL);
-        console.log(toDEG(angleL), "angleL", dX_l, dY_l, leftOffset.top, mPos[1]);
+        //console.log(toDEG(angleL), "angleL", dX_l, dY_l, leftOffset.top, mPos[1]);
         let kR = dY_r/dX_r;
         let angleR = Math.atan(kR);
-        console.log(toDEG(angleR), "angleR", dX_r, dY_r, rightOffset.top, mPos[1]);
+        //console.log(toDEG(angleR), "angleR", dX_r, dY_r, rightOffset.top, mPos[1]);
         let leftPupil = rLeye.childNodes[0];
         let rightPupil = rReye.childNodes[0];
         // console.log(angleL, "angleL", eyeSize/2+(eyeSize/2)*Math.sin(angleL), eyeSize/2+(eyeSize/2)*Math.cos(toDEG(angleL)));
@@ -189,13 +205,35 @@ function animateRobotEyes(e, returning=true) {
         let minusBorder = window.innerHeight*0.001;
         let minusPupil = parseFloat($(leftPupil).css("width"))
         $(leftPupil).css({
-            "left": eyeSize/2-(minusBorder+minusPupil)+(eyeSize/2)*Math.cos(angleL),
-            "top": eyeSize/2-(minusBorder+minusPupil)-(eyeSize/2)*Math.sin(angleL),
+            "left": eyeSize/4+(eyeSize/4)*Math.cos(angleL)*dir_L,
+            "top": eyeSize/4-(eyeSize/4)*Math.sin(angleL)*dir_L,
         });
         $(rightPupil).css({
-            "left": eyeSize/2-(minusBorder+minusPupil)+(eyeSize/2)*Math.cos(angleR),
-            "top": eyeSize/2-(minusBorder+minusPupil)-(eyeSize/2)*Math.sin(angleR),
+            "left": eyeSize/4+(eyeSize/4)*Math.cos(angleR)*dir_R,
+            "top": eyeSize/4-(eyeSize/4)*Math.sin(angleR)*dir_R,
         });
+    }else{
+        let leftPupil = rLeye.childNodes[0];
+        let rightPupil = rReye.childNodes[0];
+        let eyeSize = parseInt($(rLeye).css("width"));
+        $(leftPupil).css({
+            "left": eyeSize/4,
+            "top": eyeSize/4,
+            "transition": "0.2s"
+        });
+        $(rightPupil).css({
+            "left": eyeSize/4,
+            "top": eyeSize/4,
+            "transition": "0.2s"
+        });
+        setTimeout(() => {
+            $(leftPupil).css({
+                "transition": "0s"
+            });
+            $(rightPupil).css({
+                "transition": "0s"
+            });
+        }, 201);
     }
 }
 
@@ -231,8 +269,11 @@ $(document).ready(function () {
             if (canvDraw) {
                 drawCanvas(mPos);
             }
-            animateRobotEyes(event, false)
+            animateRobotEyes(event, false);
         });
+        document.getElementById("drawingField").addEventListener("mouseleave", (event) => {
+            animateRobotEyes(event, true);
+        })
         document.addEventListener("mouseup", (event) => {
             canvDraw = false;
         });
