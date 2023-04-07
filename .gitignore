@@ -28,3 +28,5 @@ package-lock.json
 *.pyc
 src/Neuro/.idea/.name
 src/server/.idea/.name
+src/server/tree/input/from_user.csv
+src/server/neuro/input/from_user.png

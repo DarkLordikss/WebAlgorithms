@@ -1,25 +1,32 @@
 from flask import Flask, request
+from flask_cors import CORS
 import os
+import base64
 
 from neuro.network import neuro_network
 from tree.tree import make_model, do_a_decision
 
 app = Flask(__name__)
+CORS(app)
 
 
-@app.route('/determine_digit', methods=['GET'])
+@app.route('/determine_digit', methods=["POST"])
 def neuro():
-    filepath = request.args.get("filepath")
+    filepath = "neuro/input/from_user.png"
 
-    if not os.path.exists(filepath):
-        return "404 file not exist"
+    image_data = request.json["image_data"]
+
+    with open("neuro/input/from_user.png", "wb") as fh:
+        fh.write(base64.b64decode(image_data.split(",")[1]))
 
     return neuro_network(filepath)
 
 
-@app.route('/make_tree', methods=['GET'])
+@app.route('/make_tree', methods=['POST'])
 def make_tree():
-    filepath = request.args.get("filepath")
+    filepath = "tree/input/from_user.csv"
+
+    file = request.files['file']
     max_depth = request.args.get("max_depth")
     min_samples_leaf = request.args.get("min_samples_leaf")
     max_leaf_nodes = request.args.get("max_leaf_nodes")
@@ -39,8 +46,7 @@ def make_tree():
     else:
         max_leaf_nodes = None
 
-    if not os.path.exists(filepath):
-        return "404 file not exist"
+    file.save(filepath)
 
     return make_model(filepath, max_depth, min_samples_leaf, max_leaf_nodes)
 
