@@ -296,21 +296,19 @@ $(document).ready(function () {
     $("#clear_button").mousedown(function () {
         fillWhite();
     });
-    $("#send_button").mousedown(function () {
+    $("#send_button").mousedown(async function () {
         let myImage = document.getElementById("drawingField");
         let imageData = myImage.toDataURL('image/png');
-        fetch("http://127.0.0.1:5000/determine_digit", {
+        let response = await fetch("http://127.0.0.1:5000/determine_digit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ image_data: imageData }),
         })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error));
-        // let data = await response.json();
-        // console.log(data);
+
+        let data = await response.json();
+        alert(data.digit + " " + data.accuracy);
     })
 });
 
