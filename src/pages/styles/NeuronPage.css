@@ -268,22 +268,22 @@
     position: absolute;
     top: 1vh;
     left: 1vh;
-    width: 1.8vh;
-    height: 1.8vh;
+    width: 0.9vh;
+    height: 0.9vh;
     border-radius: 5vh;
-    background-color: rgb(0, 255, 162);
-    border: 0.1vh solid black;
+    background-color: black;
+    border: 0.6vh solid rgb(0, 255, 162);
     transition: 0s;
 }
 #rEyeB_R{
     position: absolute;
     top: 1vh;
     right: 1vh;
-    width: 1.8vh;
-    height: 1.8vh;
+    width: 0.9vh;
+    height: 0.9vh;
     border-radius: 5vh;
-    background-color: rgb(0, 255, 162);
-    border: 0.1vh solid black;
+    background-color: black;
+    border: 0.6vh solid rgb(0, 255, 162);
     transition: 0s;
 }
 
@@ -397,8 +397,8 @@
 
 #colorPicker{
     position: inherit;
-    width: 11em;
-    height: 5em;
+    width: 13.2vh;
+    height: 6.4vh;
     left: 58.5vh;
     top: 1.4vh;
     overflow: hidden;
@@ -407,27 +407,27 @@
     background-color: #cfbfff;
 }
 #colorPicker:hover{
-    width: 11em;
-    height: 28em;
+    width: 13.2vh;
+    height: 34vh;
     top: 0.1vh;
     transition: 0.5s;
 }
 
 .colorOption{
     display: inline-flex;
-    border: 0.2em solid rgb(52, 47, 64);
+    border: 0.2vh solid rgb(52, 47, 64);
     border-radius: 100vw;
-    width: 4em;
-    height: 4em;
-    margin: 0.5em;
+    width: 5.2vh;
+    height: 5.2vh;
+    margin: 0.5vh;
     transition: 0.1s;
 }
 .colorOption:hover{
     display: inline-flex;
     border-radius: 100vw;
-    width: 4.6em;
-    height: 4.6em;
-    margin: 0.2em;
+    width: 5.8vh;
+    height: 5.8vh;
+    margin: 0.2vh;
     transition: 0.1s;
 }
 
@@ -463,10 +463,10 @@
 }
 
 .pickedCan{
-    border: 0.2em solid rgb(255, 101, 63);
+    border: 0.2vh solid rgb(255, 101, 63);
 }
 .defaultCan{
-    border: 0.2em solid rgb(53, 40, 30);
+    border: 0.2vh solid rgb(53, 40, 30);
 }
 
 .unselectable {

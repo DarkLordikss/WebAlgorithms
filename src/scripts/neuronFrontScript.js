@@ -20,9 +20,16 @@ let robot = undefined;
 let rHead = undefined;
 let rLeye = undefined;
 let rReye = undefined;
+let lVRound = undefined;
+let rVRound = undefined;
+let lVFlat = undefined;
+let rVFlat = undefined;
 
 let color_id = 0;
 let colors = ["rgb(0, 0, 0)", "rgb(250, 250, 250)", "rgb(222, 0, 0)","rgb(222, 85, 0)","rgb(251, 238, 0)","rgb(30, 222, 0)","rgb(0, 255, 255)","rgb(0, 0, 222)","rgb(140, 0, 255)","rgb(222, 0, 222)"];
+
+let mood_num = [130, 85, 30, 0];
+let mood_states = ["angry", "based", "fun", "default"];
 
 /*Изменяет отображаемый размер канваса*/
 function resize_canvas() {
@@ -95,12 +102,14 @@ function drawCanvas(position, shape="circle") {
     position[0] = parseInt((position[0]/mxS)*resolution_canv)+1;
     position[1] = parseInt((position[1]/mxS)*resolution_canv)+1;
 
-    ctx.beginPath();
-    ctx.moveTo(prevX, prevY);
-    ctx.arc(prevX, prevY, brushSize/2, 0, 2 * Math.PI, false);
-    ctx.fillStyle = colors[color_id];
-    ctx.fill();
-    ctx.closePath();
+    for (let kind = 0; kind < 10; kind++) {
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.arc(prevX, prevY, brushSize/2, 0, 2 * Math.PI, false);
+        ctx.fillStyle = colors[color_id];
+        ctx.fill();
+        ctx.closePath();
+    }
 
     let dX = position[0]-prevX;
     let dY = position[1]-prevY;
@@ -114,13 +123,16 @@ function drawCanvas(position, shape="circle") {
                 dir = -1;
             }
             let x = 0;
-            while (Math.abs(x) != parseInt(Math.abs(dX))){
-                ctx.beginPath();
-                ctx.moveTo(prevX+x, prevY+k*x);
-                ctx.arc(prevX+x, prevY+k*x, brushSize/2, 0, 2 * Math.PI, false);
-                ctx.fillStyle = colors[color_id];
-                ctx.fill();
-                ctx.closePath();
+            while (Math.abs(x) !== parseInt(Math.abs(dX))){
+                for (let kind = 0; kind < 10; kind++) {
+                    let kkx = x+kind/10;
+                    ctx.beginPath();
+                    ctx.moveTo(prevX+kkx, prevY+k*kkx);
+                    ctx.arc(prevX+kkx, prevY+k*kkx, brushSize/2, 0, 2 * Math.PI, false);
+                    ctx.fillStyle = colors[color_id];
+                    ctx.fill();
+                    ctx.closePath();
+                }
                 x += dir;
             }
         }
@@ -131,13 +143,16 @@ function drawCanvas(position, shape="circle") {
                 dir = -1;
             }
             let y = 0;
-            while (Math.abs(y) != parseInt(Math.abs(dY))){
-                ctx.beginPath();
-                ctx.moveTo(prevX+y*k, prevY+y);
-                ctx.arc(prevX+y*k, prevY+y, brushSize/2, 0, 2 * Math.PI, false);
-                ctx.fillStyle = colors[color_id];
-                ctx.fill();
-                ctx.closePath();
+            while (Math.abs(y) !== parseInt(Math.abs(dY))){
+                for (let kind = 0; kind < 10; kind++) {
+                    let kky = y+kind/10;
+                    ctx.beginPath();
+                    ctx.moveTo(prevX+kky*k, prevY+kky);
+                    ctx.arc(prevX+kky*k, prevY+kky, brushSize/2, 0, 2 * Math.PI, false);
+                    ctx.fillStyle = colors[color_id];
+                    ctx.fill();
+                    ctx.closePath();
+                }
                 y += dir;
             }
         }
@@ -194,16 +209,12 @@ function animateRobotEyes(e, returning=true) {
         console.log([leftOffset.left, leftOffset.top]);
         let kL = dY_l/dX_l;
         let angleL = Math.atan(kL);
-        //console.log(toDEG(angleL), "angleL", dX_l, dY_l, leftOffset.top, mPos[1]);
         let kR = dY_r/dX_r;
         let angleR = Math.atan(kR);
-        //console.log(toDEG(angleR), "angleR", dX_r, dY_r, rightOffset.top, mPos[1]);
+
         let leftPupil = rLeye.childNodes[0];
         let rightPupil = rReye.childNodes[0];
-        // console.log(angleL, "angleL", eyeSize/2+(eyeSize/2)*Math.sin(angleL), eyeSize/2+(eyeSize/2)*Math.cos(toDEG(angleL)));
-        // console.log(angleR, "angleR", eyeSize/2+(eyeSize/2)*Math.sin(angleR));
-        let minusBorder = window.innerHeight*0.001;
-        let minusPupil = parseFloat($(leftPupil).css("width"))
+
         $(leftPupil).css({
             "left": eyeSize/4+(eyeSize/4)*Math.cos(angleL)*dir_L,
             "top": eyeSize/4-(eyeSize/4)*Math.sin(angleL)*dir_L,
@@ -237,6 +248,41 @@ function animateRobotEyes(e, returning=true) {
     }
 }
 
+function animateRobotMood(mood="default"){
+    if (mood === "default"){
+        $(lVRound).removeClass("applyed");
+        $(rVRound).removeClass("applyed");
+        $(lVFlat).removeClass("applyed");
+        $(rVFlat).removeClass("applyed");
+        $(lVFlat).removeClass("based");
+        $(rVFlat).removeClass("based");
+    }
+    else if (mood === "fun"){
+        $(lVRound).addClass("applyed");
+        $(rVRound).addClass("applyed");
+        $(lVFlat).removeClass("applyed");
+        $(rVFlat).removeClass("applyed");
+        $(lVFlat).removeClass("based");
+        $(rVFlat).removeClass("based");
+    }
+    else if (mood === "based"){
+        $(lVRound).removeClass("applyed");
+        $(rVRound).removeClass("applyed");
+        $(lVFlat).removeClass("applyed");
+        $(rVFlat).removeClass("applyed");
+        $(lVFlat).addClass("based");
+        $(rVFlat).addClass("based");
+    }
+    else if (mood === "angry"){
+        $(lVRound).removeClass("applyed");
+        $(rVRound).removeClass("applyed");
+        $(lVFlat).addClass("applyed");
+        $(rVFlat).addClass("applyed");
+        $(lVFlat).removeClass("based");
+        $(rVFlat).removeClass("based");
+    }
+}
+
 $(document).ready(function () {
     if ($(canvas).length > 0) {
         resize_canvas();
@@ -247,12 +293,25 @@ $(document).ready(function () {
         rHead = robot.childNodes[0];
         rLeye = rHead.childNodes[0];
         rReye = rHead.childNodes[1];
+        lVRound = rHead.childNodes[2];
+        rVRound = rHead.childNodes[3];
+        lVFlat = rHead.childNodes[4];
+        rVFlat = rHead.childNodes[5];
         animateRobotEyes();
+        animateRobotMood("fun");
 
         document.getElementById("resolutionChanger").addEventListener("input", (event) => {
             let text = event.target.value + "x" + event.target.value;
             $(resolutVal).text(text);
             editCanvasStyle(event.target.value);
+            let k = 0;
+            while(k < mood_num.length){
+                if (event.target.value >= mood_num[k]){
+                    animateRobotMood(mood_states[k]);
+                    k += 999;
+                }
+                k += 1;
+            }
         });
         document.getElementById("brushChanger").addEventListener("input", (event) => {
             let text = event.target.value + "px";
@@ -273,7 +332,7 @@ $(document).ready(function () {
         });
         document.getElementById("drawingField").addEventListener("mouseleave", (event) => {
             animateRobotEyes(event, true);
-        })
+        });
         document.addEventListener("mouseup", (event) => {
             canvDraw = false;
         });
