@@ -4,20 +4,24 @@
 // clusterNumber получаю тоже от пользователя в виде числа
 // dots надо получать из взаимодействия с пользователем. Получаю координаты точки, и сколько их
 function startClusterization(clusterNumber = undefined, dots = undefined){ // как кстати запустить алгоритм? Или вы сами пропишите на div его работу 
-    let clusters = initGroups(clusterNumber);
-    step(clusters, dots);
+    let points = dots;
+    let number = clusterNumber;
+    let clusters = initGroups(number);
+    step(clusters, points);
 }
 
 function initGroups(clusterNumber, field){   // инициализация групп (кластерных центров)
+    let place = field;
+    let number = clusterNumber;
     let clusters = [];
-    for (let i = 0; i < clusterNumber; i++) {
+    for (let i = 0; i < number; i++) {
         let g = {
             id: i,
             dots: [],
-            color: 'hsl(' + (i * 360 / clusterNumber) + ',100%,50%)',
+            color: 'hsl(' + (i * 360 / number) + ',100%,50%)',
             center: {
-                x: Math.random()*field.width,
-                y: Math.random()*field.height // надо определить границы допустимого рандома,
+                x: Math.random()*place.width,
+                y: Math.random()*place.height // надо определить границы допустимого рандома,
             },                   // относительно плоскости, на которой будет все происходить
         };
         g.center = {
@@ -39,8 +43,10 @@ function initGroups(clusterNumber, field){   // инициализация гр�
 // }
 
 function step(clusters, dots) {
-    let res = updateGroups(clusters, dots);
-    let finish = moveCenter(clusters, dots);
+    let stepClusters = clusters;
+    let stepDots = dots;
+    let res = updateGroups(stepClusters, stepDots);
+    let finish = moveCenter(stepClusters, stepDots);
     let result = {
         clusters: res[0],
         dots: res[1],
