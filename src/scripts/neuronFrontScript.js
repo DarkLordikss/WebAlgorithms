@@ -10,6 +10,8 @@ let resizer = "#resolutionChanger";
 let resolutVal = "#resolutionVal";
 let rebrusher = "#brushChanger";
 let brushVal = "#brushVal";
+let res_id = "#resultShow";
+let exit_result = "#resultExit";
 let prevX = 0;
 let prevY = 0;
 let resolution_canv = 50;
@@ -58,6 +60,16 @@ function editCanvasStyle(resolution=50, colorId=0) {
     let ctx = field.getContext("2d");
     ctx.fillStyle = colors[colorId];
     setLimits();
+}
+
+/*изменяет позицию вывода результата*/
+function reset_result(result_txt, accuracy_txt) {
+    let r_w = parseInt($(res_id).css("width"))/2;
+    let winW = window.innerWidth/2;
+    $(res_id).css("left", (winW-r_w).toString()+"px");
+    let new_result = "<div id='gay' style='margin:6vh'>Мне кажется, что это "+result_txt+"<br \>С вероятностью "+accuracy_txt+"%</div>"
+    $(res_id).append(new_result);
+    $("#resultBackground").css("display", "block");
 }
 
 /*устанавливает начальную позицию для рисования*/
@@ -355,6 +367,10 @@ $(document).ready(function () {
     $("#clear_button").mousedown(function () {
         fillWhite();
     });
+    $(exit_result).mousedown(function () {
+        $("#resultBackground").css("display", "none");
+        $("#gay").remove();
+    });
     $("#send_button").mousedown(async function () {
         let myImage = document.getElementById("drawingField");
         let imageData = myImage.toDataURL('image/png');
@@ -367,7 +383,7 @@ $(document).ready(function () {
         })
 
         let data = await response.json();
-        alert(data.digit + " " + data.accuracy);
+        reset_result(data.digit.toString(), (data.accuracy).toString());
     })
 });
 

@@ -413,6 +413,48 @@
     transition: 0.5s;
 }
 
+#resultShow{
+    width: 50vh;
+    height: 30vh;
+    position: fixed;
+    top: 35vh;
+    left: 30vh;
+    background-color: #282c34;
+    border-radius: 5vh;
+    font-size: 3vh;
+    text-align: center;
+    align-content: center;
+    vertical-align: center;
+    box-shadow: 0 0 45vh 10vh black;
+    color: rgb(240, 240, 240);
+    opacity: 1;
+}
+#resultExit{
+    position: absolute;
+    width: 35%;
+    height: auto;
+    min-height: 4vh;
+    font-size: 2.5vh;
+    background-color: #383d45;
+    border-radius: 2vh;
+    color: rgb(240, 240, 240);
+    bottom: 2vh;
+    left: 32.5%;
+    text-align: center;
+    align-content: center;
+    opacity: 1;
+}
+#resultBackground{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    opacity: 1;
+    display: none;
+}
+
 .colorOption{
     display: inline-flex;
     border: 0.2vh solid rgb(52, 47, 64);

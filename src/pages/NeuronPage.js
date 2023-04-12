@@ -58,6 +58,11 @@ const NeuronPage = () => {
                         </div>
                     </div>
                     <canvas id="drawingField"></canvas>
+                    <div id="resultBackground">
+                        <div id="resultShow">
+                            <div id="resultExit">Продолжить</div>
+                        </div>
+                    </div>
                 </div>
             </div>
     );
