@@ -136,7 +136,7 @@ def make_model(learning_rate=0.1, epochs=30, batch_size=32):
 
 # Инициализация и использование нейросети
 def neuro_network(filepath):
-    with open('neuro/model/model.json', 'r') as digits:
+    with open('src/server/neuro/model/model.json', 'r') as digits:
         data = json.load(digits)
         w1 = np.array(data['layers'][0]['weights']).transpose()
         w2 = np.array(data['layers'][1]['weights']).transpose()
