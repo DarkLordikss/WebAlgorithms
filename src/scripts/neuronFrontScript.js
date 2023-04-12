@@ -17,6 +17,7 @@ let prevY = 0;
 let resolution_canv = 50;
 let brushSize = 5.0;
 let canvDraw = false;
+let resultShowing = false;
 
 let robot = undefined;
 let rHead = undefined;
@@ -67,8 +68,9 @@ function reset_result(result_txt, accuracy_txt) {
     let r_w = parseInt($(res_id).css("width"))/2;
     let winW = window.innerWidth/2;
     $(res_id).css("left", (winW-r_w).toString()+"px");
-    let new_result = "<div id='gay' style='margin:6vh'>Мне кажется, что это "+result_txt+"<br \>С вероятностью "+accuracy_txt+"%</div>"
+    let new_result = "<div id='text_result' style='margin:6vh' className='unselectable'>Мне кажется, что это "+result_txt+"<br \>С вероятностью "+accuracy_txt+"%</div>"
     $(res_id).append(new_result);
+    resultShowing = true;
     $("#resultBackground").css("display", "block");
 }
 
@@ -176,11 +178,6 @@ function drawCanvas(position, shape="circle") {
     // prevY = position[1];
 }
 
-/*переводит радианды в градусы*/
-function toDEG(rad) {
-    return (rad * 180) / Math.PI;
-}
-
 /*возвращает позицию мыши с точкой отсчёта от позиции нужного элемента*/
 function get_mousePos_in_element(element, event){
     let mPos = [event.clientX, event.clientY];
@@ -260,6 +257,7 @@ function animateRobotEyes(e, returning=true) {
     }
 }
 
+/*меняет роботу настроение*/
 function animateRobotMood(mood="default"){
     if (mood === "default"){
         $(lVRound).removeClass("applyed");
@@ -350,7 +348,6 @@ $(document).ready(function () {
         });
     }
     
-    
     $(".colorOption").mousedown(function () {
         let colors_buttons = $(".colorOption");
         for (let i = 0; i < colors_buttons.length; i++) {
@@ -369,21 +366,23 @@ $(document).ready(function () {
     });
     $(exit_result).mousedown(function () {
         $("#resultBackground").css("display", "none");
-        $("#gay").remove();
+        $("#text_result").remove();
+        resultShowing = false;
     });
     $("#send_button").mousedown(async function () {
-        let myImage = document.getElementById("drawingField");
-        let imageData = myImage.toDataURL('image/png');
-        let response = await fetch("http://127.0.0.1:5000/determine_digit", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ image_data: imageData }),
-        })
-
-        let data = await response.json();
-        reset_result(data.digit.toString(), (data.accuracy).toString());
+        if (!resultShowing){
+            let myImage = document.getElementById("drawingField");
+            let imageData = myImage.toDataURL('image/png');
+            let response = await fetch("http://127.0.0.1:5000/determine_digit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ image_data: imageData }),
+            })
+            let data = await response.json();
+            reset_result(data.digit.toString(), (data.accuracy).toString());
+        }
     })
 });
 

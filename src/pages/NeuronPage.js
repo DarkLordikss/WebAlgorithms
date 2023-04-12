@@ -37,7 +37,7 @@ const NeuronPage = () => {
                     <div id="clear_button" className="unselectable">clear</div>
                 </div>
                 <div id="container">
-                    <div id="robot">
+                    <div id="robot" className="unselectable">
                         <div id="rHead">
                             <div id="rEyeA_L"><div id="rEyeB_L"></div></div>
                             
@@ -58,9 +58,9 @@ const NeuronPage = () => {
                         </div>
                     </div>
                     <canvas id="drawingField"></canvas>
-                    <div id="resultBackground">
-                        <div id="resultShow">
-                            <div id="resultExit">Продолжить</div>
+                    <div id="resultBackground" className="unselectable">
+                        <div id="resultShow" className="unselectable">
+                            <div id="resultExit" className="unselectable">Продолжить</div>
                         </div>
                     </div>
                 </div>
