@@ -12,14 +12,14 @@ CORS(app)
 
 @app.route('/determine_digit', methods=["POST"])
 def neuro():
-    filepath = "src/server/neuro/input/from_user.png"
+    filepath = "neuro/input/from_user.png"
 
     if not request.json or "image_data" not in request.json:
         return "Ваня, где картинка?", 404
 
     image_data = request.json["image_data"]
 
-    with open("src/server/neuro/input/from_user.png", "wb") as fh:
+    with open("neuro/input/from_user.png", "wb") as fh:
         fh.write(base64.b64decode(image_data.split(",")[1]))
 
     return neuro_network(filepath)
