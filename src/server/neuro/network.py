@@ -6,19 +6,19 @@ from neuro.process_image import prepare_digit
 
 # Константы нейросети
 INPUT_LAYER = 784
-HIDDEN_LAYER = 600
+HIDDEN_LAYER = 512
 OUT_LAYER = 10
 
 
 # Загружаем тренировочные и тестовые данные MNIST
 def load_mnist():
-    with gzip.open('neuro/mnist/train-images-idx3-ubyte.gz', 'rb') as f:
+    with gzip.open('mnist/train-images-idx3-ubyte.gz', 'rb') as f:
         train_images = np.frombuffer(f.read(), np.uint8, offset=16).reshape(-1, 28*28)
-    with gzip.open('neuro/mnist/train-labels-idx1-ubyte.gz', 'rb') as f:
+    with gzip.open('mnist/train-labels-idx1-ubyte.gz', 'rb') as f:
         train_labels = np.frombuffer(f.read(), np.uint8, offset=8)
-    with gzip.open('neuro/mnist/t10k-images-idx3-ubyte.gz', 'rb') as f:
+    with gzip.open('mnist/t10k-images-idx3-ubyte.gz', 'rb') as f:
         test_images = np.frombuffer(f.read(), np.uint8, offset=16).reshape(-1, 28*28)
-    with gzip.open('neuro/mnist/t10k-labels-idx1-ubyte.gz', 'rb') as f:
+    with gzip.open('mnist/t10k-labels-idx1-ubyte.gz', 'rb') as f:
         test_labels = np.frombuffer(f.read(), np.uint8, offset=8)
 
     # Преобразуем данные в формат, пригодный для обучения нейросети
@@ -105,7 +105,7 @@ def make_new_model(train_data_, test_data_, learning_rate, epochs, batch_size):
         print("Epoch {}: accuracy {} %".format(epoch, accuracy))
 
     # Сохраняем результат
-    with open('neuro/model/model.json', 'w') as file:
+    with open('model/model.json', 'w') as file:
         data_ = {
             "layers": [
                 {"weights": w1_.transpose().tolist(), "biases": b1_.tolist()},

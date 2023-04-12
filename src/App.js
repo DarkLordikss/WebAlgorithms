@@ -8,6 +8,8 @@ import IndexPage from "./pages/IndexPage";
 import AStarPage from "./pages/AStarPage";
 import GenPage from "./pages/GenPage";
 
+import NeuronPage from "./pages/NeuronPage";
+
 function App() {
     return (
         <BrowserRouter>
@@ -15,6 +17,7 @@ function App() {
                 <Route exact path='/' element={<IndexPage />}/>
                 <Route path='/a-star' element={<AStarPage />}/>
                 <Route path='/genetic' element={<GenPage />}/>
+                <Route path='/neuron' element={<NeuronPage />}/>
             </Routes>
         </BrowserRouter>
     );
