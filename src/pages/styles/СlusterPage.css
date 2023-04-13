@@ -126,6 +126,12 @@
     z-index: 1;
 }
 
+#canvasFon{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
 .point.appeared{
     position: absolute;
     background-color: rgba(146, 255, 57, 0);

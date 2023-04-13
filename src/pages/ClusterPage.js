@@ -21,7 +21,9 @@ const ClusterPage = () => {
                     <div id="clust_start_button" className="unselectable">start</div>
                 </div>
                 <div id="container">
-                    <div id="pointing_box_cl"></div>
+                    <div id="pointing_box_cl">
+                        <canvas id="canvasFon"></canvas>
+                    </div>
                 </div>
             </div>
     );
