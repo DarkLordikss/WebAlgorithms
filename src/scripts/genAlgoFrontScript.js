@@ -5,6 +5,8 @@ import * as $ from "./jQueryMain.js";
 //импорт смешных звуков
 import ultraSound from './ultramode_song.mp3';
 
+import "./entranceAnimation.js";
+
 let pointsBox = "#pointing_box";
 let pointsCounter = "#points_counter";
 let gen_block = "#gens_counter";
