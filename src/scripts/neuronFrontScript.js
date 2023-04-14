@@ -3,6 +3,8 @@
 //правильный импорт jQuery
 import * as $ from "./jQueryMain.js";
 
+import "./entranceAnimation.js";
+
 let start_b = "#start_button";
 let clear = "#clear_button";
 let canvas = "#drawingField";

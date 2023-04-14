@@ -6,13 +6,14 @@ import Rat from "./persons/Rat";
 import N from "./persons/N";
 import Poland from "./persons/Poland";
 
+
 const IndexPage = () => {
     return (
             <body>
-                <code id="bracket-left">&lt;</code>
+                {/* <code id="bracket-left">&lt;</code>
                 <code id="bracket-right">&gt;</code>
-                <div id="logo"><code>▲<br />/blank<br />project</code></div>
-                <div id="back"></div>
+                <div id="logo"><code>▲<br />/blank<br />project</code></div> */}
+                {/* <div id="back"></div> */}
                 <div className="menu">
                     <div className="menu-start" id="a-star">
                         <a href="/a-star"><div className="menu-elem"><code>A-star</code></div></a>
@@ -41,6 +42,8 @@ const IndexPage = () => {
                         <a href="/a-star"><div className="menu-elem"><code>Five</code></div></a>
                     </div>
                 </div>
+                <div class='logo_loading' id='back_logo'></div>
+                <div class='back_black' id='back_load'></div>
             </body>
     );
 };

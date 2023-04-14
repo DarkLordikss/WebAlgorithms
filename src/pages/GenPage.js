@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/GenPage.css";
-import star_image from './images/genAlgo_logo2.png';
+import gen_image from './images/genAlgo_logo2.png';
 //импорт нужного модуля для страницы GenPage.js (self)
 import "../scripts/genAlgoFrontScript.js";
 
@@ -9,9 +9,8 @@ const GenPage = () => {
     return (
             <div className="a-bg">
                 <div id="header">
-                    <a href="/">
-                        <img src={star_image} className="logo unselectable" id="logo_gen" alt="logo genAlgo" />
-                    </a>
+                    <img src={gen_image} className="logo unselectable" id="logo_gen" alt="logo genAlgo" />
+
                     <div id="naming" className="unselectable">Gen algorithm</div>
                     <div id="points_counter" className="unselectable">0</div>
 
@@ -41,6 +40,8 @@ const GenPage = () => {
                     </div>
                     {/* <audio src="./ultramode_song.mp3" id="ultraSound"></audio> */}
                 </div>
+                <div class='logo_loading' id='back_logo'></div>
+                <div class='back_black' id='back_load'></div>
             </div>
     );
 };

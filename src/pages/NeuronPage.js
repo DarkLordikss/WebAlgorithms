@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/NeuronPage.css";
-// import star_image from './images/genAlgo_logo2.png';
+import neuro_image from './images/genAlgo_logo2.png';
 //импорт нужного модуля для страницы NeuronPage.js (self)
 import "../scripts/neuronFrontScript.js";
 
@@ -11,9 +11,8 @@ const NeuronPage = () => {
     return (
             <div className="a-bg">
                 <div id="header">
-                    {/* <a href="/">
-                        <img src={star_image} className="logo unselectable" id="logo_gen" alt="logo genAlgo" />
-                    </a> */}
+                    <img src={neuro_image} className="logo unselectable" id="logo_neuro" alt="logo neuro" />
+
                     <div id="naming" className="unselectable">Neiron</div>
                     <div id="send_button" className="unselectable">say number</div>
                     <div id="resolutionVal" className="unselectable">50x50</div>
@@ -64,6 +63,8 @@ const NeuronPage = () => {
                         </div>
                     </div>
                 </div>
+                <div class='logo_loading' id='back_logo'></div>
+                <div class='back_black' id='back_load'></div>
             </div>
     );
 };
