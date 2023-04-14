@@ -123,26 +123,39 @@ function calculateTotalDistance(route) {
 //         bestOnIteration: лучший путь на каждой итерации,
 //         bestWaysOnIterationsLens: длина лучшего пути на текущей итерации
 //       }
-function findShortestRouteGen(cityList, populationSize, generations, mutationRate, skip=false) {
+function findShortestRouteGen(cityList, populationSize, maxGenerations, mutationRate, skip=false) {
     const allRoutes = [];
     let currentPopulation = createInitialPopulation(cityList, populationSize);
     let shortestRoute = currentPopulation[0];
     let bestRoutes = [];
     let bestWayLens = [];
+    let numsRepeat = 0;
+    let iteration = 0;
 
-    for (let i = 0; i < generations; i++) {
+    while (true) {
         currentPopulation = evolve(currentPopulation, mutationRate);
         const bestRoute = currentPopulation.reduce((best, current) => {
             const bestFitness = calculateFitness(best);
             const currentFitness = calculateFitness(current);
             return currentFitness > bestFitness ? current : best;
         });
+
         if (calculateFitness(bestRoute) > calculateFitness(shortestRoute)) {
             shortestRoute = bestRoute;
+            numsRepeat = 0;
         }
-        allRoutes.push(currentPopulation);
+
+        else {
+            numsRepeat++;
+        }
+        if (!skip) {
+            allRoutes.push(currentPopulation);
+        }
         bestRoutes.push(bestRoute);
         bestWayLens.push(calculateTotalDistance(bestRoute));
+
+        iteration++;
+        if (numsRepeat > 50000 || iteration > maxGenerations) break;
     }
     if (!skip) {
         return {

@@ -3,6 +3,7 @@ import React from 'react';
 import './styles/App.css'
 import Albedo from "./persons/Albedo";
 import Rat from "./persons/Rat";
+import N from "./persons/N";
 
 const IndexPage = () => {
     return (
@@ -23,9 +24,12 @@ const IndexPage = () => {
                     <a href="/cluster">
                         <div className="menu-elem"><code>Cluster</code></div>
                     </a>
-                    <a href="/a-star">
-                        <div className="menu-elem"><code>Three</code></div>
-                    </a>
+                    <div id="neuron">
+                        <a href="/neuron">
+                            <div className="menu-elem"><code>Neuron</code></div>
+                            <N />
+                        </a>
+                    </div>
                     <a href="/a-star">
                         <div className="menu-elem"><code>Four</code></div>
                     </a>

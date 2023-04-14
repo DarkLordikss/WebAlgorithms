@@ -16,10 +16,10 @@ const GenPage = () => {
                     <div id="points_counter" className="unselectable">0</div>
 
                     <input id="gens_counter" className="unselectable" type={"number"}></input>
-                    <div id="generations" className="unselectable">generations</div>
+                    <div id="generations" className="unselectable"> max gens</div>
 
                     <input id="evolution_changer" className="unselectable" type={"number"}></input>
-                    <div id="evolution" className="unselectable">mutatt chance (0.1%)</div>
+                    <div id="evolution" className="unselectable">mutate chance (0.1%)</div>
 
                     <input id="popSize_changer" className="unselectable" type={"number"}></input>
                     <div id="population" className="unselectable">population size</div>
