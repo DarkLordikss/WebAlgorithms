@@ -8,6 +8,7 @@ import "../scripts/clusterFrontScript.js";
 const ClusterPage = () => {
     return (
             <div className="a-bg">
+                <canvas id="canvasBack"></canvas>
                 <div id="header">
                     {/* <a href="/">
                         <img src={cluster_image} className="logo unselectable" id="logo_gen" alt="logo genAlgo" />

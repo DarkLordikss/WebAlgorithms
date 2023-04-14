@@ -1,5 +1,6 @@
 //Импорт отдельных функций из нужных модулей
 import {step, initGroups} from "./KMeans";
+import { mainAnimation } from "./clusterBackgroundAnimation";
 //правильный импорт jQuery
 import * as $ from "./jQueryMain.js";
 
@@ -8,6 +9,7 @@ let pointsCounter = "#points_counter";
 let clusterClounter = "#cluster_counter";
 let startButton = "#clust_start_button";
 let canvasFon = "#canvasFon";
+let canvasBack = "#canvasBack";
 let pointsPosArray = [];
 
 let algo_processing = false;
@@ -78,6 +80,9 @@ function resize_CLpointsBox() {
             let koef_vertical = height / prev_h;
 
             resize_canvas(width, height);
+
+            $(canvasBack).attr("width", window.innerWidth);
+            $(canvasBack).attr("height", window.innerHeight);
 
             $(pointsBox).css({
                 "width": width,
@@ -272,6 +277,11 @@ function drawClusters(resul){
 $(document).ready(function () {
     if($(pointsBox).length === 0){
         return;
+    }
+    if ($(canvasBack).length !== 0){
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        mainAnimation(width, height, document.getElementById("canvasBack"));
     }
     resize_CLpointsBox();
     $(pointsBox).mousedown(function (e) {
