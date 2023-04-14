@@ -210,10 +210,12 @@ function send_data() {
 /*очищает канвас*/
 function clearCanv(){
     let field = document.getElementById("canvasFon");
-    let ctx = field.getContext("2d");
-    let width = parseInt($(canvasFon).attr("width"));
-    let height = parseInt($(canvasFon).attr("height"));
-    ctx.clearRect(0, 0, width, height);
+    if (field != null) {
+        let ctx = field.getContext("2d");
+        let width = parseInt($(canvasFon).attr("width"));
+        let height = parseInt($(canvasFon).attr("height"));
+        ctx.clearRect(0, 0, width, height);
+    }
 }
 
 /*ход кластеризации*/

@@ -183,3 +183,9 @@ a {
   opacity: 1;
   transition: 0.5s;
 }
+
+#cluster:hover .poland-container {
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s;
+}

@@ -20,6 +20,11 @@
     bottom: -10%;
 }
 
+.poland-container {
+    right: 0;
+    bottom: -10%;
+}
+
 .albedo-dialog {
     position: fixed;
     height: 40%;
@@ -32,6 +37,18 @@
     height: 40%;
     right: 22%;
     bottom: 35%;
+}
+
+#Poland {
+    height: 60vh;
+    bottom: 0;
+}
+
+.poland-dialog {
+    position: fixed;
+    height: 40%;
+    right: 22%;
+    bottom: 42%;
 }
 
 .code-dialog-alb {
@@ -48,6 +65,16 @@
     position: fixed;
     right: 26%;
     bottom: 52%;
+    font-size: 3.5vh;
+    text-align: center;
+    z-index: 2;
+}
+
+.code-dialog-poland {
+    color: black;
+    position: fixed;
+    right: 27%;
+    bottom: 61%;
     font-size: 3.5vh;
     text-align: center;
     z-index: 2;
