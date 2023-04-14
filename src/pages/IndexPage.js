@@ -21,8 +21,8 @@ const IndexPage = () => {
                         <a href="/genetic"><div className="menu-elem"><code>Genetic</code></div></a>
                         <Rat />
                     </div>
-                    <a href="/a-star">
-                        <div className="menu-elem"><code>Two</code></div>
+                    <a href="/cluster">
+                        <div className="menu-elem"><code>Cluster</code></div>
                     </a>
                     <div id="neuron">
                         <a href="/neuron">
