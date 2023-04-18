@@ -1,0 +1,171 @@
+#header{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 9vh;
+    background-color: rgb(220, 220, 250);
+}
+
+#logo_neuro{
+    position: inherit;
+    top: 0.5vh;
+    left: 0.5vh;
+    height: 8vh;
+    width: auto;
+    border-radius: 4vh;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 2vh 3vh rgb(255, 255, 255);
+    transition: background 0.8s, box-shadow 0.8s;
+}
+#logo_neuro:hover{
+    background-color: rgb(52, 47, 64);
+    box-shadow: 0 0 2vh 3vh rgb(52, 47, 64);
+    transition: background 0.8s, box-shadow 0.8s;
+}
+
+#naming{
+    position: inherit;
+    height: 2vh;
+    width: auto;
+    top: 2.6vh;
+    left: 12vh;
+    font-size: 2vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 650;
+}
+
+#send_button_t{
+    position: inherit;
+    height: 2.8vh;
+    width: 16vh;
+    top: 3vh;
+    left: 86vh;
+    font-size: 2vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+    background-color: #f6f6f6;
+    border-radius: 1vh;
+    align-content: center;
+    text-align: center;
+    vertical-align: text-top;
+    transition: background 0.5s;
+}
+
+#send_button_t:hover{
+    background-color: #feffde;
+    transition: background 0.5s;
+}
+
+#send_button_t:active{
+    background-color: #bfff92;
+    transition: background 0.02s;
+}
+
+#treeBox{
+    position: fixed;
+    top: 9vh;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    font-size: 4vh;
+    margin: 0;
+    padding-top: 3vh;
+    background-color: rgb(65, 21, 73);
+    z-index: 0;
+}
+
+.states{
+    display: inline-block;
+    width: 100%;
+    min-height: 10vh;
+    height: auto;
+    margin: 0;
+    margin-bottom: 5vh;
+    padding-top: 1vh;
+    z-index: 2;
+}
+
+
+.checkingBox{
+    position: relative;
+    display: inline-flex;
+    height: auto;
+    min-height: 10vh;
+    width: 18vw;
+    border-radius: 2vh;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1;
+}
+.three{
+    margin-left: 11.5vw;
+}
+.two{
+    margin-left: 21.333vw;
+}
+
+.unchecked{
+    background-color: rgb(73, 50, 107);
+    box-shadow: 0 0 0 0 rgb(48, 34, 71);
+    top: 0;
+    transition: 0.2s;
+}
+.unchecked:hover{
+    background-color: rgb(68, 41, 108);
+    box-shadow: 0 1vh 0 0 rgb(48, 34, 71);
+    top: -1vh;
+    transition: 0.2s;
+}
+
+.checked{
+    background-color: rgb(55, 107, 50);
+    box-shadow: 0 0 0 0 rgb(40, 79, 37);
+    top: 0;
+    transition: 0.2s;
+}
+.checked:hover{
+    background-color: rgb(48, 110, 42);
+    box-shadow: 0 1vh 0 0 rgb(40, 79, 37);
+    top: -1vh;
+    transition: 0.2s;
+}
+
+.unlocked{
+    border: 0.09em solid #9ce47b;
+    color: rgb(228, 231, 219);
+}
+.unlocked:hover{
+    border: 0.09em solid #9ce47b00;
+}
+
+.locked{
+    border: 0.09em solid #666666;
+    color: rgb(162, 163, 158);
+}
+.locked:hover{
+    border: 0.09em solid #9ce47b00;
+}
+
+.tree{
+    background-color: rgb(60, 36, 24);
+}
+
+#drawingTree{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0.9;
+}
+
+.unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+}

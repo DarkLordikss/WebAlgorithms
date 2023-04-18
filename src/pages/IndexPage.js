@@ -35,8 +35,8 @@ const IndexPage = () => {
                             <Poland />
                         </a>
                     </div>
-                    <a href="/a-star">
-                        <div className="menu-elem"><code>Four</code></div>
+                    <a href="/tree">
+                        <div className="menu-elem"><code>Solutions Tree</code></div>
                     </a>
                     <div className="menu-end">
                         <a href="/a-star"><div className="menu-elem"><code>Five</code></div></a>
