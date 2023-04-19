@@ -58,6 +58,7 @@ def make_tree():
     return make_model(filepath, max_depth, min_samples_leaf, max_leaf_nodes)
 
 
+# Принять решение
 @app.route('/get_decision', methods=['GET'])
 def make_decision():
     row = request.args.get("row").split(",")
