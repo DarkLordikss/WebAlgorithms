@@ -5,6 +5,7 @@ import Albedo from "./persons/Albedo";
 import Rat from "./persons/Rat";
 import N from "./persons/N";
 import Poland from "./persons/Poland";
+import Tree from "./persons/Tree";
 
 
 const IndexPage = () => {
@@ -35,9 +36,12 @@ const IndexPage = () => {
                             <Poland />
                         </a>
                     </div>
-                    <a href="/tree">
-                        <div className="menu-elem"><code>Solutions Tree</code></div>
-                    </a>
+                    <div id="tree">
+                        <a href="/tree">
+                            <div className="menu-elem"><code>Solutions Tree</code></div>
+                            <Tree />
+                        </a>
+                    </div>
                     <div className="menu-end">
                         <a href="/a-star"><div className="menu-elem"><code>Five</code></div></a>
                     </div>

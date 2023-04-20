@@ -35,7 +35,7 @@ const SolutionsTreePage = () => {
                     </div>
                     <div id="send_button_t" className="unselectable">send</div>
                 </div>
-                <div id="container">
+                <div id="container_tree">
                     <canvas id="drawingTree"></canvas>
                     <div id="treeBox" className="unselectable">
                         

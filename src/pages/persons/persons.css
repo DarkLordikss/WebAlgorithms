@@ -85,6 +85,11 @@
     bottom: -30vh;
 }
 
+#Tree {
+    height: 70vh;
+    bottom: 0;
+}
+
 .n-container {
     left: 0;
     bottom: 0;
@@ -102,6 +107,27 @@
     position: fixed;
     left: 20.5%;
     bottom: 70%;
+    font-size: 3.5vh;
+    text-align: center;
+}
+
+.tree-container {
+    left: 0;
+    bottom: 0;
+}
+
+.tree-dialog {
+    position: fixed;
+    height: 40%;
+    left: 20%;
+    bottom: 22%;
+}
+
+.code-dialog-tree {
+    color: black;
+    position: fixed;
+    left: 28.5%;
+    bottom: 40%;
     font-size: 3.5vh;
     text-align: center;
 }
