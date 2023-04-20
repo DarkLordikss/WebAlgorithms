@@ -1,9 +1,8 @@
 //правильный импорт jQuery
-import { getByAltText } from "@testing-library/react";
 import * as $ from "./jQueryMain.js";
 
-let types = ["left", "right"];
-let colors = ["rgb(51, 234, 66)", "rgb(236, 46, 39)"];
+let types = ["left", "right", "desision"];
+let colors = [40, -40, 200];
 
 let file = undefined;
 let data = undefined;
@@ -14,14 +13,85 @@ let treeColors = [];
 
 let sendB = "#send_button_t";
 
-function drawWithDelay(delay, x, y, color) {
+let depthEditor = "#maxDethInp";
+let samplesEditor = "#minLeafSamplesInp";
+let nodesEditor = "#maxLeafNodesInp";
+let textInput = "#desisionInp";
+
+let inputCategory = 0;
+let desisionShowing = false;
+
+/*Взять depth*/
+function getDepth() {
+    let depth = $(depthEditor).val();
+    if (depth === undefined) {
+        return 'None';
+    }
+    if (depth < 1) {
+        depth = 1;
+    }
+    else if (depth >= 1000){
+        depth = 1000;
+    }
+    $(depthEditor).val(depth);
+    return depth;
+}
+
+/*Взять samples*/
+function getSamples() {
+    let samples = $(samplesEditor).val();
+    if (samples === undefined) {
+        return 'None';
+    }
+    if (samples < 1) {
+        samples = 1;
+    }
+    else if (samples >= 1000){
+        samples = 1000;
+    }
+    $(samplesEditor).val(samples);
+    return samples;
+}
+
+/*Взять nodes*/
+function getNodes() {
+    let nodes = $(nodesEditor).val();
+    if (nodes === undefined) {
+        return 'None';
+    }
+    if (nodes < 2) {
+        nodes = 2;
+    }
+    else if (nodes >= 1000){
+        nodes = 1000;
+    }
+    $(nodesEditor).val(nodes);
+    return nodes;
+}
+
+/*Взять текст*/
+function getText() {
+    let text = $(textInput).val();
+    if (text === undefined) {
+        text = 'None';
+    }
+    text = text.toString();
+    return text;
+}
+
+/*Нарисовать сегмент с задержкой*/
+function drawWithDelay(delay, x, y, color, proc, middle=50) {
     setTimeout(() => {
+        if (proc >= 1){
+            proc = 1;
+        }
         let field = document.getElementById("drawingTree");
         let ctx = field.getContext("2d");
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.arc(x, y, 10, 0, 2 * Math.PI, false);
-        ctx.fillStyle = color;
+        let hue_channel = middle+color*(1-proc);
+        ctx.fillStyle = "hsl(" + hue_channel + ", 100%, 50%)";
         ctx.fill();
         ctx.closePath();
         ctx.beginPath();
@@ -39,6 +109,7 @@ function drawWithDelay(delay, x, y, color) {
     }, delay);
 }
 
+/*Интерпретирует полученные данные дерева в удобный для чтения массив (данная функция отвечает за деревья)*/
 function enterpritateTree(tree, level, pId=-1, type) {
     if (treeLevels.length <= level) {
         treeLevels.push([]);
@@ -61,6 +132,7 @@ function enterpritateTree(tree, level, pId=-1, type) {
         enterpritateVal(tree.right, level+1, treeParents[level].length-1, "right");
     }
 }
+/*Интерпретирует полученные данные дерева в удобный для чтения массив (данная функция отвечает за листья)*/
 function enterpritateVal(value, level, pId, type) {
     if (treeLevels.length <= level) {
         treeLevels.push([]);
@@ -72,6 +144,7 @@ function enterpritateVal(value, level, pId, type) {
     treeColors[level].push(colors[types.indexOf(type)]);
 }
 
+/*Создать элементы дерева и связи*/
 function drawFullTree() {
     resizeTreeD();
     console.log(treeLevels);
@@ -115,6 +188,7 @@ function drawFullTree() {
     }
 }
 
+/*Стереть дерево*/
 function eraseTreePoints() {
     let field = document.getElementById("drawingTree");
     let ctx = field.getContext("2d");
@@ -123,7 +197,8 @@ function eraseTreePoints() {
     ctx.closePath();
 }
 
-function drawTreePoints(x, y, target, color) {
+/*Нарисовать связь между началом и целью*/
+function drawTreePoints(x, y, target, color, middle=50) {
     let prev_sh = 0;
     let x_targ = target[0];
     let y_targ = target[1]+target[2];
@@ -136,14 +211,15 @@ function drawTreePoints(x, y, target, color) {
             x: (x+xF*(x_targ-x))*window.innerWidth,
             y: (y+(yN*Math.abs(y-y_targ)))*window.innerHeight
         }
-        drawWithDelay(prev_sh/8, treePoint.x, treePoint.y, color);
+        drawWithDelay(prev_sh/8, treePoint.x, treePoint.y, color, xF, middle);
         prev_sh += 1;
     }
 }
 
+/*Изменить размер канваса для дерева*/
 function resizeTreeD() {
     let w = window.innerWidth;
-    let h = (treeLevels.length*0.15+0.15)*window.innerHeight;
+    let h = (treeLevels.length+1)*0.15*window.innerHeight;
     $("#drawingTree").attr("width", w);
     $("#drawingTree").attr("height", h);
     $("#drawingTree").css({
@@ -152,32 +228,151 @@ function resizeTreeD() {
     });
 }
 
+function getDrawingNodes(parentId, parentLevel, type) {
+    let childrens = [];
+    let parent = "#state_"+parentLevel+"_val_"+parentId;
+    for (let i = 0; i < treeParents[parentLevel+1].length; i++) {
+        if (treeParents[parentLevel+1][i] == parentId) {
+            childrens.push("#state_"+(parentLevel+1).toString()+"_val_"+i);
+        }
+    }
+    if (type === "left") {
+        return [parent, childrens[0]];
+    }
+    return [parent, childrens[1]];
+}
+
+function desisionDraw(data) {
+    let way = data.way;
+    let level = 0;
+    let id = 0;
+    let nextNode = undefined;
+    let parent = undefined;
+    for (let i = 0; i < way.length; i++) {
+        let nodes = getDrawingNodes(id, level, way[i]);
+        nextNode = nodes[1];
+        parent = nodes[0];
+        
+
+        let x_par = ($(parent)[0].offsetLeft + parseInt($(parent).css("width"))/2)/window.innerWidth;
+        let y_par = $(parent)[0].offsetTop/window.innerHeight+parseInt($(parent).css("height"))/window.innerHeight;
+        let targ = [($(nextNode)[0].offsetLeft + parseInt($(nextNode).css("width"))/2)/window.innerWidth, $(nextNode)[0].offsetTop/window.innerHeight, (parseInt($(nextNode).css("height"))/2)/window.innerHeight]
+        
+        level += 1;
+        id = parseInt(nextNode.split("_")[3]);
+
+        setTimeout(() => {
+            drawTreePoints(x_par, y_par, targ, 20, 180);
+        }, 200*i);
+        redrawAfterDelay(x_par, y_par, targ, treeColors[level][id], 50, 3000+200*i);
+    }
+}
+
+function redrawAfterDelay(x_par, y_par, targ, color, middle, delay){
+    setTimeout(() => {
+        drawTreePoints(x_par, y_par, targ, color, middle);
+        desisionShowing = false;
+    }, delay);
+}
+
 $(document).ready(function () {
     if($("#treeBox").length === 0){
         return;
     }
-    $(sendB).mousedown(async function () { 
-        if (data !== undefined){
-            treeLevels = [];
-            treeParents = [];
-            eraseTreePoints();
-            $("#treeBox").empty();
-            enterpritateTree(data, 0);
-            drawFullTree();
+    $(sendB).mousedown(async function () {
+        if (inputCategory === 0){
+            if (file !== undefined) {
+                let formData = new FormData();
+                formData.append('file', file);
+    
+                let response = await fetch('http://127.0.0.1:5000/make_tree?max_depth='+getDepth().toString()+'&min_samples_leaf='+getSamples().toString()+'&max_leaf_nodes='+getNodes().toString(), {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                data = await response.json();
+            }
+            
+            if (data !== undefined){
+                treeLevels = [];
+                treeParents = [];
+                eraseTreePoints();
+                $("#treeBox").empty();
+                enterpritateTree(data, 0);
+                drawFullTree();
+            }
+        }else if (inputCategory === 1){
+            if (!desisionShowing) {
+                let response = await fetch('http://127.0.0.1:5000/get_decision?row='+getText(), {
+                    method: 'GET'
+                });
+                console.log(response);
+                data = await response.json();
+                console.log(data);
+                console.log(treeLevels, treeParents);
+                desisionShowing = true;
+                desisionDraw(data);
+            }
         }
+        
     });
     $('#dataset').on('change', async function(){
         file = this.files[0];
         $('.input-file-text').html(file.name);
-        let formData = new FormData();
-        formData.append('file', file);
-
-        let response = await fetch('http://127.0.0.1:5000/make_tree?max_depth=None&min_samples_leaf=1&max_leaf_nodes=None', {
-        method: 'POST',
-        body: formData
-        });
-
-        data = await response.json();
+    });
+    $('#checker').on('click', function () {
+        if (inputCategory === 0) {
+            inputCategory = 1;
+            let catOne = $(".catOne");
+            for (let el = 0; el < catOne.length; el++) {
+                let topNow = parseInt($(catOne[el]).css("top"))/window.innerHeight;
+                $(catOne[el]).css("top", ((topNow - 0.06)*100).toString() + "vh");
+            }
+            let catTwo = $(".catTwo");
+            for (let el = 0; el < catTwo.length; el++) {
+                let topNow = parseInt($(catTwo[el]).css("top"))/window.innerHeight;
+                console.log(topNow);
+                $(catTwo[el]).css("top", ((topNow - 0.06)*100).toString() + "vh");
+            }
+            $("#piston").css("height", "100%");
+            setTimeout(() => {
+                $("#piston").css({
+                    "height": "3vh",
+                    "top": "3.01vh"
+                })
+            }, 300);
+        }
+        else if (inputCategory === 1) {
+            inputCategory = 0;
+            let catOne = $(".catOne");
+            for (let el = 0; el < catOne.length; el++) {
+                let topNow = parseInt($(catOne[el]).css("top"))/window.innerHeight;
+                $(catOne[el]).css("top", ((topNow + 0.06)*100).toString() + "vh");
+            }
+            let catTwo = $(".catTwo");
+            for (let el = 0; el < catTwo.length; el++) {
+                let topNow = parseInt($(catTwo[el]).css("top"))/window.innerHeight;
+                console.log(topNow);
+                $(catTwo[el]).css("top", ((topNow + 0.06)*100).toString() + "vh");
+            }
+            $("#piston").css({
+                "height": "6vh",
+                "top": "-0.01vh"
+            })
+            
+            setTimeout(() => {
+                $("#piston").css("height", "50%");
+            }, 300);
+        }
+    });
+    $(depthEditor).on('change', function () {
+        getDepth();
+    });
+    $(samplesEditor).on('change', function () {
+        getSamples();
+    });
+    $(nodesEditor).on('change', function () {
+        getNodes();
     });
     resizeTreeD();
 });

@@ -17,6 +17,22 @@ const SolutionsTreePage = () => {
                             <span class="input-file-text" type="text">Choose File</span>
                         </label>
                     </form>
+                    <div id="checker">
+                        <div id="piston"></div>
+                    </div>
+                    <div id="inputsField">
+                        <input type="number" id="maxDethInp" className="catOne"></input>
+                        <div id="maxdepthName" className="catOne">max depth</div>
+
+                        <input type="number" id="minLeafSamplesInp" className="catOne"></input>
+                        <div id="minLeafSamplesName" className="catOne">minimum leaf samples</div>
+
+                        <input type="number" id="maxLeafNodesInp" className="catOne"></input>
+                        <div id="maxLeafNodesName" className="catOne">max leaf nodes</div>
+                        
+                        <input type="text" id="desisionInp" className="catTwo"></input>
+                        <div id="desisionName" className="catTwo">enter a string</div>
+                    </div>
                     <div id="send_button_t" className="unselectable">send</div>
                 </div>
                 <div id="container">
