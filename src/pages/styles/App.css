@@ -2,6 +2,39 @@ a {
   text-decoration: none;
 }
 
+.logo_loading.glitched {
+  position: fixed;
+  width: 100vw;
+  height: auto;
+  z-index: 100;
+  content:url("../images/logo_blank/blank_logo_wide_glitched.png");
+}
+.logo_loading.glitchedT2 {
+  position: fixed;
+  width: 100vw;
+  height: auto;
+  z-index: 100;
+  content:url("../images/logo_blank/blank_logo_wide_glitchedT2.png");
+}
+.logo_loading {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: auto;
+  z-index: 100;
+  content:url("../images/logo_blank/blank_logo_wide.png");
+}
+.back_black {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+  background-color: rgb(0,0,0);
+}
+
 #back {
   position: absolute;
   background-color: #282c34;
@@ -172,7 +205,25 @@ a {
   transition: 0.5s;
 }
 
+#neuron:hover .n-container {
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s;
+}
+
 #genetic:hover .rat-container {
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s;
+}
+
+#cluster:hover .poland-container {
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s;
+}
+
+#tree:hover .tree-container {
   visibility: visible;
   opacity: 1;
   transition: 0.5s;

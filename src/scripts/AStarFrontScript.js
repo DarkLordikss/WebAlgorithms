@@ -3,6 +3,7 @@ import {generateMaze} from "./mazeGenerator.js";
 import {aStarPathfinding} from "./aStarAlgo.js";
 //правильный импорт jQuery
 import * as $ from "./jQueryMain.js";
+import "./entranceAnimation.js";
 
 let prev_n = 0;
 

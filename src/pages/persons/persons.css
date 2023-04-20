@@ -20,6 +20,11 @@
     bottom: -10%;
 }
 
+.poland-container {
+    right: 0;
+    bottom: -10%;
+}
+
 .albedo-dialog {
     position: fixed;
     height: 40%;
@@ -32,6 +37,18 @@
     height: 40%;
     right: 22%;
     bottom: 35%;
+}
+
+#Poland {
+    height: 60vh;
+    bottom: 0;
+}
+
+.poland-dialog {
+    position: fixed;
+    height: 40%;
+    right: 22%;
+    bottom: 42%;
 }
 
 .code-dialog-alb {
@@ -51,4 +68,66 @@
     font-size: 3.5vh;
     text-align: center;
     z-index: 2;
+}
+
+.code-dialog-poland {
+    color: black;
+    position: fixed;
+    right: 27%;
+    bottom: 61%;
+    font-size: 3.5vh;
+    text-align: center;
+    z-index: 2;
+}
+
+#N {
+    height: 100vh;
+    bottom: -30vh;
+}
+
+#Tree {
+    height: 70vh;
+    bottom: 0;
+}
+
+.n-container {
+    left: 0;
+    bottom: 0;
+}
+
+.n-dialog {
+    position: fixed;
+    height: 40%;
+    left: 17%;
+    bottom: 52%;
+}
+
+.code-dialog-n {
+    color: black;
+    position: fixed;
+    left: 20.5%;
+    bottom: 70%;
+    font-size: 3.5vh;
+    text-align: center;
+}
+
+.tree-container {
+    left: 0;
+    bottom: 0;
+}
+
+.tree-dialog {
+    position: fixed;
+    height: 40%;
+    left: 20%;
+    bottom: 22%;
+}
+
+.code-dialog-tree {
+    color: black;
+    position: fixed;
+    left: 28.5%;
+    bottom: 40%;
+    font-size: 3.5vh;
+    text-align: center;
 }

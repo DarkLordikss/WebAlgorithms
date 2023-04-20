@@ -1,14 +1,23 @@
 ![React](https://media.tproger.ru/uploads/2016/10/reactmini.png)
-# Web-проект c очень "интересными алогитмами" 
+# Web-проект c очень "интересными алгоритмами" 
 
 Front-end проект на ReactJS для визуализации "интересных" алгоритмов.
 
-## Скрипты
+## Запуск проекта
 
-Для подрузки модулей:
+Подрузка модулей:
 ### `npm install`
 
-Для старта проекта:
+Подрузка библиотек python:
+### `pip install -r /src/server/requirements.txt`
+
+Запуск обучения нейросети:
+### `/src/neuro/learn.py`
+
+Запуск сервера нейросети:
+### `/src/neuro/server.py`
+
+Старта проекта:
 
 ### `npm start`
 
@@ -42,9 +51,15 @@ import {functionName1, functionName2, ... , functionNameN} from "../path_to_modu
 
 ### `/package.json` - файл с зависимостями
 
+### `/public/` - манифест, фавикон, и прочая публичная информация
+
 ### `/src/` - исходным код
 
-### `/public/` - манифест, фавикон, и прочая публичная информация
+### `/src/server/` - бэкэнд
+
+### `/src/server/neuro` - нейросеть
+
+### `/src/server/tree` - дерево решений
 
 ### `/src/scripts/` - js-скрипты
 

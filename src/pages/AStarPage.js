@@ -11,9 +11,8 @@ const AStarPage = () => {
     return (
             <div className="a-bg">
                 <div id="header">
-                    <a href="/">
-                        <img src={star_image} className="logo unselectable" id="logo_star" alt="logo A Star" />
-                    </a>
+                    <img src={star_image} className="logo unselectable" id="logo_star" alt="logo A Star" />
+                    
                     <div id="naming" className="unselectable">A-Star algorithm</div>
                     <input type="number" id="n_number" />
                     <div id="load_difficulty_info" className="unselectable">zero</div>
@@ -60,6 +59,8 @@ const AStarPage = () => {
                     <div id="mov_box_28" className="back_moving_box_t1" value="-1_-1_-1_-1" style={{top: "-1vh", left: "70vw"}}></div>
                     <div id="mov_box_29" className="back_moving_box_t2" value="-1_-1_-1_-1" style={{top: "-1vh", left: "14vw"}}></div>
                 </div>
+                <div class='logo_loading' id='back_logo'></div>
+                <div class='back_black' id='back_load'></div>
             </div>
     );
 };

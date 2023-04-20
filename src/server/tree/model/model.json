@@ -1,0 +1,1 @@
+{"col": 0, "value": "Sunny", "left": {"col": 1, "value": "Mild", "left": "Yes", "right": "No"}, "right": {"col": 3, "value": "Strong", "left": {"col": 0, "value": "Rain", "left": {"col": 1, "value": "Mild", "left": "No", "right": "Yes"}, "right": {"col": 1, "value": "Mild", "left": "Yes", "right": "No"}}, "right": "Yes"}}
