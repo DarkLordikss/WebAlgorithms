@@ -19,11 +19,20 @@
 				font-size: 10px;
 				position: inherit;
 			}
-			#iteration_button {
-				width: 70px;
+			.iter-button {
+				width: 140px;
 				height: 20px;;
 				position: absolute;
 				left: 520px;
+			}
+			#iteration_button {
+				top: 80px;
+			}
+			#multiiteration_button {
+				top: 120px;
+			}
+			#ultra_button {
+				top: 160px;
 			}
 		</style>
 		<title> Ant test </title>
@@ -33,11 +42,12 @@
 		<div id="main_plot" class="basic-plot"> 
 			<canvas id="plot_lines" width="500" height="500"></canvas>
 		</div>
-		<input type="button" id="iteration_button" value="Run"> 
+		<input type="button" class="iter-button" id="iteration_button" value="Run"> 
 		<script type="module">
-			import {makePheromoneMatrix, antBasicIteration} from "./antAlgoritmBasic.js";
+			import {makePheromoneMatrix, Ant, algoBasicIteration} from "./antAlgoritmBasic.js";
 			let allPoints = new Array();
 			let pheromoneMatrix;
+			let antArray = new Array();
 			function maxPheromone(pheromoneMatrix) {
 				if(!pheromoneMatrix) {
 					return;
@@ -63,7 +73,7 @@
 						ctx.beginPath();
 						ctx.moveTo(allPoints[i].x, allPoints[i].y);
 						ctx.lineTo(allPoints[j].x, allPoints[j].y);
-						let colorVal = 255 * (1-pheromoneMatrix[i][j].pheromone/(maxPheromone(pheromoneMatrix)+0.01));
+						let colorVal = 255 * (1-pheromoneMatrix[i][j].pheromone/(maxPheromone(pheromoneMatrix)+0.01)) ** 3;
 						if(colorVal<16) {
 							colorVal = "0" + (Math.round(colorVal)).toString(16);
 						} else {
@@ -82,8 +92,7 @@
 			}
 			function continueOnclick() {
 				hidePheromones();
-				let iterationResult = antBasicIteration(pheromoneMatrix);
-				pheromoneMatrix = iterationResult.matrix;
+				algoBasicIteration(pheromoneMatrix, antArray);
 				drawPheromones(pheromoneMatrix);
 			}
 			main_plot.onclick = function(event) {
@@ -99,9 +108,37 @@
 				allPoints.push({x: left, y: Math.round(up)});
 			}
 			iteration_button.onclick = function() {
+				const antsPerPoint = 1;
 				main_plot.onclick = ()=>{};
 				pheromoneMatrix = makePheromoneMatrix(allPoints);
+				for(let i = 0; i < allPoints.length; i++) {
+					for(let j = 0; j < antsPerPoint; j++) {
+						antArray[i*antsPerPoint + j] = new Ant(i);
+					}
+				}
 				drawPheromones(pheromoneMatrix);
+				let newButton = document.createElement('input');
+				newButton.type = "button";
+				newButton.id = "multiiteration_button";
+				newButton.value = "20 iterations";
+				newButton.className = "iter-button"
+				newButton.onclick = function() {
+					for(let i = 0; i < 20; i++) {
+						continueOnclick();
+					}
+				}
+				document.body.append(newButton);
+				let ultraButton42 = document.createElement('input');
+				ultraButton42.type = "button";
+				ultraButton42.id = "ultra_button";
+				ultraButton42.value = "Solve life";
+				ultraButton42.className = "iter-button"
+				ultraButton42.onclick = function() {
+					for(let i = 0; i < 42 * 728; i++) {
+						continueOnclick();
+					}
+				}
+				document.body.append(ultraButton42);
 				this.value = "Continue";
 				this.onclick = continueOnclick;
 			}
