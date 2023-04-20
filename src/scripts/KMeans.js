@@ -110,7 +110,7 @@ function HinitGroups(clusterNumber, dots){   // вместо field нужно do
         let g = {
             id: i,
             dots: [dots[i]],
-            color: 'hsl(' + (i * 360 / number) + ',100%,50%)',
+            color: 'hsl(' + (i * 360 / dots.length) + ',100%,50%)',
             center: {
                 x: dots[i].x,
                 y: dots[i].y
