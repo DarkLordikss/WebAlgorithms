@@ -129,7 +129,7 @@ def make_model(filepath, max_depth, min_samples_leaf, max_leaf_nodes):
 
     tree = build_tree(data, get_target_values(data), max_depth, min_samples_leaf, max_leaf_nodes)
 
-    with open("tree/model/model.json", 'w') as file:
+    with open("src/server/tree/model/model.json", 'w') as file:
         json.dump(tree, file)
 
     return tree
@@ -139,7 +139,7 @@ def make_model(filepath, max_depth, min_samples_leaf, max_leaf_nodes):
 def do_a_decision(row):
     way = []
 
-    with open('tree/model/model.json', 'r') as file:
+    with open('src/server/tree/model/model.json', 'r') as file:
         tree = json.load(file)
 
     response = {

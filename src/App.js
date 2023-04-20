@@ -10,6 +10,7 @@ import GenPage from "./pages/GenPage";
 import ClusterPage from "./pages/ClusterPage";
 
 import NeuronPage from "./pages/NeuronPage";
+import SolutionsTreePage from "./pages/SolutionsTreePage";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 <Route path='/genetic' element={<GenPage />}/>
                 <Route path='/cluster' element={<ClusterPage />}/>
                 <Route path='/neuron' element={<NeuronPage />}/>
+                <Route path='/tree' element={<SolutionsTreePage />}/>
             </Routes>
         </BrowserRouter>
     );

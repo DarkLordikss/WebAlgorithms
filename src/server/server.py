@@ -27,7 +27,7 @@ def neuro():
 
 @app.route('/make_tree', methods=['POST'])
 def make_tree():
-    filepath = "tree/input/from_user.csv"
+    filepath = "src/server/tree/input/from_user.csv"
 
     if not request.files or "file" not in request.files:
         return "Ваня, где csv?", 404
@@ -58,11 +58,12 @@ def make_tree():
     return make_model(filepath, max_depth, min_samples_leaf, max_leaf_nodes)
 
 
+# Принять решение
 @app.route('/get_decision', methods=['GET'])
 def make_decision():
     row = request.args.get("row").split(",")
 
-    if not os.path.exists("tree/model/model.json"):
+    if not os.path.exists("src/server/tree/model/model.json"):
         return "Model not exist (не трогай ты дерево без дерева)", 404
 
     return do_a_decision(row)
