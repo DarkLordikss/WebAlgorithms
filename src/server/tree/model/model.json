@@ -1,1 +1,1 @@
-{"col": 0, "value": "Sunny", "left": {"col": 1, "value": "Mild", "left": "Yes", "right": "No"}, "right": {"col": 3, "value": "Weak", "left": "Yes", "right": {"col": 0, "value": "Rain", "left": "No", "right": "No"}}}
+{"col": 1, "value": "female", "left": {"col": 0, "value": "3", "left": {"col": 8, "value": "S", "left": "0", "right": "1"}, "right": {"col": 7, "value": "C22 C26", "left": "0", "right": "1"}}, "right": {"col": 7, "value": "", "left": {"col": 5, "value": "1601", "left": "1", "right": "0"}, "right": {"col": 2, "value": "48", "left": "1", "right": "0"}}}
