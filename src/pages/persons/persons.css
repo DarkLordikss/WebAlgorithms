@@ -10,19 +10,49 @@
     bottom: 0;
 }
 
+#N {
+    height: 100vh;
+    bottom: -30vh;
+}
+
+#Tree {
+    height: 70vh;
+    bottom: 0;
+}
+
+#Poland {
+    height: 60vh;
+    bottom: 0;
+}
+
 .albedo-container {
     left: 0;
     bottom: 0;
+    pointer-events: none;
 }
 
 .rat-container {
     right: 0;
     bottom: -10%;
+    pointer-events: none
 }
 
 .poland-container {
     right: 0;
     bottom: -10%;
+    pointer-events: none
+}
+
+.tree-container {
+    left: 0;
+    bottom: 0;
+    pointer-events: none
+}
+
+.n-container {
+    left: 0;
+    bottom: 0;
+    pointer-events: none
 }
 
 .albedo-dialog {
@@ -39,16 +69,25 @@
     bottom: 35%;
 }
 
-#Poland {
-    height: 60vh;
-    bottom: 0;
-}
-
 .poland-dialog {
     position: fixed;
     height: 40%;
     right: 22%;
     bottom: 42%;
+}
+
+.n-dialog {
+    position: fixed;
+    height: 40%;
+    left: 17%;
+    bottom: 52%;
+}
+
+.tree-dialog {
+    position: fixed;
+    height: 40%;
+    left: 20%;
+    bottom: 22%;
 }
 
 .code-dialog-alb {
@@ -80,28 +119,6 @@
     z-index: 2;
 }
 
-#N {
-    height: 100vh;
-    bottom: -30vh;
-}
-
-#Tree {
-    height: 70vh;
-    bottom: 0;
-}
-
-.n-container {
-    left: 0;
-    bottom: 0;
-}
-
-.n-dialog {
-    position: fixed;
-    height: 40%;
-    left: 17%;
-    bottom: 52%;
-}
-
 .code-dialog-n {
     color: black;
     position: fixed;
@@ -109,18 +126,6 @@
     bottom: 70%;
     font-size: 3.5vh;
     text-align: center;
-}
-
-.tree-container {
-    left: 0;
-    bottom: 0;
-}
-
-.tree-dialog {
-    position: fixed;
-    height: 40%;
-    left: 20%;
-    bottom: 22%;
 }
 
 .code-dialog-tree {

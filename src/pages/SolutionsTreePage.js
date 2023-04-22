@@ -1,20 +1,20 @@
 import React from "react";
 import "./styles/SolutionsTreePage.css";
-import neuro_image from './images/genAlgo_logo2.png';
-//импорт нужного модуля для страницы NeuronPage.js (self)
+import tree_image from './images/solutionsTree.jpg';
+//импорт нужного модуля
 import "../scripts/SolutionsTreeScript.js";
 
 const SolutionsTreePage = () => {
     return (
             <div className="a-bg">
                 <div id="header">
-                    {/* <img src={neuro_image} className="logo unselectable" id="logo_neuro" alt="logo neuro" /> */}
+                    <img src={tree_image} className="logo unselectable" id="logo_tree" alt="logo tree" />
 
                     <div id="naming" className="unselectable">Solutions Tree</div>
                     <form method="post" enctype="multipart/form-data" id="forma">
                         <label class="input-file">
                             <input type="file" id="dataset" name="dataset" accept="text/csv"></input>
-                            <span class="input-file-text" type="text">Choose File</span>
+                            <span class="input-file-text" type="text">No File Choosed</span>
                         </label>
                     </form>
                     <div id="checker">

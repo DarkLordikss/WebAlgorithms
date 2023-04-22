@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/NeuronPage.css";
-import neuro_image from './images/genAlgo_logo2.png';
+import neuro_image from './images/neuro_logo.png';
 //импорт нужного модуля для страницы NeuronPage.js (self)
 import "../scripts/neuronFrontScript.js";
 
