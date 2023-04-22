@@ -7,7 +7,7 @@
     background-color: rgb(220, 220, 250);
 }
 
-/* #logo_cluster{
+#logo_cluster{
     position: inherit;
     top: 0.5vh;
     left: 0.5vh;
@@ -22,7 +22,7 @@
     background-color: rgb(52, 47, 64);
     box-shadow: 0 0 2vh 3vh rgb(52, 47, 64);
     transition: background 0.8s, box-shadow 0.8s;
-} */
+}
 
 #naming{
     position: inherit;
