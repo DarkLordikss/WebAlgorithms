@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles/СlusterPage.css";
-// import cluster_image from './images/genAlgo_logo2.png';
+import cluster_image from './images/clusterPoland.png';
 //импорт нужного модуля для страницы GenPage.js (self)
 import "../scripts/clusterFrontScript.js";
 
@@ -10,9 +10,7 @@ const ClusterPage = () => {
             <div className="a-bg">
                 <canvas id="canvasBack"></canvas>
                 <div id="header">
-                    {/* <a href="/">
-                        <img src={cluster_image} className="logo unselectable" id="logo_gen" alt="logo genAlgo" />
-                    </a> */}
+                    <img src={cluster_image} className="logo unselectable" id="logo_cluster" alt="logo cluster" />
                     <div id="naming" className="unselectable">Cluter algorithm</div>
                     <div id="points_counter" className="unselectable">0</div>
 

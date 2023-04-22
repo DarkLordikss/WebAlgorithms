@@ -7,19 +7,17 @@
     background-color: rgb(220, 220, 250);
 }
 
-#logo_neuro{
+#logo_tree{
     position: inherit;
     top: 0.5vh;
     left: 0.5vh;
     height: 8vh;
     width: auto;
     border-radius: 4vh;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 2vh 3vh rgb(255, 255, 255);
-    background-color: hsl(50, 80, 50);
+    box-shadow: 0 0 0 0 rgb(125, 140, 125);
     transition: background 0.8s, box-shadow 0.8s;
 }
-#logo_neuro:hover{
+#logo_tree:hover{
     background-color: rgb(52, 47, 64);
     box-shadow: 0 0 2vh 3vh rgb(52, 47, 64);
     transition: background 0.8s, box-shadow 0.8s;
@@ -297,7 +295,7 @@ label input {
     overflow-x: hidden;
     overflow-y: scroll;
 }
-#container::-webkit-scrollbar{
+#container_tree::-webkit-scrollbar{
     display: none;
 }
 

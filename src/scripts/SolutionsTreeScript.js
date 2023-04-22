@@ -20,6 +20,7 @@ let textInput = "#desisionInp";
 
 let inputCategory = 0;
 let desisionShowing = false;
+let swapping = false;
 
 /*Взять depth*/
 function getDepth() {
@@ -232,7 +233,7 @@ function getDrawingNodes(parentId, parentLevel, type) {
     let childrens = [];
     let parent = "#state_"+parentLevel+"_val_"+parentId;
     for (let i = 0; i < treeParents[parentLevel+1].length; i++) {
-        if (treeParents[parentLevel+1][i] == parentId) {
+        if (treeParents[parentLevel+1][i] === parentId) {
             childrens.push("#state_"+(parentLevel+1).toString()+"_val_"+i);
         }
     }
@@ -321,49 +322,59 @@ $(document).ready(function () {
         $('.input-file-text').html(file.name);
     });
     $('#checker').on('click', function () {
-        if (inputCategory === 0) {
-            inputCategory = 1;
-            let catOne = $(".catOne");
-            for (let el = 0; el < catOne.length; el++) {
-                let topNow = parseInt($(catOne[el]).css("top"))/window.innerHeight;
-                $(catOne[el]).css("top", ((topNow - 0.06)*100).toString() + "vh");
+        if (!swapping) {
+            swapping = true;
+            if (inputCategory === 0) {
+                inputCategory = 1;
+                let catOne = $(".catOne");
+                for (let el = 0; el < catOne.length; el++) {
+                    let topNow = parseInt($(catOne[el]).css("top"))/window.innerHeight;
+                    $(catOne[el]).css("top", ((topNow - 0.06)*100).toString() + "vh");
+                }
+                let catTwo = $(".catTwo");
+                for (let el = 0; el < catTwo.length; el++) {
+                    let topNow = parseInt($(catTwo[el]).css("top"))/window.innerHeight;
+                    console.log(topNow);
+                    $(catTwo[el]).css("top", ((topNow - 0.06)*100).toString() + "vh");
+                }
+                $("#piston").css("height", "100%");
+                setTimeout(() => {
+                    $("#piston").css({
+                        "height": "3vh",
+                        "top": "3.01vh"
+                    });
+                }, 300);
+                setTimeout(() => {
+                    swapping = false;
+                }, 600);
             }
-            let catTwo = $(".catTwo");
-            for (let el = 0; el < catTwo.length; el++) {
-                let topNow = parseInt($(catTwo[el]).css("top"))/window.innerHeight;
-                console.log(topNow);
-                $(catTwo[el]).css("top", ((topNow - 0.06)*100).toString() + "vh");
-            }
-            $("#piston").css("height", "100%");
-            setTimeout(() => {
+            else if (inputCategory === 1) {
+                inputCategory = 0;
+                let catOne = $(".catOne");
+                for (let el = 0; el < catOne.length; el++) {
+                    let topNow = parseInt($(catOne[el]).css("top"))/window.innerHeight;
+                    $(catOne[el]).css("top", ((topNow + 0.06)*100).toString() + "vh");
+                }
+                let catTwo = $(".catTwo");
+                for (let el = 0; el < catTwo.length; el++) {
+                    let topNow = parseInt($(catTwo[el]).css("top"))/window.innerHeight;
+                    console.log(topNow);
+                    $(catTwo[el]).css("top", ((topNow + 0.06)*100).toString() + "vh");
+                }
                 $("#piston").css({
-                    "height": "3vh",
-                    "top": "3.01vh"
+                    "height": "6vh",
+                    "top": "-0.01vh"
                 })
-            }, 300);
-        }
-        else if (inputCategory === 1) {
-            inputCategory = 0;
-            let catOne = $(".catOne");
-            for (let el = 0; el < catOne.length; el++) {
-                let topNow = parseInt($(catOne[el]).css("top"))/window.innerHeight;
-                $(catOne[el]).css("top", ((topNow + 0.06)*100).toString() + "vh");
+                
+                setTimeout(() => {
+                    $("#piston").css("height", "50%");
+                }, 300);
+                setTimeout(() => {
+                    swapping = false;
+                }, 600);
             }
-            let catTwo = $(".catTwo");
-            for (let el = 0; el < catTwo.length; el++) {
-                let topNow = parseInt($(catTwo[el]).css("top"))/window.innerHeight;
-                console.log(topNow);
-                $(catTwo[el]).css("top", ((topNow + 0.06)*100).toString() + "vh");
-            }
-            $("#piston").css({
-                "height": "6vh",
-                "top": "-0.01vh"
-            })
-            
-            setTimeout(() => {
-                $("#piston").css("height", "50%");
-            }, 300);
         }
+        
     });
     $(depthEditor).on('change', function () {
         getDepth();
