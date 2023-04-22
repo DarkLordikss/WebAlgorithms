@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+	<title> Test brainfuck page </title>
+</head>
+<body>
+	<script>
+		// в консоль выводятся первые 40 чисел Фибоначчи (по мнению обученного алгоритма)
+		// и сам этот алгоритм на ЯП brainfuck
+	
+	
+		// bfToJS() принимает код на brainfuck в виде обычной строки, если код формально
+		// корректен, возвращает ФУНКЦИЮ, выполняющую этот код и возвращающую итоговое
+		// состояние задейтвованной brainfuckом памяти, иначе не возвращается ничего
+		// Функциональность "." и "," - дискуссионна (если понадобится, перепишу)
+		// на вход полученной функции - массив, присваиваемый в область памяти brainfuck
+		// получення функция возвращает модифицированнную область памяти brainfuck
+		function bfToJS(bfText, memsize = 30000, timeout = Infinity) {
+			if(!bfText || !memsize || !timeout) {
+				return;
+			}
+			let jsText = "let a = new Array(" + memsize + "); a.fill(0); let i = 0;";
+			jsText += "if(!Array.isArray(inputByteArray)) { return; }";
+			jsText += "for(let j = 0; j < inputByteArray.length; j++) {";
+			jsText += "a[j] = Math.round(inputByteArray[j])%256; a[j] += (a[j]<0 ? 256 : 0);}"
+			jsText += "let timeStart = (new Date()).getTime();";
+			let bracketStack = new Array();
+			for (sym of bfText) {
+				if(sym=="[") {
+					bracketStack.push(sym);
+				} else if(sym=="]" && bracketStack[bracketStack.length-1]=="[") {
+					bracketStack.pop();
+				}
+				switch(sym) {
+				case "+":
+					jsText += "a[i]++; if(a[i]>255) {a[i]-=256};";
+					break;
+				case "-":
+					jsText += "a[i]--; if(a[i]<0) {a[i]+=256};";
+					break;
+				case ">":
+					jsText += "i++; if(i>" + memsize +") {i-=" + memsize + "}";
+					break;
+				case "<":
+					jsText += "i--; if(i<0) {i+=" + memsize + "}";
+					break;
+				case "[":
+					jsText += "while(a[i]) {";
+					break;
+				case "]":
+					jsText += "let currentTime = (new Date()).getTime();";
+					jsText += "if(currentTime-timeStart>" + timeout + ") {return;}";
+					jsText += "}"
+					break;
+				case ".":
+					jsText += "console.log(a[i]);";
+					break;
+				case ",":
+					jsText += "a[i] = Math.round(+prompt(\"Add byte value\", 0)%256);"
+					break;
+				default:
+					return;
+				}
+			}
+			if(bracketStack.length) {
+				return;
+			}
+			jsText += "return a;"
+			return new Function("inputByteArray", jsText);
+		}
+
+		function randomInteger(first, last) {
+			if(typeof(first) != typeof(1) || typeof(last) != typeof(1)) {
+				return;
+			}
+			let base = Math.random();
+			return Math.floor(base * (last - first + 1) + first);
+		}
+
+		function bfMutation(bfText) {
+			if(typeof(bfText) != "string") {
+				return;
+			}
+			let randomNumber = Math.random();
+			if(randomNumber >= 0.2) {
+				let insertionIndex = randomInteger(0, bfText.length);
+				if(randomNumber < 0.36) {
+					return bfText.slice(0, insertionIndex) + "+" + bfText.slice(insertionIndex);
+				} else if(randomNumber < 0.52) {
+					return bfText.slice(0, insertionIndex) + "-" + bfText.slice(insertionIndex);
+				} else if(randomNumber < 0.68) {
+					return bfText.slice(0, insertionIndex) + ">" + bfText.slice(insertionIndex);
+				} else if(randomNumber < 0.84) {
+					return bfText.slice(0, insertionIndex) + "<" + bfText.slice(insertionIndex);
+				} else {
+					let secondIndex = randomInteger(insertionIndex, bfText.length);
+					return bfText.slice(0, insertionIndex) + "[" +  bfText.slice(insertionIndex, secondIndex) + "]" + bfText.slice(secondIndex);
+				}
+			} else {
+				let deleteIndex = randomInteger(0, bfText.length - 1);
+				if(bfText.length < 10) {
+					return bfText;
+				}
+				if(bfText[deleteIndex] != "[" && bfText[deleteIndex] != "]") {
+					return bfText.slice(0, deleteIndex) + bfText.slice(deleteIndex + 1);
+				}
+			}
+			
+		}
+
+		//для проверки корректности обучаемых алгоритмов
+		function normalFib(n) {
+			if(typeof(n) != typeof(1) || n < 0 || Math.round(n) != n) {
+				return;
+			}
+			if(n == 0 || n == 1) {
+				return 1;
+			}
+			let flast = 1, fprev = 1;
+			for(let i = 1; i < n; i++) {
+				let tmp = flast;
+				flast += fprev;
+				fprev = tmp;
+			}
+			return flast;
+		}
+		//с заданной вероятностью вызывает указанную функцию с указанными аргументами
+		function doWithProbability(probability, callback, ...argCallback) {
+			if(typeof(probability)!=typeof(1) || typeof(callback)!="function") {
+				return;
+			}
+			let resultPropability = Math.random();
+			if(resultPropability < probability) {
+				return callback(...argCallback);
+			}
+		}
+
+		// интерпретирует модифицированную функцией область памяти brainfuck как число Фибоначчи
+		function getBFFib(bfFunction, argument) {
+			if(typeof(bfFunction) != "function") {
+				return;
+			}
+			let resultArray = bfFunction([argument]);
+			if(!Array.isArray(resultArray)) {
+				return;
+			}
+			return 256*256*256 * resultArray[1] + 256*256 * resultArray[2] +
+				   256 * resultArray[3] + resultArray[4];
+		}
+		// что-то вроде фитнес-функции
+		function fibScores(bfText) {
+			const fibLimit = 46;
+			let score = 0;
+			for(let i = 0; i <= fibLimit; i++) {
+				let sample = normalFib(i);
+				let result = getBFFib(bfToJS(bfText, 50, 1), i);
+				if(typeof(result) != typeof(1)) {
+					return 10 * fibLimit;
+				}
+				score += Math.abs(sample - result)/Math.max(sample, result);
+			}
+			return score;
+		}
+		// квадратичная сортировка, модифицирует оба аргумента
+		function sortPopulation(population, scores) {
+			if(!Array.isArray(population) || !Array.isArray(scores) || population.length!=scores.length) {
+				return;
+			}
+			for(let i = 0; i < population.length - 1; i++) {
+				let swaped = false;
+				for(let j = 0; j < population.length - 1 - i; j++) {
+					if(scores[j] > scores[j+1]) {
+						let tmp = population[j];
+						population[j] = population[j+1];
+						population[j+1] = tmp;
+						tmp = scores[j];
+						scores[j] = scores[j+1];
+						scores[j+1] = tmp;
+						swaped = true;
+					}
+				}
+				if(!swaped) {
+					return;
+				}
+			}
+		}
+		// главный алгоритм, довольно неторопливый
+		function evolution(genSize = 30, genNumber = Infinity, mutationProbability = 0.1)
+		{
+			const defaultIndividual = "[+]";
+			const toKill = Math.round(genSize/5);
+			let population = new Array(genSize);
+			for(let i = 0; i < genSize; i++) {
+				population[i] = defaultIndividual;
+			}
+			for(let i = 0; i < genNumber; i++) {
+				for(let j = 0; j < genSize; j++) {
+					let mutated = doWithProbability(mutationProbability, bfMutation,
+													population[i]);
+					if(mutated) {
+						population[i] = mutated;
+					}
+				}
+				let evolutionScores = new Array();
+				for(let j = 0; j < population.length; j++) {
+					evolutionScores[j] = fibScores(population[j]);
+				}
+				sortPopulation(population, evolutionScores);
+				if(evolutionScores[0] === 0) {
+					return population[0];
+				}
+				for(let j = 0; j < toKill; j++) {
+					population[genSize - 1 - j] = population[j];
+				}
+				for(let j = 0; j < population.length; j++) {
+					if(evolutionScores[j] > 50) {
+						population[j] = population[0];
+					}
+				}
+			}
+			return population[0];
+		}
+
+		let bfText = evolution(20, 100, 0.6); //начало эволюции
+		console.log(bfText);
+		let resultFunction = bfToJS(bfText, 50, 1);
+		for(let i = 0; i < 40; i++) {
+			console.log(getBFFib(resultFunction, i));
+		}
+
+	</script>
+</body>
+</html>
